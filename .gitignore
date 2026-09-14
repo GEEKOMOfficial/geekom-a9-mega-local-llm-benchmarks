@@ -1,0 +1,28 @@
+# Local secrets and environment files
+.env
+.env.*
+*.key
+*.pem
+credentials.json
+
+# Logs and test artifacts may contain sensitive information
+*.log
+logs/
+test-output/
+
+# Large model files should not be committed
+*.gguf
+*.safetensors
+*.bin
+models/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
