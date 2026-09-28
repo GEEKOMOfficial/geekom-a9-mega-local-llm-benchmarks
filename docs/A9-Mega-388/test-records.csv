@@ -1,0 +1,35 @@
+﻿Device SKU,Model,Acceleration,Input length (tokens),Output length (tokens),Time to first token TTFT (s),Prefill rate (tokens/s),Decode rate (tokens/s),End-to-end time (s),VRAM usage (GB),Notes
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,7954,2.59,191.97,30.76,261.17,62.4/57.5,
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,4160,28.62,299.42,26.14,187.76,63.8/57.7,
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,11079,56.61,296.09,25.62,489.05,63.7/57.8,
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,2316,131.34,252.36,23.68,229.14,64.7/57.8,
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,4452,861.41,152.6,10.62,1280.62,65.7/58.05,
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,5774,2.66,187.52,28,208.87,56.5/50.8/49.4,
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,3790,28.84,297.14,26.9,169.73,58.3/51.1/49.6,
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,3581,60.52,276.94,23.94,210.1,59.5/51.2/49.5,
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,6925,137.89,240.37,22.85,440.95,60.1/51.6/49.56,
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,2354,912.65,144.03,12.28,1104.34,64.6/51.7/49.97,
+388,Qwen3.8-27B-Q4_K_M-GGUF,Yes(MTP) N=4,128,3000,1.5,291.89,20.24,149.72,39.07,Draft acceptance rate 43.41%
+388,Qwen3.8-27B-Q4_K_M-GGUF,Yes(MTP) N=4,8K,727,25,333.83,21.3,59.13,39.12,Draft acceptance rate 51.58%
+388,Qwen3.8-27B-Q4_K_M-GGUF,Yes(MTP) N=4,16K,2131,66,312.45,19.53,175.11,39.19,Draft acceptance rate 54.12%
+388,Qwen3.8-27B-Q4_K_M-GGUF,Yes(MTP) N=4,32K,854,109,299.12,16.87,159.62,39.66,Draft acceptance rate 50.53%
+388,Qwen3.8-27B-Q4_K_M-GGUF,Yes(MTP) N=4,128K,2195,582,202.63,9.88,804.17,40.25,Draft acceptance rate 53.30%
+388,Qwen3.8-27B-Q4_K_M-GGUF,Yes(MTP) N=4,256K,3000,1466,147.26,6.06,1961.05,41.14,Draft acceptance rate 51.67%
+388,Gemma-4-31B_q4_0-it-GGUF,No,128,1477,8.68,26.83,11.28,139.62,40.8,
+388,Gemma-4-31B_q4_0-it-GGUF,No,8K,1986,127.53,69.53,10.2,322.24,40.8,
+388,Gemma-4-31B_q4_0-it-GGUF,No,16K,2054,283.61,61.47,9.64,496.68,40.8,
+388,Gemma-4-31B_q4_0-it-GGUF,No,32K,1686,844.18,41.45,8.56,1041.14,40.8,
+388,Gemma-4-31B_q4_0-it-GGUF,No,128K,2489,10895.64,12.71,5,11393.44,40.8,
+388,Gemma-4-31B_q4_0-it-GGUF,No,256K,N/A (test error, no output),,,,,,
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF(22.7GB) llama-b11065,Yes(MTP) N=2,128,3094,0.5,822.22,68.03,45.98,33.31,Draft acceptance rate 57.23%
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF(22.7GB) llama-b11065,Yes(MTP) N=2,8K,3000,6.7,1239.7,67.76,50.97,33.35,Draft acceptance rate 65.70%
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF(22.7GB) llama-b11065,Yes(MTP) N=2,16K,2039,18,1107.6,63.55,50.08,33.42,Draft acceptance rate 70.28%
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF(22.7GB) llama-b11065,Yes(MTP) N=2,32K,2408,32,1007.86,54.3,76.35,33.46,Draft acceptance rate 63.69%
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF(22.7GB) llama-b11065,Yes(MTP) N=2,128K,1023,196,600.87,32.61,227.37,33.81,Draft acceptance rate 67.70%
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF(22.7GB) llama-b11065,Yes(MTP) N=2,256K,1575,542,406.4,21.66,614.71,34.28,Draft acceptance rate 66.42%
+388,MiniCPM5-2B-Q4_K_M.GGUF,No,128,285,0.2,1320.23,103.1,2.96,14.81,
+388,MiniCPM5-2B-Q4_K_M.GGUF,No,8K,557,3.1,2654.18,87.08,9.5,15.01,
+388,MiniCPM5-2B-Q4_K_M.GGUF,No,16K,2110,7.4,2179.93,75.15,35.48,15.27,
+388,MiniCPM5-2B-Q4_K_M.GGUF,No,32K,1218,20,1550.16,61.74,39.73,16.1,
+388,MiniCPM5-2B-Q4_K_M.GGUF,No,64K,2567,67,927.87,44.76,124.35,17.41,
+388,MiniCPM5-2B-Q4_K_M.GGUF,No,128K,661,243,513.16,29.03,265.77,17.65,

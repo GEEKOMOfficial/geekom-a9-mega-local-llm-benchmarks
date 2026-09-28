@@ -1,0 +1,36 @@
+﻿Device SKU,Model,Acceleration,Input length (tokens),Output length (tokens),Time to first token TTFT (s),Prefill rate (tokens/s),Decode rate (tokens/s),End-to-end time (s),VRAM usage (GB),Notes
+395,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,2876,1.19,151.58,34.27,85.11,101.41/64.86,Speedup 64.58%
+395,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,618,20.01,412.4,30.66,40.17,102.47/64.95,Speedup 58.22%
+395,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,5000,41.26,398.65,27.78,221.25,103.06/64.97,Speedup 52.5%
+395,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,971,90.93,361.15,27.9,125.73,103.70/64.88,Speedup 66.22%
+395,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,2150,566.5,231.52,15.16,708.32,107.35/64.77,Speedup 73.39%
+395,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,256K,5000,1544.66,161.91,10.5,2020.85,114.83/64.95,Speedup 89.79%
+395,DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,128,1641,3.49,129.24,14.71,115.05,112.96,
+395,DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,8K,368,61.54,140.9,14.65,86.66,112.86,
+395,DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,32K,242,299.91,108.45,12.87,318.71,112.99,
+395,DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,64K,452,743.7,88.33,11.61,782.63,113.12,
+395,DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,128K,1735,2007,62.45,9.71,2185.68,113.14,
+395,DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,256K,472,6448.83,36.22,7.16,6514.75,114.12,
+395,Dual-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,128,1553,3.47,129.87,14.21,112.76,60.72/56.98,
+395,Dual-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,8K,233,48.26,179.68,13.74,65.22,60.52/56.97,
+395,Dual-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,32K,2135,242.83,135.27,12.48,413.9,60.71/56.97,
+395,Dual-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,64K,419,586.03,112.11,11.06,623.91,60.73/56.98,
+395,Dual-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,128K,478,1598.95,78.42,9.09,1651.54,61.06/56.98,
+395,Dual-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,256K,712,4402.39,53.06,7.21,4501.14,61.59/57.21,
+395,Triple-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,128,1229,3.78,119.39,13.4,95.5,47.89/47.70/26.72,
+395,Triple-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,8K,530,54.84,158.11,12.94,95.8,47.92/47.62/26.72,
+395,Triple-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,32K,2481,270.93,121.24,11.75,482.08,47.88/47.71/26.73,
+395,Triple-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,64K,417,645.64,101.75,10.37,685.85,47.94/47.65/26.72,
+395,Triple-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,128K,873,1709.1,73.36,8.97,1806.42,48.56/47.65/26.72,
+395,Triple-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB),No,256K,2265,4840.73,48.25,7.06,5161.55,48.92/47.65/26.72,
+395,Qwen3.8-27B-FP4-FAST-GGUF,Yes(MTP) N=4,128,3000,1.5,318.64,31.29,97.38,26.8,draft acceptance = 58.412%, speedup 123.23%
+395,Qwen3.8-27B-FP4-FAST-GGUF,Yes(MTP) N=4,8K,2087,24,347.73,25.43,106.07,26.8,draft acceptance = 50.144%, speedup 95.46%
+395,Qwen3.8-27B-FP4-FAST-GGUF,Yes(MTP) N=4,16K,3000,54,320.57,24.51,176.4,26.9,draft acceptance = 55.92%, speedup 107.89%
+395,Qwen3.8-27B-FP4-FAST-GGUF,Yes(MTP) N=4,32K,3000,125,276.48,20.28,272.93,26.8,draft acceptance = 55.23%, speedup 93.88%
+395,Qwen3.8-27B-FP4-FAST-GGUF,Yes(MTP) N=4,128K,3000,868,151.42,8.95,1203.2,26.7,draft acceptance = 44.97%, speedup 44.82%
+395,Qwen3.8-27B-FP4-FAST-GGUF,Yes(MTP) N=4,256K,392,2696,94.45,6.06,2760.69,26.8,draft acceptance = 54.675%, speedup 51.87%
+395,MiniCPM5-2B-bf16-GGUF,No,128,923,0.54,731.97,33.05,28.47,8.7,Context length set to 128k; model supports up to 128k only
+395,MiniCPM5-2B-bf16-GGUF,No,8K,1258,10.81,752.38,31.52,50.72,8.7,
+395,MiniCPM5-2B-bf16-GGUF,No,16K,966,24.62,640.34,30.48,56.31,8.7,
+395,MiniCPM5-2B-bf16-GGUF,No,32K,779,65.59,478.15,28.26,93.16,8.7,
+395,MiniCPM5-2B-bf16-GGUF,No,128K,1163,835.54,149.28,20.49,892.3,8.7,

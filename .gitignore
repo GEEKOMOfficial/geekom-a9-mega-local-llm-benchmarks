@@ -16,6 +16,9 @@ test-output/
 *.bin
 models/
 
+# Internal test data — not for publication
+*.xlsx
+
 # Python
 __pycache__/
 *.py[cod]
