@@ -15,10 +15,8 @@ This directory archives the local large language model inference performance tes
 | Graphics | Radeon 8060S |
 | Memory bandwidth | 256 GB/s |
 | Memory | 64 GB |
-| Operating system | To be confirmed |
-| BIOS version | To be confirmed |
-| Graphics / NPU driver | To be confirmed |
-| Power profile | To be confirmed |
+| Operating system | Ubuntu 26.04 |
+
 
 > Note: the original records contain only the processor, graphics, memory bandwidth, and memory configuration. The remaining hardware details have not been collected yet and must be added before release.
 
