@@ -202,6 +202,28 @@ The complete test command for every model is in the corresponding device archive
 
 > These conclusions apply only to the configurations recorded in this repository. Changing software versions, models, context length, or power profile may change the results, and data from a single device should not be generalized into guaranteed performance across all GEEKOM configurations.
 
+## Known limitations
+
+Only limitations actually observed in the tests recorded here are listed; anything not tested is marked as such rather than assumed.
+
+| Item | Observed limitation |
+| --- | --- |
+| Maximum tested context | 256K (`-c 256000`) was measured working only on the **A9 Mega 395** in a dual-node cascade. The **388** was tested up to 128K; 256K was **not tested**. |
+| Memory capacity | A single device cannot hold the 111.4 GB 4-bit flagship model, so it requires a **dual-node cascade**. Single-device models are limited to what 64 GB (388) or 128 GB (395) can hold. |
+| Failed / incomplete runs | `Gemma-4-31B_q4_0-it` at 256K produced no output on the 388 and is recorded as failed. |
+| Long-context throughput | Decode rate falls and time to first token rises sharply as context grows on both devices. |
+| Test conditions not yet published | Operating system, BIOS, graphics/NPU driver, power profile, and the exact llama.cpp build are still "To be confirmed". |
+| Reproduction | The results have not yet been reproduced by two independent clean QA installations. |
+| Offline use | Local operation does not mean every step works offline: models, software, dependencies, and required resources must be downloaded and configured before the device is disconnected from the internet. |
+
+## Responsible use
+
+This is an experimental reference project, not a guarantee that every model or third-party application will work on every configuration. Model outputs may be inaccurate. Do not use generated output as the sole basis for medical, legal, financial, safety-critical, or other high-impact decisions.
+
+The performance data here was measured on specific, disclosed configurations. Background applications, software versions, model settings, ambient conditions, and power profiles can affect performance, so results from one device should not be read as guaranteed performance for every GEEKOM configuration.
+
+Support scope and issue-response expectations will be added before public release.
+
 ## Related resources
 
 - [GEEKOM Resource Center](https://github.com/GEEKOMOfficial/geekom-resource-center)
