@@ -48,7 +48,7 @@ Both charts below come from Unsloth's evaluation of the Qwen3.8-Flash GGUF quant
 
 ### Top-1 accuracy
 
-![Qwen3.8-Flash GGUF Model Top-1 Accuracy](top-1-accuracy-gguf-model.png)
+![Qwen3.8-Flash GGUF Model Top-1 Accuracy](docs/images/top-1-accuracy-gguf-model.png)
 
 - The vertical axis is Top-1 accuracy (%). Accuracy improves as bit width rises, but the curve flattens progressively.
 - Very low bit widths lose a great deal: `IQ1_S-STUB` (about 72 GB) reaches only about 77%, and `IQ1_M` (about 73 GB) about 80%.
@@ -57,7 +57,7 @@ Both charts below come from Unsloth's evaluation of the Qwen3.8-Flash GGUF quant
 
 ### KL divergence (KLD)
 
-![Qwen3.8-Flash GGUF Model KLD](kld-gguf-model.png)
+![Qwen3.8-Flash GGUF Model KLD](docs/images/kld-gguf-model.png)
 
 - The vertical axis is mean KLD (the distribution gap against the full-precision model; lower is better).
 - The curve falls monotonically as bit width rises and shows the same saturation:
