@@ -27,31 +27,31 @@ Full records for each device, including test commands, VRAM usage, and notes:
 
 ## 1. Quantization bits vs. model file size
 
-Quantization means **representing a single weight with fewer bits**. Using this repository's primary model, **Qwen3.8-Flash-Next**, as the example:
+Quantization means **representing a single weight with fewer bits** (often written as *bits per weight*, or **bpw**). Using this repository's primary model, **Qwen3.8-Flash-Next**, as the example:
 
 | Quantization level | 1-bit | 2-bit | 3-bit | 4-bit | 5-bit | 8-bit | BF16 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Typical GGUF quantization | `IQ1_S` / `IQ1_M` | `Q2_K_XL` | `IQ3_XXS` / `Q3_K_XL` | `IQ4_XS` / `Q4_K_XL` | `Q5_K_XL` | `Q8_0` | BF16 |
-| Model size (disk / runtime memory) | 75 GB | 79 GB | 90 GB | 96–114 GB | 163 GB | 200 GB | 355 GB |
+| Model size (disk ≈ weight memory at runtime, excluding cache) | 75 GB | 79 GB | 90 GB | 96–114 GB | 163 GB | 200 GB | 355 GB |
 
 Three points follow from this table:
 
-- **Size grows monotonically with bit width**: the higher the bit width, the larger the model file, and the more video memory / system memory it occupies at runtime.
-- **Low bit widths grow gently**: 1-bit to 4-bit only moves from 75 GB to 96–114 GB (roughly +30% to +50%), yet that is already enough to hold this hundred-gigabyte-class flagship model.
-- **High bit widths expand sharply**: BF16 (355 GB) is more than three times the size of 4-bit, and 8-bit (200 GB) is likewise far beyond the memory capacity of a mainstream mini PC. Both place an order-of-magnitude higher demand on memory capacity and memory bandwidth.
+- **Size grows monotonically with quantization bits**: the more bits used per weight, the larger the model file, and the more video memory / system memory it occupies at runtime.
+- **Size grows gently at low quantization bits**: 1-bit to 4-bit only moves from 75 GB to 96–114 GB (roughly +30% to +50%), yet that is already enough to hold this hundred-gigabyte-class flagship model.
+- **Size expands sharply at high quantization bits**: BF16 (355 GB) is more than three times the size of 4-bit, and 8-bit (200 GB) is likewise far beyond the memory capacity of a mainstream mini PC. Both place an order-of-magnitude higher demand on memory capacity and memory bandwidth.
 
-**What this means when choosing a device**: bit width is not "the higher the better", it is "high enough is enough". Whether a given machine can run the model at all is decided by whether its memory capacity can hold the corresponding file size.
+**What this means when choosing a device**: quantization bits are not "the higher the better", they are "high enough is enough". Whether a given machine can run the model at all is decided mainly by whether its memory capacity can hold the corresponding file size, plus the runtime overhead carried on top of it — above all the context cache (KV cache), which grows with context length. In the 395 dual-node test in Section 4.2, the 111.4 GB 4-bit flagship occupies 101.41 GB at 128 tokens but 114.83 GB at 256K. Memory capacity therefore decides both the model size a device can carry and the context length it can serve.
 
 ## 2. Quantization bits vs. model accuracy
 
-Both charts below come from Unsloth's evaluation of the Qwen3.8-Flash GGUF quantizations. The horizontal axis is disk space (GB) throughout. Because disk space maps one-to-one onto quantization level for a given model, **it can be read directly as bit width**.
+Both charts below come from Unsloth's evaluation of the Qwen3.8-Flash GGUF quantizations. The horizontal axis is disk space (GB) throughout. Because disk space maps one-to-one onto quantization level for a given model, **it can be read directly as quantization bits**.
 
 ### Top-1 accuracy
 
 ![Qwen3.8-Flash GGUF Model Top-1 Accuracy](docs/images/top-1-accuracy-gguf-model.png)
 
-- The vertical axis is Top-1 accuracy (%). Accuracy improves as bit width rises, but the curve flattens progressively.
-- Very low bit widths lose a great deal: `IQ1_S-STUB` (about 72 GB) reaches only about 77%, and `IQ1_M` (about 73 GB) about 80%.
+- The vertical axis is Top-1 accuracy (%). Accuracy improves as quantization bits rise, but the curve flattens progressively.
+- Very low quantization bits lose a great deal: `IQ1_S-STUB` (about 72 GB) reaches only about 77%, and `IQ1_M` (about 73 GB) about 80%.
 - There is still a large gain from `IQ3_XXS` (about 85%) to `Q4_K_XL` (about 92%), which places the 3–4 bit range at the value inflection point.
 - Beyond `Q4_K_XL` (about 103 GB) the curve flattens: `Q5_K_XL`, `Q6_K_XL`, `Q8_0` and larger sizes add only about 1%–2%, converging at about 94%.
 
@@ -60,16 +60,16 @@ Both charts below come from Unsloth's evaluation of the Qwen3.8-Flash GGUF quant
 ![Qwen3.8-Flash GGUF Model KLD](docs/images/kld-gguf-model.png)
 
 - The vertical axis is mean KLD (the distribution gap against the full-precision model; lower is better).
-- The curve falls monotonically as bit width rises and shows the same saturation:
-  - `IQ1_S-STUB` is about 0.40 and `IQ1_M` about 0.31 — extremely low bit widths differ substantially from the original model.
+- The curve falls monotonically as quantization bits rise and shows the same saturation:
+  - `IQ1_S-STUB` is about 0.40 and `IQ1_M` about 0.31 — extremely low quantization bits differ substantially from the original model.
   - `Q2_K_XL` about 0.23, `IQ3_XXS` about 0.16, `Q3_K_XL` about 0.11, `IQ4_XS` about 0.08.
-  - After `Q4_K_XL` (about 103 GB) it drops below 0.05; `Q5_K_XL` and higher bit widths settle at around 0.03.
+  - After `Q4_K_XL` (about 103 GB) it drops below 0.05; `Q5_K_XL` and higher quantization bits settle at around 0.03.
 
 ## 3. Conclusion: 4-bit is the sweet spot
 
 Reading the file-size results (Section 1) and the accuracy results (Section 2) together:
 
-1. **Size and accuracy are positively correlated**: higher bit width gives higher Top-1 and lower KLD, and the two charts corroborate each other.
+1. **Size and accuracy are positively correlated**: higher quantization bits give higher Top-1 and lower KLD, and the two charts corroborate each other.
 2. **Marginal returns diminish**: beyond roughly 100 GB (`Q4_K_XL`) the improvement is very small. Compared with 4-bit, 5-bit / 8-bit / BF16 are close to double or even triple the size for only about 1%–2% more Top-1 and a KLD improvement from about 0.05 to about 0.03 — a cost far out of proportion to the gain.
 3. **Low-bit quantization costs a lot**: 1–2 bit is only slightly smaller than 3-bit, yet Top-1 is 5–10 percentage points lower and KLD is several times higher — capacity saved, model ruined.
 4. **At the same file size, the quantization scheme matters**: `IQ1_S`, `IQ1_M`, `Q2_K_XL` and `IQ3_XXS` are all around 72–75 GB, yet accuracy spreads from 77% to 85% and KLD falls from 0.40 to 0.16.
