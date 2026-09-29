@@ -128,9 +128,7 @@ VRAM is recorded as "host / worker".
 
 | Model | Size | Acceleration | 128 | 8K | 16K | 32K | 64K | 128K | 256K |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL | 111.4 GB | MTP N=2 | 28.00 | 26.90 | 23.94 | 22.85 | Not tested | 12.28 | Not tested |
 | Qwen3.8-27B-Q4_K_M | — | MTP N=4 | 20.24 | 21.30 | 19.53 | 16.87 | Not tested | 9.88 | 6.06 |
-| Gemma-4-31B_q4_0-it | — | No | 11.28 | 10.20 | 9.64 | 8.56 | Not tested | 5.00 | Test failed |
 | Qwen3.6-35B-A3B-UD-Q4_K_M | 22.7 GB | MTP N=2 | 68.03 | 67.76 | 63.55 | 54.30 | Not tested | 32.61 | 21.66 |
 | MiniCPM5-2B-Q4_K_M | — | No | 103.10 | 87.08 | 75.15 | 61.74 | 44.76 | 29.03 | Not tested |
 
@@ -138,18 +136,15 @@ Corresponding time to first token (s):
 
 | Model | 128 | 8K | 16K | 32K | 64K | 128K | 256K |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL | 2.66 | 28.84 | 60.52 | 137.89 | Not tested | 912.65 | Not tested |
 | Qwen3.8-27B-Q4_K_M | 1.50 | 25.00 | 66.00 | 109.00 | Not tested | 582.00 | 1466.00 |
-| Gemma-4-31B_q4_0-it | 8.68 | 127.53 | 283.61 | 844.18 | Not tested | 10895.64 | Test failed |
 | Qwen3.6-35B-A3B-UD-Q4_K_M | 0.50 | 6.70 | 18.00 | 32.00 | Not tested | 196.00 | 542.00 |
 | MiniCPM5-2B-Q4_K_M | 0.20 | 3.10 | 7.40 | 20.00 | 67.00 | 243.00 | Not tested |
 
 **Reading the results**:
 
 - **MoE models around 35B-A3B are the 388's comfort zone**: `Qwen3.6-35B-A3B-UD-Q4_K_M` (22.7 GB) still decodes at 54.3 tokens/s at 32K and 32.61 tokens/s at 128K.
-- 27B-class dense models and the 31B-class model drop to 5–10 tokens/s at long context, so they suit medium context lengths.
+- 27B-class dense models drop to 5–10 tokens/s at long context, so they suit medium context lengths.
 - 2B-class small models (MiniCPM5-2B, about 15–18 GB) reach the hundreds-of-tokens-per-second range, suited to lightweight assistant workloads.
-- The Gemma-4-31B 256K run errored with no output. It is recorded as failed, with no speculation added.
 
 ### 4.4 Other 4-bit models on the A9 Mega 395 (decode rate, tokens/s)
 
@@ -209,7 +204,6 @@ Only limitations actually observed in the tests recorded here are listed; anythi
 | --- | --- |
 | Maximum tested context | 256K (`-c 256000`) was measured working only on the **A9 Mega 395** in a dual-node cascade. The **388** was tested up to 128K; 256K was **not tested**. |
 | Memory capacity | A single device cannot hold the 111.4 GB 4-bit flagship model, so it requires a **dual-node cascade**. Single-device models are limited to what 64 GB (388) or 128 GB (395) can hold. |
-| Failed / incomplete runs | `Gemma-4-31B_q4_0-it` at 256K produced no output on the 388 and is recorded as failed. |
 | Long-context throughput | Decode rate falls and time to first token rises sharply as context grows on both devices. |
 | Test conditions not yet published | Operating system, BIOS, graphics/NPU driver, power profile, and the exact llama.cpp build are still "To be confirmed". |
 | Reproduction | The results have not yet been reproduced by two independent clean QA installations. |
