@@ -87,7 +87,7 @@ Reading the file-size results (Section 1) and the accuracy results (Section 2) t
 | Processor | AMD Ryzen AI MAX+ 388 | AMD Ryzen AI MAX+ 395 |
 | Graphics | Radeon 8060S | Radeon 8060S |
 | Memory bandwidth | 256 GB/s | 256 GB/s |
-| Memory | 64 GB | 128 GB |
+| Memory size | 64 GB | 128 GB |
 | Operating system | Ubuntu26.04 | Ubuntu26.04 |
 | Graphics Driver | 31.50.0 0 | 31.50.0 0 |
 
