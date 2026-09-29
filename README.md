@@ -88,10 +88,9 @@ Reading the file-size results (Section 1) and the accuracy results (Section 2) t
 | Graphics | Radeon 8060S | Radeon 8060S |
 | Memory bandwidth | 256 GB/s | 256 GB/s |
 | Memory | 64 GB | 128 GB |
-| Operating system | To be confirmed | To be confirmed |
-| BIOS version | To be confirmed | To be confirmed |
-| Graphics / NPU driver | To be confirmed | To be confirmed |
-| Power profile | To be confirmed | To be confirmed |
+| Operating system | Ubuntu26.04 | Ubuntu26.04 |
+| Graphics Driver | 31.50.0 0 | 31.50.0 0 |
+
 
 > Both devices use the same graphics processor and the same memory bandwidth. **The main difference is memory capacity (64 GB vs. 128 GB)**, which directly determines the model sizes a single device can hold and the context lengths it can serve.
 
