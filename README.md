@@ -59,7 +59,7 @@ Both charts below come from Unsloth's evaluation of the Qwen3.8-Flash GGUF quant
 
 ![Qwen3.8-Flash GGUF Model KLD](docs/images/kld-gguf-model.png)
 
-- The vertical axis is mean KLD (the distribution gap against the full-precision model; lower is better).
+- The vertical axis is mean KLD (Kullback-Leibler divergence) — the distribution gap against the full-precision model; **lower is better**.
 - The curve falls monotonically as quantization bits rise and shows the same saturation:
   - `IQ1_S-STUB` is about 0.40 and `IQ1_M` about 0.31 — extremely low quantization bits differ substantially from the original model.
   - `Q2_K_XL` about 0.23, `IQ3_XXS` about 0.16, `Q3_K_XL` about 0.11, `IQ4_XS` about 0.08.
