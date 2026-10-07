@@ -134,7 +134,6 @@ VRAM is recorded as "host / worker".
 | Model | Size | Acceleration | 128 | 8K | 16K | 32K | 64K | 128K | 256K |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Qwen3.8-27B-UD-Q4_K_XL | Not recorded | MTP N=4 | 20.24 | 21.30 | 19.53 | 16.87 | 12.86 | 9.88 | 6.06 |
-| Gemma-4-31B_q4_0-it | Not recorded | No | 11.28 | 10.20 | 9.64 | 8.56 | Not tested | 5.00 | Failed |
 | Qwen3.6-35B-A3B-UD-Q4_K_M | 22.7 GB | MTP N=2 | 68.03 | 67.76 | 63.55 | 54.30 | 50.30 | 32.61 | 21.66 |
 | MiniCPM5-2B-Q4_K_M | 1.56 GB | No | 103.10 | 87.08 | 75.15 | 61.74 | 44.76 | 29.03 | Not tested |
 
@@ -143,7 +142,6 @@ Corresponding time to first token (s):
 | Model | 128 | 8K | 16K | 32K | 64K | 128K | 256K |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Qwen3.8-27B-UD-Q4_K_XL | 0.44 | 24.54 | 52.44 | 109.55 | 268.94 | 646.85 | 1780.14 |
-| Gemma-4-31B_q4_0-it | 4.77 | 117.82 | 266.54 | 790.54 | Not tested | 10312.51 | Failed |
 | Qwen3.6-35B-A3B-UD-Q4_K_M | 0.16 | 6.61 | 14.79 | 32.51 | 103.58 | 218.14 | 645.04 |
 | MiniCPM5-2B-Q4_K_M | 0.10 | 3.09 | 7.52 | 21.14 | 70.63 | 255.42 | Not tested |
 
@@ -152,9 +150,8 @@ Corresponding time to first token (s):
 - **MoE models around 35B-A3B are the 388's comfort zone**: `Qwen3.6-35B-A3B-UD-Q4_K_M` (22.7 GB) still decodes at 54.3 tokens/s at 32K and 32.61 tokens/s at 128K.
 - 27B-class dense models drop to 5–10 tokens/s at long context, so they suit medium context lengths.
 - 2B-class small models (`MiniCPM5-2B-Q4_K_M`, a 1.56 GB file using roughly 15–18 GB of VRAM) reach the hundreds-of-tokens-per-second range, suited to lightweight assistant workloads.
-- `Gemma-4-31B_q4_0-it` (q4_0, no acceleration) is the slowest 4-bit model tested on the 388 — 5–11 tokens/s across the tested lengths — and its 256K run failed. It is recorded as a test data point, not a recommendation.
 
-> **Scope note**: Sections 4.2–4.3 record **every** 4-bit model tested on the 388, as test data. Only the three 388 models listed in **Section 5.2** are promoted to the recommendation shortlist; everything else here — for example `Gemma-4-31B_q4_0-it` and `Qwen3.8-27B-UD-Q4_K_XL`, plus the triple-node cascade deployment of `Qwen3.8-Flash-Next-UD-Q4_K_XL` — is kept as a measured record only. Full records are in [`docs/A9-Mega-388/`](./docs/A9-Mega-388/).
+> **Scope note**: Sections 4.2–4.3 record **every** 4-bit model tested on the 388, as test data. Only the three 388 models listed in **Section 5.2** are promoted to the recommendation shortlist; everything else here — for example `Qwen3.8-27B-UD-Q4_K_XL`, plus the triple-node cascade deployment of `Qwen3.8-Flash-Next-UD-Q4_K_XL` — is kept as a measured record only. Full records are in [`docs/A9-Mega-388/`](./docs/A9-Mega-388/).
 
 ### 4.4 Other 4-bit models on the A9 Mega 395 (decode rate, tokens/s)
 
