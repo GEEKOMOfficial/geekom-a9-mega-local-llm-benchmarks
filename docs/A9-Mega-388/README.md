@@ -6,6 +6,8 @@ This directory archives the local large language model inference performance tes
 - Records: **36**, covering **6** model / deployment combinations
 - Raw details are also available as [`test-records.csv`](./test-records.csv) in this directory (UTF-8, opens directly in Excel)
 
+> **Recommended models**: this directory is a full test archive. Only three combinations are promoted as recommendations in Section 5.2 of the root [`README.md`](../../README.md) — the dual-node cascade `Qwen3.8-Flash-Next-UD-Q4_K_XL`, `Qwen3.6-35B-A3B-UD-Q4_K_M`, and `MiniCPM5-2B-Q4_K_M`. Everything else (the triple-node cascade, `Qwen3.8-27B-UD-Q4_K_XL`, and `Gemma-4-31B_q4_0-it`) is recorded as test data only.
+
 ## 1. Device and hardware configuration
 
 | Item | Configuration |
@@ -16,10 +18,11 @@ This directory archives the local large language model inference performance tes
 | Memory bandwidth | 256 GB/s |
 | Memory | 64 GB |
 | Operating system | Ubuntu 26.04 |
+| Graphics driver | 31.50.0.0 |
 | ROCm version | 10.0.0 |
 
 
-> Note: the original records contain only the processor, graphics, memory bandwidth, and memory configuration. The remaining hardware details have not been collected yet and must be added before release.
+> Note: beyond the processor, graphics, memory bandwidth, memory, operating system, graphics driver, and ROCm version listed above, the remaining hardware details — BIOS, NPU driver, power profile, storage, and the exact llama.cpp build — have not been collected yet and must be added before release.
 
 ## 2. Field descriptions
 
@@ -129,7 +132,7 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 
 </details>
 
-### 3.5 Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF(22.7GB) llama-b11065
+### 3.5 Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065
 
 - Acceleration: `Yes(MTP) N=2`
 - Records: 7
@@ -148,7 +151,7 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 <summary>Test commands</summary>
 
 ```bash
-./llama-server -m /home/user/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf -ngl 99 --spec-type draft-mtp --spec-draft-n-max 4 -c 256000 -fa on --cache-type-k q8_0 --cache-type-v q8_0 --host 127.0.0.1 --port 8080
+./llama-server -m /home/user/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf -ngl 99 --spec-type draft-mtp --spec-draft-n-max 2 -c 256000 -fa on --cache-type-k q8_0 --cache-type-v q8_0 --host 127.0.0.1 --port 8080
 ```
 
 </details>
@@ -194,7 +197,7 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 3. **VRAM recording format**: a single device records a plain value; a dual-node cascade records `host / worker`; a triple-node cascade records `host / worker 1 / worker 2`. The original 388 records already use `/` as the separator, and this directory matches their format and values exactly.
 4. **Draft acceptance rate**: the "draft acceptance rate" in the MTP records is taken from the original records and explains the speedup effect; it is not a throughput metric, so it is omitted from the result tables above and kept in [`test-records.csv`](./test-records.csv).
 5. **Device attribution resolved**: a data set was previously labelled "A9-Mega-388 inference performance data", but its six rows match the 395 records (128 length: TTFT 0.84, prefill 151.58, decode 34.27). The root [`README.md`](../../README.md) now attributes that data set to the 395.
-6. **To be completed before release**: these records have not been reproduced through two independent clean QA installations, and the hardware details (operating system, BIOS, driver, power profile) have not been fully collected. Do not publish as is.
+6. **To be completed before release**: these records have not been reproduced through two independent clean QA installations, and several hardware details (BIOS, NPU driver, power profile, storage) have not been collected. Do not publish as is.
 
 ## 6. Related files
 

@@ -6,6 +6,8 @@ This directory archives the local large language model inference performance tes
 - Records: **42**, covering **7** model / deployment combinations
 - Raw details are also available as [`test-records.csv`](./test-records.csv) in this directory (UTF-8, opens directly in Excel)
 
+> **Recommended model**: this directory is a full test archive. Only `Qwen3.8-Flash-Next-UD-Q4_K_XL` is promoted as a recommendation in Section 5.1 of the root [`README.md`](../../README.md); all other combinations here — the DeepSeek-V4-Flash deployments, `Qwen3.8-27B-FP4-FAST`, and `MiniCPM5-2B-bf16` — are recorded as test data only.
+
 ## 1. Device and hardware configuration
 
 | Item | Configuration |
@@ -16,10 +18,11 @@ This directory archives the local large language model inference performance tes
 | Memory bandwidth | 256 GB/s |
 | Memory | 128 GB |
 | Operating system | Ubuntu 26.04 |
+| Graphics driver | 31.50.0.0 |
 | ROCm version | 10.0.0 |
 
 
-> Note: the original records contain only the processor, graphics, memory bandwidth, and memory configuration. The remaining hardware details have not been collected yet and must be added before release.
+> Note: beyond the processor, graphics, memory bandwidth, memory, operating system, graphics driver, and ROCm version listed above, the remaining hardware details — BIOS, NPU driver, power profile, storage, and the exact llama.cpp build — have not been collected yet and must be added before release.
 
 ## 2. Field descriptions
 
@@ -222,7 +225,7 @@ llama-server.exe  -m  D:\model\MiniCPM5-2B-bf16.gguf -c 131072 -ngl 99 -ngld 99 
 5. **Model context limit**: the original note for MiniCPM5-2B-bf16 reads "context length set to 128k; the model supports up to 128k only", which is why 256K was not tested.
 6. **Device attribution resolved**: a data set was previously labelled "A9-Mega-388 inference performance data"; its six rows match Section 3.2 of this directory (395, dual-node cascade, Qwen3.8-Flash-Next). The root [`README.md`](../../README.md) now attributes that data set to the 395.
 7. **Single-device flagship VRAM reading**: the single-device Qwen3.8-Flash-Next rows report 131.68 to 134.06 GB of VRAM, above the 128 GB memory size listed in Section 1; the values are recorded as measured and the basis for that column has not been confirmed.
-8. **To be completed before release**: these records have not been reproduced through two independent clean QA installations, and the hardware details (operating system, BIOS, driver, power profile) have not been fully collected. Do not publish as is.
+8. **To be completed before release**: these records have not been reproduced through two independent clean QA installations, and several hardware details (BIOS, NPU driver, power profile, storage) have not been collected. Do not publish as is.
 
 ## 6. Related files
 
