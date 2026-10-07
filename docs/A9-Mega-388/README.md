@@ -3,7 +3,7 @@
 This directory archives the local large language model inference performance tests measured on the **GEEKOM A9 Mega 388** configuration.
 
 - Source: tests measured on physical GEEKOM A9 Mega 388 hardware
-- Records: **36**, covering **6** model / deployment combinations
+- Records: **35**, covering **6** model / deployment combinations
 - Raw details are also available as [`test-records.csv`](./test-records.csv) in this directory (UTF-8, opens directly in Excel)
 
 > **Recommended models**: this directory is a full test archive. Only three combinations are promoted as recommendations in Section 5.2 of the root [`README.md`](../../README.md) — the dual-node cascade `Qwen3.8-Flash-Next-UD-Q4_K_XL`, `Qwen3.6-35B-A3B-UD-Q4_K_M`, and `MiniCPM5-2B-Q4_K_M`. Everything else (the triple-node cascade, `Qwen3.8-27B-UD-Q4_K_XL`, and `Gemma-4-31B_q4_0-it`) is recorded as test data only.
@@ -112,7 +112,7 @@ Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash
 ### 3.4 Gemma-4-31B_q4_0-it-GGUF
 
 - Acceleration: `No`
-- Records: 6
+- Records: 5
 
 | Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM (GB) |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -121,7 +121,6 @@ Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash
 | 16K | 2054 | 266.54 | 61.47 | 9.64 | 479.61 | 40.8 |
 | 32K | 1686 | 790.54 | 41.45 | 8.56 | 987.5 | 40.8 |
 | 128K | 2489 | 10312.51 | 12.71 | 5 | 10810.31 | 40.8 |
-| 256K | N/A |  |  |  |  |  |
 
 <details>
 <summary>Test commands</summary>
@@ -186,13 +185,13 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 | Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL | MTP N=2 | 128 / 8K / 16K / 32K / 128K | 64K, 256K |
 | Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL | MTP N=2 | 128 / 8K / 16K / 32K / 128K | 64K, 256K |
 | Qwen3.8-27B-UD-Q4_K_XL | MTP N=4 | 128 / 8K / 16K / 32K / 64K / 128K / 256K | None |
-| Gemma-4-31B_q4_0-it | No | 128 / 8K / 16K / 32K / 128K | 64K; 256K failed |
+| Gemma-4-31B_q4_0-it | No | 128 / 8K / 16K / 32K / 128K | 64K, 256K |
 | Qwen3.6-35B-A3B-UD-Q4_K_M | MTP N=2 | 128 / 8K / 16K / 32K / 64K / 128K / 256K | None |
 | MiniCPM5-2B-Q4_K_M | No | 128 / 8K / 16K / 32K / 64K / 128K | 256K |
 
 ## 5. Data notes and known issues
 
-1. **Gemma-4-31B 256K test failed**: the record marks the output length as `N/A` together with the note "256K test error"; that row contains no usable performance metric.
+1. **Gemma-4-31B 256K test failed**: the `Gemma-4-31B_q4_0-it` 256K scenario failed with a test error and produced no usable performance metric, so it is not included in the results above.
 2. **Uneven context coverage**: the six test groups do not cover the same context lengths (see the table above); keep this in mind when comparing across models. The 64K scenario has since been added for `Qwen3.8-27B-UD-Q4_K_XL` and `Qwen3.6-35B-A3B-UD-Q4_K_M`.
 3. **VRAM recording format**: a single device records a plain value; a dual-node cascade records `host / worker`; a triple-node cascade records `host / worker 1 / worker 2`. The original 388 records already use `/` as the separator, and this directory matches their format and values exactly.
 4. **Draft acceptance rate**: the "draft acceptance rate" in the MTP records is taken from the original records and explains the speedup effect; it is not a throughput metric, so it is omitted from the result tables above and kept in [`test-records.csv`](./test-records.csv).
@@ -203,7 +202,7 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 
 | File | Description |
 | --- | --- |
-| [`test-records.csv`](./test-records.csv) | Flat data table of all 36 records for the 388 |
+| [`test-records.csv`](./test-records.csv) | Flat data table of all 35 records for the 388 |
 | `../A9-Mega-395/README.md` | Test records for the 395 configuration (same structure, for comparison) |
 | `../../README.md` | Quantization level selection (bits vs. size / accuracy) and the 4-bit measurements per device |
 | `../qa-handoff-template.md` | QA handoff template for installation and functional verification records |
