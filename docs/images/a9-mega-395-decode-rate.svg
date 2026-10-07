@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title description">
+  <title id="title">A9 Mega 395 decode rate by input context length</title>
+  <desc id="description">Single-device Qwen3.8-Flash-Next UD-Q4_K_XL with MTP N=2. Decode rates in tokens per second: 32.43 at 128 input tokens, 28.48 at 8K, 25.88 at 16K, 23.58 at 32K, 18.06 at 64K, and 15.45 at 128K.</desc>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #14253d; }
+    .title { font-size: 27px; font-weight: 700; }
+    .subtitle { font-size: 16px; fill: #4c627d; }
+    .axis-title { font-size: 17px; font-weight: 600; }
+    .tick { font-size: 15px; fill: #52647c; }
+    .value { font-size: 17px; font-weight: 700; fill: #123e74; }
+  </style>
+  <rect width="960" height="560" fill="#fff"/>
+  <text class="title" x="72" y="48">A9 Mega 395: decode rate across context lengths</text>
+  <text class="subtitle" x="72" y="78">Qwen3.8-Flash-Next UD-Q4_K_XL · single device · MTP N=2</text>
+  <rect x="112" y="142" width="756" height="318" rx="10" fill="#f7fafe"/>
+  <path d="M112 164H868 M112 238H868 M112 312H868 M112 386H868 M112 460H868" fill="none" stroke="#d8e1eb" stroke-width="1"/>
+  <path d="M112 164V460H868" fill="none" stroke="#72849a" stroke-width="1.5"/>
+  <text class="tick" x="95" y="169" text-anchor="end">40</text>
+  <text class="tick" x="95" y="243" text-anchor="end">30</text>
+  <text class="tick" x="95" y="317" text-anchor="end">20</text>
+  <text class="tick" x="95" y="391" text-anchor="end">10</text>
+  <text class="tick" x="95" y="465" text-anchor="end">0</text>
+  <text class="axis-title" transform="translate(36 312) rotate(-90)" text-anchor="middle">Decode rate (tokens/s)</text>
+  <path d="M168 220.0 L300 249.2 L432 268.5 L564 285.5 L696 326.4 L828 345.7" fill="none" stroke="#1b68af" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <g fill="#fff" stroke="#1b68af" stroke-width="3">
+    <circle cx="168" cy="220.0" r="7"/>
+    <circle cx="300" cy="249.2" r="7"/>
+    <circle cx="432" cy="268.5" r="7"/>
+    <circle cx="564" cy="285.5" r="7"/>
+    <circle cx="696" cy="326.4" r="7"/>
+    <circle cx="828" cy="345.7" r="7"/>
+  </g>
+  <text class="value" x="168" y="199" text-anchor="middle">32.43</text>
+  <text class="value" x="300" y="228" text-anchor="middle">28.48</text>
+  <text class="value" x="432" y="247" text-anchor="middle">25.88</text>
+  <text class="value" x="564" y="264" text-anchor="middle">23.58</text>
+  <text class="value" x="696" y="305" text-anchor="middle">18.06</text>
+  <text class="value" x="828" y="324" text-anchor="middle">15.45</text>
+  <g class="tick" text-anchor="middle">
+    <text x="168" y="489">128</text>
+    <text x="300" y="489">8K</text>
+    <text x="432" y="489">16K</text>
+    <text x="564" y="489">32K</text>
+    <text x="696" y="489">64K</text>
+    <text x="828" y="489">128K</text>
+  </g>
+  <text class="axis-title" x="490" y="530" text-anchor="middle">Input context length (tokens; measured settings)</text>
+</svg>
