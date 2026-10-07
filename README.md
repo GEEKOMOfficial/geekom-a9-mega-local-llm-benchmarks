@@ -11,8 +11,8 @@ All performance data was measured on physical GEEKOM units. **The device configu
 
 Full records for each device, including test commands, VRAM usage, and notes:
 
-- A9 Mega 388 — all 34 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
-- A9 Mega 395 — all 35 test records: [`docs/A9-Mega-395/`](./docs/A9-Mega-395/)
+- A9 Mega 388 — all 36 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
+- A9 Mega 395 — all 42 test records: [`docs/A9-Mega-395/`](./docs/A9-Mega-395/)
 
 > **Release status**: the results have not yet been reproduced by two independent clean QA installations, and hardware details (operating system, BIOS, driver, power profile) are still being collected. These will be completed before release.
 
@@ -109,18 +109,19 @@ Shared test conditions:
 
 | Input length | 388 TTFT (s) | 388 decode (tokens/s) | 388 VRAM (GB) | 395 TTFT (s) | 395 decode (tokens/s) | 395 VRAM (GB) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 128 | 2.59 | 30.76 | 62.4/57.5 | 1.19 | 34.27 | 101.41/64.86 |
-| 8K | 28.62 | 26.14 | 63.8/57.7 | 20.01 | 30.66 | 102.47/64.95 |
-| 16K | 56.61 | 25.62 | 63.7/57.8 | 41.26 | 27.78 | 103.06/64.97 |
-| 32K | 131.34 | 23.68 | 64.7/57.8 | 90.93 | 27.9 | 103.70/64.88 |
-| 128K | 861.41 | 10.62 | 65.7/58.05 | 566.5 | 15.16 | 107.35/64.77 |
-| 256K | Not tested | Not tested | Not tested | 1544.66 | 10.5 | 114.83/64.95 |
+| 128 | 0.67 | 30.76 | 62.4/57.5 | 0.84 | 34.27 | 101.41/64.86 |
+| 8K | 27.36 | 26.14 | 63.8/57.7 | 19.86 | 30.66 | 102.47/64.95 |
+| 16K | 55.33 | 25.62 | 63.7/57.8 | 41.1 | 27.78 | 103.06/64.97 |
+| 32K | 129.85 | 23.68 | 64.7/57.8 | 90.73 | 27.9 | 103.70/64.88 |
+| 128K | 858.93 | 10.62 | 65.7/58.05 | 566.14 | 15.16 | 107.35/64.77 |
+| 256K | Not tested | Not tested | Not tested | 1619.07 | 10.5 | 114.83/64.95 |
 
 VRAM is recorded as "host / worker".
 
 **Reading the results**:
 
-- Both devices can run the 111.4 GB flagship 4-bit model through a dual-node cascade, which is the direct benefit of 4-bit being the sweet spot.
+- Both devices can run the 111.4 GB flagship 4-bit model through a dual-node cascade, and the **395 (128 GB) also runs it on a single device** (see the [395 archive](./docs/A9-Mega-395/)) — the direct benefit of 4-bit being the sweet spot.
+- On a **single 395**, the same flagship model ran at 128 tokens with TTFT 0.97 s and decode 32.43 tokens/s, and at 128K with TTFT 720.61 s and decode 15.45 tokens/s. Its VRAM column is reported at 131.68 to 134.06 GB, above the 128 GB memory size, so read those rows with that in mind.
 - The A9 Mega 395 (128 GB memory) still runs at the full 256K context, decoding 15.16 tokens/s at 128K. The 388 was tested up to 128K (10.62 tokens/s); 256K was not tested.
 - As context grows, decode rate falls clearly and time to first token rises sharply on both devices. This is inherent to long-context inference, not a defect of either device.
 
@@ -128,17 +129,17 @@ VRAM is recorded as "host / worker".
 
 | Model | Size | Acceleration | 128 | 8K | 16K | 32K | 64K | 128K | 256K |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Qwen3.8-27B-Q4_K_M | — | MTP N=4 | 20.24 | 21.30 | 19.53 | 16.87 | Not tested | 9.88 | 6.06 |
-| Qwen3.6-35B-A3B-UD-Q4_K_M | 22.7 GB | MTP N=2 | 68.03 | 67.76 | 63.55 | 54.30 | Not tested | 32.61 | 21.66 |
+| Qwen3.8-27B-UD-Q4_K_XL | — | MTP N=4 | 20.24 | 21.30 | 19.53 | 16.87 | 12.86 | 9.88 | 6.06 |
+| Qwen3.6-35B-A3B-UD-Q4_K_M | 22.7 GB | MTP N=2 | 68.03 | 67.76 | 63.55 | 54.30 | 50.30 | 32.61 | 21.66 |
 | MiniCPM5-2B-Q4_K_M | — | No | 103.10 | 87.08 | 75.15 | 61.74 | 44.76 | 29.03 | Not tested |
 
 Corresponding time to first token (s):
 
 | Model | 128 | 8K | 16K | 32K | 64K | 128K | 256K |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Qwen3.8-27B-Q4_K_M | 1.50 | 25.00 | 66.00 | 109.00 | Not tested | 582.00 | 1466.00 |
-| Qwen3.6-35B-A3B-UD-Q4_K_M | 0.50 | 6.70 | 18.00 | 32.00 | Not tested | 196.00 | 542.00 |
-| MiniCPM5-2B-Q4_K_M | 0.20 | 3.10 | 7.40 | 20.00 | 67.00 | 243.00 | Not tested |
+| Qwen3.8-27B-UD-Q4_K_XL | 0.44 | 24.54 | 52.44 | 109.55 | 268.94 | 646.85 | 1780.14 |
+| Qwen3.6-35B-A3B-UD-Q4_K_M | 0.16 | 6.61 | 14.79 | 32.51 | 103.58 | 218.14 | 645.04 |
+| MiniCPM5-2B-Q4_K_M | 0.10 | 3.09 | 7.52 | 21.14 | 70.63 | 255.42 | Not tested |
 
 **Reading the results**:
 
@@ -150,13 +151,13 @@ Corresponding time to first token (s):
 
 | Model | Acceleration | 128 | 8K | 16K | 32K | 64K | 128K | 256K |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Qwen3.8-27B-FP4-FAST | MTP N=4 | 31.29 | 25.43 | 24.51 | 20.28 | Not tested | 8.95 | 6.06 |
+| Qwen3.8-27B-FP4-FAST | MTP N=4 | 31.29 | 25.43 | 24.51 | 20.28 | 15.42 | 8.95 | 6.06 |
 
 Corresponding time to first token (s):
 
 | Model | 128 | 8K | 16K | 32K | 64K | 128K | 256K |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Qwen3.8-27B-FP4-FAST | 1.50 | 24.00 | 54.00 | 125.00 | Not tested | 868.00 | 2696.00 |
+| Qwen3.8-27B-FP4-FAST | 0.40 | 23.56 | 51.11 | 118.52 | 306.21 | 865.62 | 2775.48 |
 
 > **Scope note**: the 395 was also tested with the **2-bit** `DeepSeek-V4-Flash-0731-UD-Q2_K_XL` (96.8 GB, in single-node, dual-node cascade, and triple-node cascade deployments) and with `MiniCPM5-2B-bf16`. Neither is 4-bit, so they are not listed in this section. Full records are in [`docs/A9-Mega-395/`](./docs/A9-Mega-395/).
 
@@ -190,7 +191,7 @@ The complete test command for every model is in the corresponding device archive
 
 | Requirement | Recommendation |
 | --- | --- |
-| Run a hundred-gigabyte-class 4-bit flagship model (such as Qwen3.8-Flash-Next UD-Q4_K_XL) | A single device cannot hold it, so a **dual-node cascade** is required. Both the 388 and the 395 run it successfully. |
+| Run a hundred-gigabyte-class 4-bit flagship model (such as Qwen3.8-Flash-Next UD-Q4_K_XL) | The **388 (64 GB) requires a dual-node cascade**; the **395 (128 GB) runs it on a single device** as well as in a dual-node cascade. |
 | Need 256K ultra-long context | Prefer the **A9 Mega 395** (128 GB memory); 256K was measured working. |
 | Want a lightweight, high-throughput everyday assistant | The **A9 Mega 388** is enough: 35B-A3B class (22.7 GB) decodes at 54.3 tokens/s at 32K, and 2B class reaches hundreds of tokens per second. |
 
@@ -202,8 +203,8 @@ Only limitations actually observed in the tests recorded here are listed; anythi
 
 | Item | Observed limitation |
 | --- | --- |
-| Maximum tested context | 256K (`-c 256000`) was measured working only on the **A9 Mega 395** in a dual-node cascade. The **388** was tested up to 128K; 256K was **not tested**. |
-| Memory capacity | A single device cannot hold the 111.4 GB 4-bit flagship model, so it requires a **dual-node cascade**. Single-device models are limited to what 64 GB (388) or 128 GB (395) can hold. |
+| Maximum tested context | 256K (`-c 256000`) was measured working on the **A9 Mega 395** (dual-node cascade) and, on the **388**, for the single-device `Qwen3.8-27B-UD-Q4_K_XL` and `Qwen3.6-35B-A3B-UD-Q4_K_M`. For the flagship Qwen3.8-Flash-Next, 256K was tested only on the 395 dual-node cascade; the 388 dual-node and the 395 single-device runs stopped at 128K. |
+| Memory capacity | The **388 (64 GB) cannot hold the 111.4 GB 4-bit flagship model on a single device**, so the 388 requires a **dual-node cascade**. The **395 (128 GB)** ran it on a single device as measured. Single-device models are otherwise limited to what 64 GB (388) or 128 GB (395) can hold. |
 | Long-context throughput | Decode rate falls and time to first token rises sharply as context grows on both devices. |
 | Test conditions not yet published | Operating system, BIOS, graphics/NPU driver, power profile, and the exact llama.cpp build are still "To be confirmed". |
 | Reproduction | The results have not yet been reproduced by two independent clean QA installations. |
