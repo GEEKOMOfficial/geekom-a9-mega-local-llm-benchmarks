@@ -118,7 +118,15 @@ The single device decoded at **32.43 tokens/s at 128 input tokens**, **23.58 tok
 
 The reported VRAM values for this single-device run (131.68–134.06 GB) exceed the listed 128 GB memory size; the archive retains those readings without asserting their measurement basis.
 
-### 4.3 Other 4-bit models on the A9 Mega 388 (decode rate, tokens/s)
+### 4.3 A9 Mega 388: Qwen3.6-35B-A3B and other 4-bit models
+
+The recommended single-device `Qwen3.6-35B-A3B-UD-Q4_K_M` (22.7 GB, MTP N=2) was measured at seven input lengths:
+
+![Line plot of A9 Mega 388 single-device decode rate: 68.03 tokens/s at 128 input tokens, 67.76 at 8K, 63.55 at 16K, 54.30 at 32K, 50.30 at 64K, 32.61 at 128K, and 21.66 at 256K.](docs/images/a9-mega-388-decode-rate.svg)
+
+The points are spaced evenly by measured setting for readability; their horizontal distances are not proportional to token count. At 256K, the model decoded at **21.66 tokens/s** with a **645.04 s** time to first token. The [A9 Mega 388 test archive](./docs/A9-Mega-388/) has the full measurements and single-device command.
+
+The table below summarizes three 4-bit models through 128K input tokens:
 
 | Model | Size | Acceleration | 128 | 8K | 16K | 32K | 64K | 128K |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -136,11 +144,11 @@ Corresponding time to first token (s):
 
 **Reading the results**:
 
-- **MoE models around 35B-A3B are the 388's comfort zone**: `Qwen3.6-35B-A3B-UD-Q4_K_M` (22.7 GB) still decodes at 54.3 tokens/s at 32K and 32.61 tokens/s at 128K.
+- **MoE models around 35B-A3B are the 388's comfort zone**: `Qwen3.6-35B-A3B-UD-Q4_K_M` (22.7 GB) decodes at 54.30 tokens/s at 32K, 32.61 tokens/s at 128K, and 21.66 tokens/s at 256K.
 - 27B-class dense models drop to 5–10 tokens/s at long context, so they suit medium context lengths.
 - 2B-class small models (`MiniCPM5-2B-Q4_K_M`, a 1.56 GB file using roughly 15–18 GB of VRAM) reach the hundreds-of-tokens-per-second range, suited to lightweight assistant workloads.
 
-> **Scope note**: Sections 4.2–4.3 record **every** 4-bit model tested on the 388, as test data. Only the three 388 models listed in **Section 5.2** are promoted to the recommendation shortlist; everything else here — for example `Qwen3.8-27B-UD-Q4_K_XL`, plus the triple-node cascade deployment of `Qwen3.8-Flash-Next-UD-Q4_K_XL` — is kept as a measured record only. Full records are in [`docs/A9-Mega-388/`](./docs/A9-Mega-388/).
+> **Scope note**: the [388 archive](./docs/A9-Mega-388/) records every tested configuration. Only the three 388 models listed in **Section 5.2** are promoted to the recommendation shortlist; the other configurations, including `Qwen3.8-27B-UD-Q4_K_XL` and the triple-node cascade, remain measured records.
 
 ### 4.4 Other 4-bit models on the A9 Mega 395 (decode rate, tokens/s)
 
@@ -198,7 +206,7 @@ The 395 runs this hundred-gigabyte-class 4-bit flagship **on a single device** �
 | # | Role | Model | File size | Deployment | Why |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Flagship (needs a second device) | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` | 111.4 GB | Dual-node cascade with a second A9 Mega | The 64 GB 388 cannot hold this model alone; in a two-node cascade it decoded at 30.76 tokens/s at 128 tokens (see the [388 test archive](./docs/A9-Mega-388/)). |
-| 2 | Balanced everyday default | `Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF` | 22.7 GB | Single device | MoE 35B-A3B; 54.3 tokens/s at 32K and 32.61 tokens/s at 128K, with 128K measured working (Section 4.3). |
+| 2 | Balanced everyday default | `Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF` | 22.7 GB | Single device | MoE 35B-A3B; 54.30 tokens/s at 32K, 32.61 at 128K, and 21.66 at 256K (Section 4.3). |
 | 3 | Lightweight, high-throughput | `MiniCPM5-2B-Q4_K_M.GGUF` | 1.56 GB | Single device | 2B-class small model reaching hundreds of tokens per second at short context (Section 4.3). |
 
 > **Compatibility note**: all three models in the 388 shortlist also run on the A9 Mega 395; the flagship runs there on a single device.
@@ -213,7 +221,7 @@ Only limitations actually observed in the tests recorded here are listed; anythi
 
 | Item | Observed limitation |
 | --- | --- |
-| Maximum tested context | The featured **A9 Mega 395 single-device** run was measured through 128K input tokens (`-c 256000` configured); a 256K single-device result is not recorded. A separate 395 dual-node archive test reached 256K. The 388 dual-node cascade and the single-device models in Section 4.3 were measured up to 128K. |
+| Maximum tested context | The featured **A9 Mega 395 single-device** run was measured through 128K input tokens (`-c 256000` configured); a 256K single-device result is not recorded. The **A9 Mega 388** single-device `Qwen3.6-35B-A3B-UD-Q4_K_M` run was measured through 256K. Other models and deployments have different measured limits; see the device archives. |
 | Memory capacity | The **388 (64 GB) cannot hold the 111.4 GB 4-bit flagship model on a single device**, so the 388 requires a **dual-node cascade**. The **395 (128 GB)** ran it on a single device as measured. Single-device models are otherwise limited to what 64 GB (388) or 128 GB (395) can hold. |
 | Long-context throughput | Decode rate falls and time to first token rises sharply as context grows on both devices. |
 | Test conditions not yet published | BIOS, NPU driver, power profile, and the exact llama.cpp build are still "To be confirmed". |
