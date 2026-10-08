@@ -89,6 +89,7 @@ Reading the file-size results (Section 1) and the accuracy results (Section 2) t
 | Item | A9 Mega 388 | A9 Mega 395 |
 | --- | --- | --- |
 | Processor | AMD Ryzen AI MAX+ 388 | AMD Ryzen AI MAX+ 395 |
+| CPU cores / threads | 8 cores / 16 threads | 16 cores / 32 threads |
 | Graphics | Radeon 8060S | Radeon 8060S |
 | Memory bandwidth | 256 GB/s | 256 GB/s |
 | Memory size | 64 GB | 128 GB |
@@ -96,7 +97,7 @@ Reading the file-size results (Section 1) and the accuracy results (Section 2) t
 | Graphics driver | 31.50.0.0 | 31.50.0.0 |
 
 
-> Both devices use the same graphics processor and the same memory bandwidth. The **395 has a stronger processor and twice the memory (128 GB vs. 64 GB)**, making it the higher-spec model; the **388 is the more cost-effective option**. Memory capacity determines the model sizes a single device can hold and the context lengths it can serve. The 395 supports the models that run on the 388 as well as larger single-device models.
+> Both devices use the same graphics processor and the same memory bandwidth. The **395 has twice the CPU cores and threads (16/32 vs. 8/16) and twice the memory (128 GB vs. 64 GB)**, making it the higher-spec model; the **388 is the more cost-effective option**. Memory capacity determines the model sizes a single device can hold and the context lengths it can serve. The 395 supports the models that run on the 388 as well as larger single-device models.
 
 ### 4.2 Primary model on A9 Mega 395: Qwen3.8-Flash-Next UD-Q4_K_XL
 
