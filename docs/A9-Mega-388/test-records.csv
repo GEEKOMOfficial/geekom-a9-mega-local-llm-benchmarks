@@ -9,13 +9,13 @@ Device SKU,Model,Acceleration,Input length (tokens),Output length (tokens),Time 
 388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,3581,59.16,276.94,23.94,208.74,59.5/51.2/49.5,
 388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,6925,136.32,240.37,22.85,439.38,60.1/51.6/49.56,
 388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,2354,910.03,144.03,12.28,1101.72,64.6/51.7/49.97,
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF,Yes(MTP) N=4,128,3000,0.44,291.89,20.24,148.66,39.07,Draft acceptance rate 43.41%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF,Yes(MTP) N=4,8K,727,24.54,333.83,21.3,58.67,39.12,Draft acceptance rate 51.58%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF,Yes(MTP) N=4,16K,2131,52.44,312.45,19.53,161.55,39.19,Draft acceptance rate 54.12%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF,Yes(MTP) N=4,32K,854,109.55,299.12,16.87,160.17,39.66,Draft acceptance rate 50.53%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF,Yes(MTP) N=4,64K,3000,268.94,243.68,12.86,502.22,41.09,Draft acceptance rate 52.01%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF,Yes(MTP) N=4,128K,2195,646.85,202.63,9.88,869.02,40.25,Draft acceptance rate 53.30%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF,Yes(MTP) N=4,256K,3000,1780.14,147.26,6.06,2275.19,41.14,Draft acceptance rate 51.67%
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,128,3000,0.44,291.89,20.24,148.66,39.07,Draft acceptance rate 43.41%
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,8K,727,24.54,333.83,21.3,58.67,39.12,Draft acceptance rate 51.58%
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,16K,2131,52.44,312.45,19.53,161.55,39.19,Draft acceptance rate 54.12%
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,32K,854,109.55,299.12,16.87,160.17,39.66,Draft acceptance rate 50.53%
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,64K,3000,268.94,243.68,12.86,502.22,41.09,Draft acceptance rate 52.01%
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,128K,2195,646.85,202.63,9.88,869.02,40.25,Draft acceptance rate 53.30%
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,256K,3000,1780.14,147.26,6.06,2275.19,41.14,Draft acceptance rate 51.67%
 388,Gemma-4-31B_q4_0-it-GGUF,No,128,1477,4.77,26.83,11.28,135.71,40.8,
 388,Gemma-4-31B_q4_0-it-GGUF,No,8K,1986,117.82,69.53,10.2,312.53,40.8,
 388,Gemma-4-31B_q4_0-it-GGUF,No,16K,2054,266.54,61.47,9.64,479.61,40.8,

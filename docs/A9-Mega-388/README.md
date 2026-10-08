@@ -85,7 +85,7 @@ Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash
 
 </details>
 
-### 3.3 Qwen3.8-27B-UD-Q4_K_XL-GGUF
+### 3.3 Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB)
 
 - Acceleration: `Yes(MTP) N=4`
 - Records: 7

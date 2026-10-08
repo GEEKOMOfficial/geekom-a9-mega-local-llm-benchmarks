@@ -130,7 +130,7 @@ The table below summarizes three 4-bit models through 128K input tokens:
 
 | Model | Size | Acceleration | 128 | 8K | 16K | 32K | 64K | 128K |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Qwen3.8-27B-UD-Q4_K_XL | Not recorded | MTP N=4 | 20.24 | 21.30 | 19.53 | 16.87 | 12.86 | 9.88 |
+| Qwen3.8-27B-UD-Q4_K_XL | 17.6 GB | MTP N=4 | 20.24 | 21.30 | 19.53 | 16.87 | 12.86 | 9.88 |
 | Qwen3.6-35B-A3B-UD-Q4_K_M | 22.7 GB | MTP N=2 | 68.03 | 67.76 | 63.55 | 54.30 | 50.30 | 32.61 |
 | MiniCPM5-2B-Q4_K_M | 1.56 GB | No | 103.10 | 87.08 | 75.15 | 61.74 | 44.76 | 29.03 |
 
