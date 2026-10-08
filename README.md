@@ -203,8 +203,6 @@ The 395 runs this hundred-gigabyte-class 4-bit flagship **on a single device** â
 
 **DeepSeek-V4-Flash-0731 is another competitive model choice** for the 395. Its `UD-Q2_K_XL` version (96.8 GB, 2-bit) was tested on a single device through 256K input tokens; it decoded at 14.71 tokens/s at 128 tokens, 9.71 tokens/s at 128K, and 7.16 tokens/s at 256K ([395 test archive](./docs/A9-Mega-395/)). It sits outside the 4-bit recommendation table, and this repository does not provide a head-to-head intelligence benchmark between it and Qwen3.8-Flash-Next.
 
-The 395 also supports **all models that run on the 388**, including the 388 recommendations below. Qwen3.8-Flash-Next is the primary 4-bit flagship recommendation, not the only model suited to the 395.
-
 ### 5.2 A9 Mega 388 â€” three recommended models
 
 | # | Role | Model | File size | Deployment | Why |
