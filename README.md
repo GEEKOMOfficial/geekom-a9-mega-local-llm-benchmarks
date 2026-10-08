@@ -8,7 +8,7 @@ This repository answers three questions for end customers, using data measured o
 
 The short answer: **4-bit quantization is the sweet spot between file size and accuracy**, and it is the level used for the recommended configurations in this repository.
 
-Section 5 turns those results into a concrete shortlist: the **strongest model for the A9 Mega 395** and **three recommended models for the A9 Mega 388**. Because the 395 has twice the memory (128 GB vs. 64 GB), **every model the 388 can run also runs on the 395**.
+Section 5 turns those results into a concrete shortlist: the **strongest 4-bit recommendation for the A9 Mega 395** and **three recommended models for the A9 Mega 388**. The 395 is the higher-spec model, with a stronger processor and twice the memory (128 GB vs. 64 GB); the 388 is the more cost-effective choice. **Every model the 388 can run also runs on the 395**, and the 395 can additionally host larger models on a single device. The 395 shortlist is a recommendation, not a limit on its supported models.
 
 All performance data was measured on physical GEEKOM units. **The device configuration, exact model versions, and launch commands are published together with the results**, and anything not tested is marked "Not tested".
 
@@ -80,7 +80,7 @@ Reading the file-size results (Section 1) and the accuracy results (Section 2) t
 
 > **4-bit quantization such as `Q4_K_XL` is therefore the sweet spot**: it delivers near-saturated accuracy (Top-1 about 92%, KLD below 0.05) at 96–114 GB, a size that mainstream high-memory machines can carry.
 >
-> This is why the recommended device configurations in this repository **use 4-bit quantization**. A small number of non-4-bit runs (for example the 2-bit `DeepSeek-V4-Flash-0731-UD-Q2_K_XL`) are kept only as test records; see the scope note in Section 4.4.
+> This is why the main device recommendations in this repository **use 4-bit quantization**. Non-4-bit models are documented separately; the 2-bit `DeepSeek-V4-Flash-0731-UD-Q2_K_XL` is also discussed as an alternative for the 395 in Section 5.1.
 
 ## 4. Measured 4-bit performance by device
 
@@ -96,7 +96,7 @@ Reading the file-size results (Section 1) and the accuracy results (Section 2) t
 | Graphics driver | 31.50.0.0 | 31.50.0.0 |
 
 
-> Both devices use the same graphics processor and the same memory bandwidth. **The main difference is memory capacity (64 GB vs. 128 GB)**, which directly determines the model sizes a single device can hold and the context lengths it can serve.
+> Both devices use the same graphics processor and the same memory bandwidth. The **395 has a stronger processor and twice the memory (128 GB vs. 64 GB)**, making it the higher-spec model; the **388 is the more cost-effective option**. Memory capacity determines the model sizes a single device can hold and the context lengths it can serve. The 395 supports the models that run on the 388 as well as larger single-device models.
 
 ### 4.2 Primary model on A9 Mega 395: Qwen3.8-Flash-Next UD-Q4_K_XL
 
@@ -162,7 +162,7 @@ Corresponding time to first token (s):
 | --- | --- | --- | --- | --- | --- | --- |
 | Qwen3.8-27B-FP4-FAST | 0.40 | 23.56 | 51.11 | 118.52 | 306.21 | 865.62 |
 
-> **Scope note**: the 395 was also tested with the **2-bit** `DeepSeek-V4-Flash-0731-UD-Q2_K_XL` (96.8 GB, in single-node, dual-node cascade, and triple-node cascade deployments) and with `MiniCPM5-2B-bf16`; neither is 4-bit, so they are not listed in this section. Within the 4-bit results, only `Qwen3.8-Flash-Next-UD-Q4_K_XL` — the model recommended in **Section 5.1** — is promoted to the recommendation shortlist, while `Qwen3.8-27B-FP4-FAST` is kept as a measured record only. Full records are in [`docs/A9-Mega-395/`](./docs/A9-Mega-395/).
+> **Scope note**: the 395 was also tested with the **2-bit** `DeepSeek-V4-Flash-0731-UD-Q2_K_XL` (96.8 GB, in single-device, dual-node cascade, and triple-node cascade deployments) and with `MiniCPM5-2B-bf16`; neither is 4-bit, so they are not listed in this section. Within the 4-bit results, `Qwen3.8-Flash-Next-UD-Q4_K_XL` remains the primary recommendation in **Section 5.1**, while `Qwen3.8-27B-FP4-FAST` is kept as a measured record. Full records are in [`docs/A9-Mega-395/`](./docs/A9-Mega-395/).
 
 ### 4.5 Reproduction commands
 
@@ -191,15 +191,19 @@ The complete test command for every model is in the corresponding device archive
 
 ## 5. Recommended models by device
 
-The 4-bit results in Section 4 reduce to a short, device-specific shortlist. **Every model the A9 Mega 388 (64 GB) can run also runs on the A9 Mega 395 (128 GB)**; the reverse is not true, because the 395's larger memory can hold models the 388 cannot carry on its own.
+The 4-bit results in Section 4 reduce to a short, device-specific shortlist. **Every model the A9 Mega 388 (64 GB) can run also runs on the A9 Mega 395 (128 GB)**; the 395's larger memory also allows models the 388 cannot carry on its own. The recommendations below highlight useful choices rather than exhaust either device's supported models.
 
-### 5.1 A9 Mega 395 — strongest recommended model
+### 5.1 A9 Mega 395 — primary recommendation and another capable option
 
 | Role | Model | File size | Deployment |
 | --- | --- | --- | --- |
 | Strongest model | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` | 111.4 GB | Single device |
 
-The 395 runs this hundred-gigabyte-class 4-bit flagship **on a single device** — no cascade required — because its 128 GB memory can hold it (Section 4.2). On that single device it decoded at 32.43 tokens/s at 128 tokens and 15.45 tokens/s at 128K. The 395 also runs every model recommended for the 388 below.
+The 395 runs this hundred-gigabyte-class 4-bit flagship **on a single device** — no cascade required — because its 128 GB memory can hold it (Section 4.2). On that single device it decoded at 32.43 tokens/s at 128 tokens and 15.45 tokens/s at 128K.
+
+**DeepSeek-V4-Flash-0731 is another competitive model choice** for the 395. Its `UD-Q2_K_XL` version (96.8 GB, 2-bit) was tested on a single device through 256K input tokens; it decoded at 14.71 tokens/s at 128 tokens, 9.71 tokens/s at 128K, and 7.16 tokens/s at 256K ([395 test archive](./docs/A9-Mega-395/)). It sits outside the 4-bit recommendation table, and this repository does not provide a head-to-head intelligence benchmark between it and Qwen3.8-Flash-Next.
+
+The 395 also supports **all models that run on the 388**, including the 388 recommendations below. Qwen3.8-Flash-Next is the primary 4-bit flagship recommendation, not the only model suited to the 395.
 
 ### 5.2 A9 Mega 388 — three recommended models
 
@@ -211,7 +215,7 @@ The 395 runs this hundred-gigabyte-class 4-bit flagship **on a single device** �
 
 > **Compatibility note**: all three models in the 388 shortlist also run on the A9 Mega 395; the flagship runs there on a single device.
 
-**In short**: pick the **A9 Mega 395** (128 GB) when you need the 111.4 GB flagship and up to 128K tested input context on a single device; pick the **A9 Mega 388** (64 GB) for an everyday high-throughput assistant — its 35B-A3B model still decodes at 54.3 tokens/s at 32K — and add a second A9 Mega to reach the same flagship through a dual-node cascade.
+**In short**: pick the higher-spec **A9 Mega 395** (128 GB) for larger single-device models, including the 111.4 GB Qwen flagship or the tested DeepSeek alternative; it also supports the 388's models. Pick the more cost-effective **A9 Mega 388** (64 GB) for an everyday high-throughput assistant — its 35B-A3B model still decodes at 54.3 tokens/s at 32K — and add a second A9 Mega to reach the same flagship through a dual-node cascade.
 
 > These conclusions apply only to the configurations recorded in this repository. Changing software versions, models, context length, or power profile may change the results, and data from a single device should not be generalized into guaranteed performance across all GEEKOM configurations.
 
