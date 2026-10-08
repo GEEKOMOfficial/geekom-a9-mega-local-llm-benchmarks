@@ -3,7 +3,7 @@
 This repository answers three questions for end customers, using data measured on physical GEEKOM hardware:
 
 1. When running a large language model locally on a mini PC, **which quantization level should you choose?**
-2. Once that level is chosen, **what performance can each GEEKOM A9 Mega model — the A9 Mega 388 (64 GB) and the A9 Mega 395 (128 GB) — actually deliver?**
+2. Once that level is chosen, **what performance can each GEEKOM A9 Mega model — the A9 Mega 395 (128 GB) and the A9 Mega 388 (64 GB) — actually deliver?**
 3. **Which model should you pick for each device?**
 
 The short answer: **4-bit quantization is the sweet spot between file size and model fidelity**, and it is the level used for the recommended configurations in this repository.
@@ -14,8 +14,8 @@ All performance data was measured on physical GEEKOM units. **Device configurati
 
 Full records for each device, including test commands, VRAM usage, and notes:
 
-- A9 Mega 388 — all 35 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
 - A9 Mega 395 — all 42 test records: [`docs/A9-Mega-395/`](./docs/A9-Mega-395/)
+- A9 Mega 388 — all 35 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
 
 This root README summarizes the benchmarks. Device-specific installation guides can be added to those folders when the setup steps have been verified.
 
@@ -86,13 +86,13 @@ The Unsloth memory requirements in Section 1 and its GGUF fidelity measurements 
 
 ### 4.1 Devices and hardware configuration
 
-| Item | A9 Mega 388 | A9 Mega 395 |
+| Item | A9 Mega 395 | A9 Mega 388 |
 | --- | --- | --- |
-| Processor | AMD Ryzen AI MAX+ 388 | AMD Ryzen AI MAX+ 395 |
-| CPU cores / threads | ![8 cores / 16 threads](docs/images/a9-mega-388-cpu.svg) | ![16 cores / 32 threads](docs/images/a9-mega-395-cpu.svg) |
+| Processor | AMD Ryzen AI MAX+ 395 | AMD Ryzen AI MAX+ 388 |
+| CPU cores / threads | ![16 cores / 32 threads](docs/images/a9-mega-395-cpu.svg) | ![8 cores / 16 threads](docs/images/a9-mega-388-cpu.svg) |
 | Graphics | Radeon 8060S | Radeon 8060S |
 | Memory bandwidth | 256 GB/s | 256 GB/s |
-| Memory size | ![64 GB](docs/images/a9-mega-388-memory.svg) | ![128 GB](docs/images/a9-mega-395-memory.svg) |
+| Memory size | ![128 GB](docs/images/a9-mega-395-memory.svg) | ![64 GB](docs/images/a9-mega-388-memory.svg) |
 | Operating system | Ubuntu 26.04 | Ubuntu 26.04 |
 | Graphics driver | 31.50.0.0 | 31.50.0.0 |
 
@@ -168,6 +168,15 @@ Corresponding time to first token (s):
 ### 4.5 Reproduction commands
 
 <details>
+<summary>395 — single device, Qwen3.8-Flash-Next UD-Q4_K_XL</summary>
+
+```bash
+./llama-server -m /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 4096 -ub 2048 -fa on -np 1 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
+```
+
+</details>
+
+<details>
 <summary>388 — dual-node cascade, Qwen3.8-Flash-Next UD-Q4_K_XL</summary>
 
 ```bash
@@ -176,15 +185,6 @@ LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && env -u HSA_OVERRIDE
 
 # On the host (after starting the worker)
 env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 2048 -ub 1024 -fa on -np 1 --rpc 192.168.10.10:50052 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
-```
-
-</details>
-
-<details>
-<summary>395 — single device, Qwen3.8-Flash-Next UD-Q4_K_XL</summary>
-
-```bash
-./llama-server -m /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 4096 -ub 2048 -fa on -np 1 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
 ```
 
 </details>
