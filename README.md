@@ -89,10 +89,10 @@ Reading the file-size results (Section 1) and the accuracy results (Section 2) t
 | Item | A9 Mega 388 | A9 Mega 395 |
 | --- | --- | --- |
 | Processor | AMD Ryzen AI MAX+ 388 | AMD Ryzen AI MAX+ 395 |
-| CPU cores / threads | 8 cores / 16 threads | 16 cores / 32 threads |
+| CPU cores / threads | ![8 cores / 16 threads](docs/images/a9-mega-388-cpu.svg) | ![16 cores / 32 threads](docs/images/a9-mega-395-cpu.svg) |
 | Graphics | Radeon 8060S | Radeon 8060S |
 | Memory bandwidth | 256 GB/s | 256 GB/s |
-| Memory size | 64 GB | 128 GB |
+| Memory size | ![64 GB](docs/images/a9-mega-388-memory.svg) | ![128 GB](docs/images/a9-mega-395-memory.svg) |
 | Operating system | Ubuntu 26.04 | Ubuntu 26.04 |
 | Graphics driver | 31.50.0.0 | 31.50.0.0 |
 

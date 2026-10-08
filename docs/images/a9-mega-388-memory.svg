@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="26" viewBox="0 0 64 26" role="img" aria-label="64 GB">
+  <rect x="0.5" y="0.5" width="63" height="25" rx="4" fill="#eaf3ff" stroke="#a8c8ee"/>
+  <text x="10" y="18" fill="#064784" font-family="Arial, sans-serif" font-size="14" font-weight="600">64 GB</text>
+</svg>
