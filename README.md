@@ -6,81 +6,81 @@ This repository answers three questions for end customers, using data measured o
 2. Once that level is chosen, **what performance can each GEEKOM A9 Mega model — the A9 Mega 388 (64 GB) and the A9 Mega 395 (128 GB) — actually deliver?**
 3. **Which model should you pick for each device?**
 
-The short answer: **4-bit quantization is the sweet spot between file size and accuracy**, and it is the level used for the recommended configurations in this repository.
+The short answer: **4-bit quantization is the sweet spot between file size and model fidelity**, and it is the level used for the recommended configurations in this repository.
 
-Section 5 turns those results into a concrete shortlist: the **strongest 4-bit recommendation for the A9 Mega 395** and **three recommended models for the A9 Mega 388**. The 395 is the higher-spec model, with a stronger processor and twice the memory (128 GB vs. 64 GB); the 388 is the more cost-effective choice. **Every model the 388 can run also runs on the 395**, and the 395 can additionally host larger models on a single device. The 395 shortlist is a recommendation, not a limit on its supported models.
+Section 5 turns those results into a concrete shortlist: the **strongest 4-bit recommendation for the A9 Mega 395** and **three recommended models for the A9 Mega 388**. The 395 is the higher-spec model, with more CPU cores and twice the memory (128 GB vs. 64 GB); the 388 is the more cost-effective choice. The recommended models have also been run on the 395, and the 395 can host larger models — including the 111.4 GB flagship — on a single device, where the 388 needs a second A9 Mega for it. The shortlist highlights useful choices rather than covering every supported model.
 
-All performance data was measured on physical GEEKOM units. **The device configuration, exact model versions, and launch commands are published together with the results**, and anything not tested is marked "Not tested".
+All performance data was measured on physical GEEKOM units. **Device configurations, model filenames, and recorded launch commands are published with the results**, and anything not tested is marked as such rather than assumed. The exact llama.cpp build and some hardware details still need confirmation.
 
 Full records for each device, including test commands, VRAM usage, and notes:
 
-- A9 Mega 388 — all 36 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
+- A9 Mega 388 — all 35 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
 - A9 Mega 395 — all 42 test records: [`docs/A9-Mega-395/`](./docs/A9-Mega-395/)
 
-> **Release status**: the results have not yet been reproduced by two independent clean QA installations, and hardware details (operating system, BIOS, driver, power profile) are still being collected. These will be completed before release.
+This root README summarizes the benchmarks. Device-specific installation guides can be added to those folders when the setup steps have been verified.
+
+> **Release status**: the results have not yet been reproduced by two independent clean QA installations. The operating system and graphics driver are recorded below; BIOS, NPU driver, power profile, and the exact llama.cpp build still need confirmation before release.
 
 ## Contents
 
-1. [Quantization bits vs. model file size](#1-quantization-bits-vs-model-file-size)
-2. [Quantization bits vs. model accuracy](#2-quantization-bits-vs-model-accuracy)
+1. [Quantization level vs. memory requirement](#1-quantization-level-vs-memory-requirement)
+2. [Quantization level vs. model fidelity](#2-quantization-level-vs-model-fidelity)
 3. [Conclusion: 4-bit is the sweet spot](#3-conclusion-4-bit-is-the-sweet-spot)
 4. [Measured 4-bit performance by device](#4-measured-4-bit-performance-by-device)
 5. [Recommended models by device](#5-recommended-models-by-device)
 
 ---
 
-## 1. Quantization bits vs. model file size
+## 1. Quantization level vs. memory requirement
 
-Quantization means **representing a single weight with fewer bits** (often written as *bits per weight*, or **bpw**). Using this repository's primary model, **Qwen3.8-Flash-Next**, as the example:
+Quantization means **representing model weights with fewer bits** (often summarized as *bits per weight*, or **bpw**). Labels such as `Q4_K_XL` name quantization schemes; they do not mean every weight uses exactly four bits. For **Qwen3.8-Flash-Next**, [Unsloth's hardware requirements table](https://unsloth.ai/docs/models/qwen3.8-next) gives these approximate total memory requirements (RAM plus VRAM, or unified memory):
 
 | Quantization level | 1-bit | 2-bit | 3-bit | 4-bit | 5-bit | 8-bit | BF16 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Typical GGUF quantization | `IQ1_S` / `IQ1_M` | `Q2_K_XL` | `IQ3_XXS` / `Q3_K_XL` | `IQ4_XS` / `Q4_K_XL` | `Q5_K_XL` | `Q8_0` | BF16 |
-| Model size (disk ≈ weight memory at runtime, excluding cache) | 75 GB | 79 GB | 90 GB | 96–114 GB | 163 GB | 200 GB | 355 GB |
+| Approximate total memory requirement | 75 GB | 79 GB | 90 GB | 96–114 GB | 163 GB | 200 GB | 355 GB |
 
 Three points follow from this table:
 
-- **Size grows monotonically with quantization bits**: the more bits used per weight, the larger the model file, and the more video memory / system memory it occupies at runtime.
-- **Size grows gently at low quantization bits**: 1-bit to 4-bit only moves from 75 GB to 96–114 GB (roughly +30% to +50%), yet that is already enough to hold this hundred-gigabyte-class flagship model.
-- **Size expands sharply at high quantization bits**: BF16 (355 GB) is more than three times the size of 4-bit, and 8-bit (200 GB) is likewise far beyond the memory capacity of a mainstream mini PC. Both place an order-of-magnitude higher demand on memory capacity and memory bandwidth.
+- **Required memory grows with quantization level**: the more precision used per weight, the more storage and runtime memory the model needs. Exact requirements depend on the quantization scheme and runtime settings.
+- **Memory grows gently at low quantization levels**: 1-bit to 4-bit only moves from 75 GB to 96–114 GB (roughly +30% to +50%), yet that is already enough to hold this hundred-gigabyte-class flagship model.
+- **Memory expands sharply at high quantization levels**: BF16 (355 GB) is more than three times the 4-bit range, and 8-bit (200 GB) is likewise far beyond the memory capacity of a mainstream mini PC. Both place an order-of-magnitude higher demand on memory capacity and memory bandwidth.
 
-**What this means when choosing a device**: quantization bits are not "the higher the better", they are "high enough is enough". Whether a given machine can run the model at all is decided mainly by whether its memory capacity can hold the corresponding file size, plus the runtime overhead carried on top of it — above all the context cache (KV cache), which grows with context length. The 111.4 GB 4-bit flagship was tested on a single A9 Mega 395 through 128K input tokens (Section 4.2). Memory capacity therefore affects both the model size a device can carry and the context length it can serve.
+**What this means when choosing a device**: the model weights, draft model, runtime overhead, and context cache (KV cache) all need memory. The recorded GEEKOM setup uses a 2.8 GB draft model for MTP. The 111.4 GB 4-bit main model was recorded on a single A9 Mega 395 through 128K input tokens (Section 4.2), although its reported VRAM usage exceeds the listed 128 GB memory capacity and needs explanation. Memory capacity affects both the model size and context length a device can serve.
 
-## 2. Quantization bits vs. model accuracy
+## 2. Quantization level vs. model fidelity
 
-Both charts below come from Unsloth's evaluation of the Qwen3.8-Flash GGUF quantizations. The horizontal axis is disk space (GB) throughout. Because disk space maps one-to-one onto quantization level for a given model, **it can be read directly as quantization bits**.
+[Unsloth's Qwen3.8-Flash-Next quantization analysis](https://unsloth.ai/docs/models/qwen3.8-next#quantization-analysis) reports the following GGUF file sizes and fidelity metrics. Its chart titles abbreviate the model name to “Qwen3.8-Flash”; the data appears within the Flash-Next guide. **Top-1** measures recovery of the reference model's first-choice output token, and **mean KLD** measures the difference between output distributions (lower is better). These are model-fidelity metrics, not task accuracy scores.
 
-### Top-1 accuracy
+![Unsloth Qwen3.8-Flash-Next GGUF quantization data: Top-1 recovery rises and mean KLD falls as file size increases. The 111.3 GB UD-Q4_K_XL point is highlighted.](docs/images/qwen3.8-flash-next-quantization-fidelity.svg)
 
-![Qwen3.8-Flash GGUF Model Top-1 Accuracy](docs/images/top-1-accuracy-gguf-model.png)
+| GGUF quantization | Disk size (GB) | Top-1 recovery (%) | Mean KLD |
+| --- | ---: | ---: | ---: |
+| `UD-IQ1_S` | 72.5 | 77.325 | 0.396070 |
+| `UD-IQ1_M` | 74.5 | 79.691 | 0.314739 |
+| `UD-Q2_K_XL` | 78.9 | 82.715 | 0.224607 |
+| `UD-IQ3_XXS` | 82.0 | 85.414 | 0.165120 |
+| `UD-Q3_K_XL` | 90.0 | 88.315 | 0.106504 |
+| `UD-IQ4_XS` | 93.7 | 89.554 | 0.083630 |
+| `UD-Q4_K_XL` | 111.3 | 92.255 | 0.046893 |
+| `UD-Q5_K_XL` | 158.3 | 93.680 | 0.030415 |
+| `UD-Q6_K_XL` | 169.2 | 94.089 | 0.027091 |
+| `Q8_0` | 188.2 | 94.122 | 0.026574 |
 
-- The vertical axis is Top-1 accuracy (%). Accuracy improves as quantization bits rise, but the curve flattens progressively.
-- Very low quantization bits lose a great deal: `IQ1_S-STUB` (about 72 GB) reaches only about 77%, and `IQ1_M` (about 73 GB) about 80%.
-- There is still a large gain from `IQ3_XXS` (about 85%) to `Q4_K_XL` (about 92%), which places the 3–4 bit range at the value inflection point.
-- Beyond `Q4_K_XL` (about 103 GB) the curve flattens: `Q5_K_XL`, `Q6_K_XL`, `Q8_0` and larger sizes add only about 1%–2%, converging at about 94%.
-
-### KL divergence (KLD)
-
-![Qwen3.8-Flash GGUF Model KLD](docs/images/kld-gguf-model.png)
-
-- The vertical axis is mean KLD (Kullback-Leibler divergence) — the distribution gap against the full-precision model; **lower is better**.
-- The curve falls monotonically as quantization bits rise and shows the same saturation:
-  - `IQ1_S-STUB` is about 0.40 and `IQ1_M` about 0.31 — extremely low quantization bits differ substantially from the original model.
-  - `Q2_K_XL` about 0.23, `IQ3_XXS` about 0.16, `Q3_K_XL` about 0.11, `IQ4_XS` about 0.08.
-  - After `Q4_K_XL` (about 103 GB) it drops below 0.05; `Q5_K_XL` and higher quantization bits settle at around 0.03.
+These are Unsloth's published figures for its quantizations. They do not measure accuracy on user tasks or compare different model families.
 
 ## 3. Conclusion: 4-bit is the sweet spot
 
-Reading the file-size results (Section 1) and the accuracy results (Section 2) together:
+The Unsloth memory requirements in Section 1 and its GGUF fidelity measurements in Section 2 support these observations for Qwen3.8-Flash-Next:
 
-1. **Size and accuracy are positively correlated**: higher quantization bits give higher Top-1 and lower KLD, and the two charts corroborate each other.
-2. **Marginal returns diminish**: beyond roughly 100 GB (`Q4_K_XL`) the improvement is very small. Compared with 4-bit, 5-bit / 8-bit / BF16 are close to double or even triple the size for only about 1%–2% more Top-1 and a KLD improvement from about 0.05 to about 0.03 — a cost far out of proportion to the gain.
-3. **Low-bit quantization costs a lot**: 1–2 bit is only slightly smaller than 3-bit, yet Top-1 is 5–10 percentage points lower and KLD is several times higher — capacity saved, model ruined.
-4. **At the same file size, the quantization scheme matters**: `IQ1_S`, `IQ1_M`, `Q2_K_XL` and `IQ3_XXS` are all around 72–75 GB, yet accuracy spreads from 77% to 85% and KLD falls from 0.40 to 0.16.
+1. **Fidelity and size are positively correlated**: higher quantization gives higher Top-1 recovery and lower KLD, and the two metrics corroborate each other.
+2. **Marginal returns diminish above ~111 GB (`UD-Q4_K_XL`)**: `UD-Q5_K_XL` (158.3 GB, 93.680% Top-1, 0.030415 KLD) and `Q8_0` (188.2 GB, 94.122% Top-1, 0.026574 KLD) add only about 1%–2% more Top-1 and a KLD improvement from about 0.05 to about 0.03 — for 1.4×–1.7× the 4-bit size, a cost out of proportion to the gain.
+3. **Low-bit quantization costs a lot**: `UD-IQ1_S` (72.5 GB) reaches only 77.325% Top-1 with 0.396070 KLD, and `UD-Q2_K_XL` (78.9 GB) reaches 82.715% Top-1 with 0.224607 KLD — capacity saved, fidelity lost.
+4. **At the same file size, the quantization scheme matters**: `UD-IQ4_XS` is 93.7 GB with 89.554% Top-1, while `UD-Q4_K_XL` is 111.3 GB with 92.255% Top-1. The two “4-bit” choices differ in size and fidelity.
 
-> **4-bit quantization such as `Q4_K_XL` is therefore the sweet spot**: it delivers near-saturated accuracy (Top-1 about 92%, KLD below 0.05) at 96–114 GB, a size that mainstream high-memory machines can carry.
+> **4-bit quantization such as `UD-Q4_K_XL` is therefore the sweet spot**: it delivers near-saturated fidelity (Top-1 recovery about 92%, KLD below 0.05) at 111.3 GB, close to the 111.4 GB model size recorded in the A9 Mega tests. Unsloth's fidelity figures should not be assumed for other models or quantizations.
 >
-> This is why the main device recommendations in this repository **use 4-bit quantization**. Non-4-bit models are documented separately; the 2-bit `DeepSeek-V4-Flash-0731-UD-Q2_K_XL` is also discussed as an alternative for the 395 in Section 5.1.
+> This is why the main device recommendations in this repository **use 4-bit quantization**. This does not establish the best quantization for every model or task. Non-4-bit models are documented separately; the 2-bit `DeepSeek-V4-Flash-0731-UD-Q2_K_XL` is also discussed as an alternative for the 395 in Section 5.1.
 
 ## 4. Measured 4-bit performance by device
 
@@ -97,7 +97,7 @@ Reading the file-size results (Section 1) and the accuracy results (Section 2) t
 | Graphics driver | 31.50.0.0 | 31.50.0.0 |
 
 
-> Both devices use the same graphics processor and the same memory bandwidth. The **395 has twice the CPU cores and threads (16/32 vs. 8/16) and twice the memory (128 GB vs. 64 GB)**, making it the higher-spec model; the **388 is the more cost-effective option**. Memory capacity determines the model sizes a single device can hold and the context lengths it can serve. The 395 supports the models that run on the 388 as well as larger single-device models.
+> Both devices use the same listed graphics processor and memory bandwidth. The **395 has twice the CPU cores and threads (16/32 vs. 8/16) and twice the memory (128 GB vs. 64 GB)**, making it the higher-spec model; the **388 is the more cost-effective option**. Memory capacity determines the model sizes a single device can hold and the context lengths it can serve. In the recorded tests the 395's additional memory allowed the featured 111.4 GB model to run on one device, while the 388 used a two-device cascade for that model.
 
 ### 4.2 Primary model on A9 Mega 395: Qwen3.8-Flash-Next UD-Q4_K_XL
 
@@ -147,7 +147,7 @@ Corresponding time to first token (s):
 
 - **MoE models around 35B-A3B are the 388's comfort zone**: `Qwen3.6-35B-A3B-UD-Q4_K_M` (22.7 GB) decodes at 54.30 tokens/s at 32K, 32.61 tokens/s at 128K, and 21.66 tokens/s at 256K.
 - 27B-class dense models drop to 5–10 tokens/s at long context, so they suit medium context lengths.
-- 2B-class small models (`MiniCPM5-2B-Q4_K_M`, a 1.56 GB file using roughly 15–18 GB of VRAM) reach the hundreds-of-tokens-per-second range, suited to lightweight assistant workloads.
+- The tested 2B model (`MiniCPM5-2B-Q4_K_M`, a 1.56 GB file with reported VRAM usage of roughly 15–18 GB) reaches 103.10 tokens/s at 128 input tokens; its decode rate falls to 29.03 tokens/s at 128K.
 
 > **Scope note**: the [388 archive](./docs/A9-Mega-388/) records every tested configuration. Only the three 388 models listed in **Section 5.2** are promoted to the recommendation shortlist; the other configurations, including `Qwen3.8-27B-UD-Q4_K_XL` and the triple-node cascade, remain measured records.
 
@@ -171,8 +171,11 @@ Corresponding time to first token (s):
 <summary>388 — dual-node cascade, Qwen3.8-Flash-Next UD-Q4_K_XL</summary>
 
 ```bash
-Worker: LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && env -u HSA_OVERRIDE_GFX_VERSION ./ggml-rpc-server -H 192.168.10.10 -p 50052 -t 16
-Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 128000 -b 2048 -ub 1024 -fa on -np 1 --rpc 192.168.10.10:50052 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
+# On the worker
+LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && env -u HSA_OVERRIDE_GFX_VERSION ./ggml-rpc-server -H 192.168.10.10 -p 50052 -t 16
+
+# On the host (after starting the worker)
+env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 2048 -ub 1024 -fa on -np 1 --rpc 192.168.10.10:50052 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
 ```
 
 </details>
@@ -188,11 +191,13 @@ Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash
 
 The complete test command for every model is in the corresponding device archive.
 
+These are recorded test commands with machine-specific file paths and network addresses. Reproduction requires the corresponding model files, a compatible llama.cpp build, and paths and addresses appropriate to the test environment.
+
 ---
 
 ## 5. Recommended models by device
 
-The 4-bit results in Section 4 reduce to a short, device-specific shortlist. **Every model the A9 Mega 388 (64 GB) can run also runs on the A9 Mega 395 (128 GB)**; the 395's larger memory also allows models the 388 cannot carry on its own. The recommendations below highlight useful choices rather than exhaust either device's supported models.
+The 4-bit results in Section 4 reduce to a short, device-specific shortlist. The 395's larger memory allows the featured model to run on one device, while the 388 requires a second A9 Mega for it. The two smaller models recommended for the 388 were also tested on the 395, but those results are not included in this repository, so no 395 performance figures are quoted for them here. These recommendations do not exhaust either device's possible configurations.
 
 ### 5.1 A9 Mega 395 — primary recommendation and another capable option
 
@@ -200,7 +205,7 @@ The 4-bit results in Section 4 reduce to a short, device-specific shortlist. **E
 | --- | --- | --- | --- |
 | Strongest model | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` | 111.4 GB | Single device |
 
-The 395 runs this hundred-gigabyte-class 4-bit flagship **on a single device** — no cascade required — because its 128 GB memory can hold it (Section 4.2). On that single device it decoded at 32.43 tokens/s at 128 tokens and 15.45 tokens/s at 128K.
+The 395 was recorded running this hundred-gigabyte-class 4-bit flagship **on a single device** — no cascade required (Section 4.2). It decoded at 32.43 tokens/s at 128 input tokens and 15.45 tokens/s at 128K. The reported VRAM usage exceeds the listed 128 GB memory capacity; the measurement basis needs confirmation.
 
 **DeepSeek-V4-Flash-0731 is another competitive model choice** for the 395. Its `UD-Q2_K_XL` version (96.8 GB, 2-bit) was tested on a single device through 256K input tokens; it decoded at 14.71 tokens/s at 128 tokens, 9.71 tokens/s at 128K, and 7.16 tokens/s at 256K ([395 test archive](./docs/A9-Mega-395/)). It sits outside the 4-bit recommendation table, and this repository does not provide a head-to-head intelligence benchmark between it and Qwen3.8-Flash-Next.
 
@@ -209,20 +214,20 @@ The 395 runs this hundred-gigabyte-class 4-bit flagship **on a single device** �
 | # | Role | Model | File size | Deployment | Why |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Flagship (needs a second device) | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` | 111.4 GB | Dual-node cascade with a second A9 Mega | The 64 GB 388 cannot hold this model alone; in a two-node cascade it decoded at 30.76 tokens/s at 128 tokens (see the [388 test archive](./docs/A9-Mega-388/)). |
-| 2 | Balanced everyday default | `Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF` | 22.7 GB | Single device | MoE 35B-A3B; 54.30 tokens/s at 32K, 32.61 at 128K, and 21.66 at 256K (Section 4.3). |
-| 3 | Lightweight, high-throughput | `MiniCPM5-2B-Q4_K_M.GGUF` | 1.56 GB | Single device | 2B-class small model reaching hundreds of tokens per second at short context (Section 4.3). |
+| 2 | Balanced everyday default | `Qwen3.6-35B-A3B-UD-Q4_K_M.gguf` | 22.7 GB | Single device | MoE 35B-A3B; 54.30 tokens/s at 32K, 32.61 at 128K, and 21.66 at 256K (Section 4.3). |
+| 3 | Lightweight, high-throughput | `MiniCPM5-2B-Q4_K_M.gguf` | 1.56 GB | Single device | High throughput at short context: 103.10 tokens/s at 128 input tokens, falling to 29.03 tokens/s at 128K (Section 4.3). |
 
-> **Compatibility note**: all three models in the 388 shortlist also run on the A9 Mega 395; the flagship runs there on a single device.
+> **Compatibility note**: the flagship has published test records for both devices. The two smaller models were also tested on the 395, but those records have not been added to this repository; their 395 performance is not reported here.
 
-**In short**: pick the higher-spec **A9 Mega 395** (128 GB) for larger single-device models, including the 111.4 GB Qwen flagship or the tested DeepSeek alternative; it also supports the 388's models. Pick the more cost-effective **A9 Mega 388** (64 GB) for an everyday high-throughput assistant — its 35B-A3B model still decodes at 54.3 tokens/s at 32K — and add a second A9 Mega to reach the same flagship through a dual-node cascade.
+**In short**: pick the higher-spec **A9 Mega 395** (128 GB) for larger single-device models, including the 111.4 GB Qwen flagship or the tested DeepSeek alternative. Pick the more cost-effective **A9 Mega 388** (64 GB) for an everyday high-throughput assistant — its 35B-A3B model still decodes at 54.30 tokens/s at 32K — and add a second A9 Mega to reach the same flagship through a dual-node cascade.
 
 > These conclusions apply only to the configurations recorded in this repository. Changing software versions, models, context length, or power profile may change the results, and data from a single device should not be generalized into guaranteed performance across all GEEKOM configurations.
 
 ## Known limitations
 
-Only limitations actually observed in the tests recorded here are listed; anything not tested is marked as such rather than assumed.
+The table separates observed limits from details that still need verification.
 
-| Item | Observed limitation |
+| Item | Limitation or open item |
 | --- | --- |
 | Maximum tested context | The featured **A9 Mega 395 single-device** run was measured through 128K input tokens (`-c 256000` configured); a 256K single-device result is not recorded. The **A9 Mega 388** single-device `Qwen3.6-35B-A3B-UD-Q4_K_M` run was measured through 256K. Other models and deployments have different measured limits; see the device archives. |
 | Memory capacity | The **388 (64 GB) cannot hold the 111.4 GB 4-bit flagship model on a single device**, so the 388 requires a **dual-node cascade**. The **395 (128 GB)** ran it on a single device as measured. Single-device models are otherwise limited to what 64 GB (388) or 128 GB (395) can hold. |

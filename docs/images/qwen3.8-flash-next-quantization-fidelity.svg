@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="630" viewBox="0 0 1000 630" role="img" aria-labelledby="title desc">
+<title id="title">Qwen3.8-Flash-Next quantization fidelity versus GGUF file size</title>
+<desc id="desc">Top-1 recovery rises from 77.325 percent at 72.5 GB to 94.122 percent at 188.2 GB. Mean KLD falls from 0.396070 to 0.026574. The UD-Q4_K_XL point is 111.3 GB, 92.255 percent Top-1 recovery, and 0.046893 KLD. Full values are in the adjacent README table.</desc>
+<rect width="1000" height="630" fill="#ffffff"/>
+<text x="55" y="47" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#152b38">Qwen3.8-Flash-Next quantization fidelity</text>
+<text x="55" y="75" font-family="Arial, sans-serif" font-size="15" fill="#536978">Unsloth GGUF data • file size on the horizontal axis</text>
+<line x1="137.9" y1="108" x2="137.9" y2="525" stroke="#dce6eb" stroke-dasharray="4 5"/>
+<text x="137.9" y="554" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#536978">75</text>
+<line x1="302.5" y1="108" x2="302.5" y2="525" stroke="#dce6eb" stroke-dasharray="4 5"/>
+<text x="302.5" y="554" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#536978">100</text>
+<line x1="467.1" y1="108" x2="467.1" y2="525" stroke="#dce6eb" stroke-dasharray="4 5"/>
+<text x="467.1" y="554" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#536978">125</text>
+<line x1="631.7" y1="108" x2="631.7" y2="525" stroke="#dce6eb" stroke-dasharray="4 5"/>
+<text x="631.7" y="554" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#536978">150</text>
+<line x1="796.2" y1="108" x2="796.2" y2="525" stroke="#dce6eb" stroke-dasharray="4 5"/>
+<text x="796.2" y="554" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#536978">175</text>
+<line x1="895.0" y1="108" x2="895.0" y2="525" stroke="#dce6eb" stroke-dasharray="4 5"/>
+<text x="895.0" y="554" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#536978">190</text>
+<line x1="105" y1="290.0" x2="895" y2="290.0" stroke="#dce6eb"/>
+<text x="88" y="294.0" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">75%</text>
+<line x1="105" y1="247.5" x2="895" y2="247.5" stroke="#dce6eb"/>
+<text x="88" y="251.5" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">80%</text>
+<line x1="105" y1="205.0" x2="895" y2="205.0" stroke="#dce6eb"/>
+<text x="88" y="209.0" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">85%</text>
+<line x1="105" y1="162.5" x2="895" y2="162.5" stroke="#dce6eb"/>
+<text x="88" y="166.5" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">90%</text>
+<line x1="105" y1="120.0" x2="895" y2="120.0" stroke="#dce6eb"/>
+<text x="88" y="124.0" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">95%</text>
+<line x1="105" y1="525.0" x2="895" y2="525.0" stroke="#dce6eb"/>
+<text x="88" y="529.0" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">0.0</text>
+<line x1="105" y1="482.5" x2="895" y2="482.5" stroke="#dce6eb"/>
+<text x="88" y="486.5" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">0.1</text>
+<line x1="105" y1="440.0" x2="895" y2="440.0" stroke="#dce6eb"/>
+<text x="88" y="444.0" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">0.2</text>
+<line x1="105" y1="397.5" x2="895" y2="397.5" stroke="#dce6eb"/>
+<text x="88" y="401.5" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">0.3</text>
+<line x1="105" y1="355.0" x2="895" y2="355.0" stroke="#dce6eb"/>
+<text x="88" y="359.0" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#536978">0.4</text>
+<text x="105" y="101" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#152b38">Top-1 recovery (%) • higher is better</text>
+<text x="105" y="333" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#152b38">Mean KLD • lower is better</text>
+<polyline points="121.5,270.2 134.6,250.1 163.6,224.4 184.0,201.5 236.7,176.8 261.0,166.3 376.9,143.3 686.3,131.2 758.1,127.7 883.1,127.5" fill="none" stroke="#187d72" stroke-width="3"/>
+<polyline points="121.5,356.7 134.6,391.2 163.6,429.5 184.0,454.8 236.7,479.7 261.0,489.5 376.9,505.1 686.3,512.1 758.1,513.5 883.1,513.7" fill="none" stroke="#187d72" stroke-width="3"/>
+<circle cx="121.5" cy="270.2" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="121.5" cy="356.7" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="134.6" cy="250.1" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="134.6" cy="391.2" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="163.6" cy="224.4" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="163.6" cy="429.5" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="184.0" cy="201.5" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="184.0" cy="454.8" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.7" cy="176.8" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.7" cy="479.7" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="261.0" cy="166.3" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="261.0" cy="489.5" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="376.9" cy="143.3" r="5.5" fill="#dd6b39" stroke="#ffffff" stroke-width="2"/>
+<circle cx="376.9" cy="505.1" r="5.5" fill="#dd6b39" stroke="#ffffff" stroke-width="2"/>
+<circle cx="686.3" cy="131.2" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="686.3" cy="512.1" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="758.1" cy="127.7" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="758.1" cy="513.5" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="883.1" cy="127.5" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<circle cx="883.1" cy="513.7" r="5.5" fill="#187d72" stroke="#ffffff" stroke-width="2"/>
+<text x="127.5" y="294.2" text-anchor="start" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#334b59">UD-IQ1_S</text>
+<text x="127.5" y="368.7" text-anchor="start" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#334b59">UD-IQ1_S</text>
+<text x="388.9" y="132.3" text-anchor="start" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#334b59">UD-Q4_K_XL</text>
+<text x="388.9" y="527.1" text-anchor="start" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#334b59">UD-Q4_K_XL</text>
+<text x="878.1" y="116.5" text-anchor="end" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#334b59">Q8_0</text>
+<text x="878.1" y="535.7" text-anchor="end" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#334b59">Q8_0</text>
+<text x="500" y="582" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#334b59">GGUF file size (GB)</text>
+<text x="55" y="608" font-family="Arial, sans-serif" font-size="12" fill="#536978">Source: unsloth.ai/docs/models/qwen3.8-next · Orange: UD-Q4_K_XL</text>
+</svg>

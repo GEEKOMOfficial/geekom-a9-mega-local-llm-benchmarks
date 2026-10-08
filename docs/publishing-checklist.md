@@ -42,8 +42,8 @@ The repository must remain private until every required item is complete.
 
 ## Repository readiness
 
-- [ ] README quick start works for a new user.
-- [ ] Installation, start, stop, and uninstall instructions are present.
+- [ ] Each device folder has a verified installation guide and quick start, linked from the root README.
+- [ ] Installation, start, stop, and uninstall instructions are present in the device guides.
 - [ ] Issue templates and support expectations are configured.
 - [ ] Social preview image is approved.
 - [ ] Repository description and topics are finalized.
