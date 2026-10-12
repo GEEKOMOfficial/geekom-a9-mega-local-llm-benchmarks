@@ -21,9 +21,6 @@ This directory archives the local large language model inference performance tes
 | Graphics driver | 31.50.0.0 |
 | ROCm version | 10.0.0 |
 
-
-> Note: beyond the processor, graphics, memory bandwidth, memory, operating system, graphics driver, and ROCm version listed above, the remaining hardware details — BIOS, NPU driver, power profile, storage, and the exact llama.cpp build — have not been collected yet and must be added before release.
-
 ## 2. Field descriptions
 
 | Field | Meaning |
@@ -62,6 +59,12 @@ This directory archives the local large language model inference performance tes
 
 </details>
 
+### Inference Engine
+
+- Framework: `llama.cpp`
+- Build: `b10909-mix-bea84f7`
+- Source: https://github.com/unslothai/llama.cpp/releases/tag/b10909-mix-bea84f7
+
 ### 3.2 Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB)
 
 - Acceleration: `Yes(MTP) N=2`
@@ -80,11 +83,17 @@ This directory archives the local large language model inference performance tes
 <summary>Test commands</summary>
 
 ```bash
-Worker start command: env -u HSA_OVERRIDE_GFX_VERSION ./ggml-rpc-server -H 10.10.10.2 -p 50052 -t 16
-Host start command: env -u HSA_OVERRIDE_GFX_VERSION /home/user/app-b10909-mix-bea84f7-linux-x64-rocm-gfx1151.tar./llama-server -m /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 4096 -ub 2048 -fa on -np 1 --rpc 10.10.10.2:50052 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
+Worker start command: ./ggml-rpc-server -H 10.10.10.2 -p 50052 -t 16
+Host start command: /home/user/app-b10909-mix-bea84f7-linux-x64-rocm-gfx1151.tar./llama-server -m /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 4096 -ub 2048 -fa on -np 1 --rpc 10.10.10.2:50052 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
 ```
 
 </details>
+
+### Inference Engine
+
+- Framework: `llama.cpp`
+- Build: `b10909-mix-bea84f7`
+- Source: https://github.com/unslothai/llama.cpp/releases/tag/b10909-mix-bea84f7
 
 ### 3.3 DeepSeek-V4-Flash-0731-UD-Q2_K_XL-GGUF (96.8 GB)
 
@@ -177,10 +186,16 @@ Worker start command: ./ggml-rpc-server -H 0.0.0.0 -p 50052
 <summary>Test commands</summary>
 
 ```bash
-./llama-server -m /home/user/workspace/Qwen3.8-27B-ROCmFP4-FAST.gguf -dev ROCm0 -ngl 99 -fa on -c 256000 -b 2048 -ub 1024 -t 16 -ctk q8_0 -ctv q8_0 --temperature 0 --no-mmap --cont-batching --kv-unified --port 8000 --host 0.0.0.0 --spec-type draft-mtp --spec-draft-n-max 4 --spec-draft-p-min 0.0
+/home/user/workspace/q38rocm/engine/bin/llama-server -m /home/user/workspace/Qwen3.8-27B-ROCmFP4-FAST.gguf -dev ROCm0 -ngl 99 -fa on -c 256000 -b 2048 -ub 1024 -t 16 -ctk q8_0 -ctv q8_0 --no-mmap --host 0.0.0.0 --port 8000 --spec-type draft-mtp --spec-draft-n-max 4 --spec-draft-p-min 0.0
 ```
 
 </details>
+
+### Inference Engine
+
+- Framework: `llama.cpp` (`julianmb/q38rocm` fork)
+- Build: not recorded
+- Source: https://github.com/julianmb/q38rocm
 
 ### 3.7 MiniCPM5-2B-bf16-GGUF
 

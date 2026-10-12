@@ -21,9 +21,6 @@ This directory archives the local large language model inference performance tes
 | Graphics driver | 31.50.0.0 |
 | ROCm version | 10.0.0 |
 
-
-> Note: beyond the processor, graphics, memory bandwidth, memory, operating system, graphics driver, and ROCm version listed above, the remaining hardware details — BIOS, NPU driver, power profile, storage, and the exact llama.cpp build — have not been collected yet and must be added before release.
-
 ## 2. Field descriptions
 
 | Field | Meaning |
@@ -55,11 +52,17 @@ This directory archives the local large language model inference performance tes
 <summary>Test commands</summary>
 
 ```bash
-Worker: LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && env -u HSA_OVERRIDE_GFX_VERSION ./ggml-rpc-server -H 192.168.10.10 -p 50052 -t 16
-Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 2048 -ub 1024 -fa on -np 1 --rpc 192.168.10.10:50052 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
+Worker: LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && ./ggml-rpc-server -H 192.168.10.10 -p 50052 -t 16
+Host: ./llama-server -m /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 2048 -ub 1024 -fa on -np 1 --rpc 192.168.10.10:50052 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
 ```
 
 </details>
+
+### Inference Engine
+
+- Framework: `llama.cpp`
+- Build: `b10830-mix-d5c17a0`
+- Source: https://github.com/unslothai/llama.cpp/releases/tag/b10830-mix-d5c17a0
 
 ### 3.2 Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB)
 
@@ -78,12 +81,18 @@ Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash
 <summary>Test commands</summary>
 
 ```bash
-Worker 1: LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && env -u HSA_OVERRIDE_GFX_VERSION ./ggml-rpc-server -H 192.168.10.10 -p 50052 -t 16
-Worker 2: LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && env -u HSA_OVERRIDE_GFX_VERSION ./ggml-rpc-server -H 192.168.10.30 -p 50053 -t 16
-Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 4096 -ub 2048 -fa on -np 1 --rpc 192.168.10.10:50052,192.168.10.30:50053 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
+Worker 1: LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && ./ggml-rpc-server -H 192.168.10.10 -p 50052 -t 16
+Worker 2: LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && ./ggml-rpc-server -H 192.168.10.30 -p 50053 -t 16
+Host: ./llama-server -m /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 4096 -ub 2048 -fa on -np 1 --rpc 192.168.10.10:50052,192.168.10.30:50053 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
 ```
 
 </details>
+
+### Inference Engine
+
+- Framework: `llama.cpp`
+- Build: `b10830-mix-d5c17a0`
+- Source: https://github.com/unslothai/llama.cpp/releases/tag/b10830-mix-d5c17a0
 
 ### 3.3 Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB)
 
@@ -108,6 +117,12 @@ Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash
 ```
 
 </details>
+
+### Inference Engine
+
+- Framework: `llama.cpp`
+- Build: `b11065`
+- Source: https://github.com/ggml-org/llama.cpp/releases?page=31#release-b11065
 
 ### 3.4 Gemma-4-31B_q4_0-it-GGUF
 
@@ -154,6 +169,12 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 ```
 
 </details>
+
+### Inference Engine
+
+- Framework: `llama.cpp`
+- Build: `b11065`
+- Source: https://github.com/ggml-org/llama.cpp/releases?page=31#release-b11065
 
 ### 3.6 MiniCPM5-2B-Q4_K_M.GGUF (1.56GB)
 
