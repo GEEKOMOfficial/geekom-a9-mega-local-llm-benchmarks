@@ -34,7 +34,7 @@ This directory archives the local large language model inference performance tes
 | Prefill rate (tokens/s) | Prompt processing (prefill) throughput |
 | Decode rate (tokens/s) | Generation (decode) throughput |
 | End-to-end time (s) | Total time for a single request |
-| VRAM (GB) | Video memory usage; for a dual-node cascade `host / worker`, for a triple-node cascade `host / worker 1 / worker 2` |
+| VRAM (GB) | Video memory usage; for a dual-node cascade `host / worker`, for a triple-node cascade `host / worker 1 / worker 2`. The single-device Qwen3.8-Flash-Next run reports a two-part reading `base (+additional)`: `base` is the GPU VRAM usage, and `additional` is the part offloaded to CPU (system) RAM, which holds the model's N-gram embedding data |
 
 ## 3. Test results
 
@@ -46,12 +46,12 @@ This directory archives the local large language model inference performance tes
 
 | Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM (GB) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 128 | 5000 | 0.97 | 132.22 | 32.43 | 155.15 | 131.68 |
-| 8K | 1604 | 26.96 | 303.83 | 28.48 | 83.28 | 132.58 |
-| 16K | 2617 | 58.33 | 280.89 | 25.88 | 159.45 | 132.73 |
-| 32K | 2695 | 112.14 | 292.21 | 23.58 | 226.43 | 132.74 |
-| 64K | 1965 | 283.41 | 231.24 | 18.06 | 392.22 | 133.68 |
-| 128K | 5000 | 720.61 | 181.89 | 15.45 | 1044.24 | 134.06 |
+| 128 | 5000 | 0.97 | 132.22 | 32.43 | 155.15 | 101.61 (+30.17) |
+| 8K | 1604 | 26.96 | 303.83 | 28.48 | 83.28 | 101.71 (+30.87) |
+| 16K | 2617 | 58.33 | 280.89 | 25.88 | 159.45 | 101.84 (+31.89) |
+| 32K | 2695 | 112.14 | 292.21 | 23.58 | 226.43 | 101.80 (+30.96) |
+| 64K | 1965 | 283.41 | 231.24 | 18.06 | 392.22 | 102.14 (+31.54) |
+| 128K | 5000 | 720.61 | 181.89 | 15.45 | 1044.24 | 102.50 (+32.56) |
 
 <details>
 <summary>Test commands</summary>
@@ -224,7 +224,7 @@ llama-server.exe  -m  D:\model\MiniCPM5-2B-bf16.gguf -c 131072 -ngl 99 -ngld 99 
 4. **Speedup metrics**: the original records also carried "speedup xx%" values (the improvement of MTP acceleration over the unaccelerated baseline) and "draft acceptance" rates. Both are supporting indicators of the acceleration effect rather than throughput metrics, and because the source notes are not republished they are not included in this directory.
 5. **Model context limit**: the original note for MiniCPM5-2B-bf16 reads "context length set to 128k; the model supports up to 128k only", which is why 256K was not tested.
 6. **Device attribution resolved**: a data set was previously labelled "A9-Mega-388 inference performance data"; its six rows match Section 3.2 of this directory (395, dual-node cascade, Qwen3.8-Flash-Next). The root [`README.md`](../../README.md) now attributes that data set to the 395.
-7. **Single-device flagship VRAM reading**: the single-device Qwen3.8-Flash-Next rows report 131.68 to 134.06 GB of VRAM, above the 128 GB memory size listed in Section 1; the values are recorded as measured and the basis for that column has not been confirmed.
+7. **Single-device flagship VRAM reading**: the single-device Qwen3.8-Flash-Next rows report a two-part reading in the form `base (+additional)`, from `101.61 (+30.17)` to `102.50 (+32.56)` GB. `base` is the GPU VRAM usage, and the `additional` part (about 30–33 GB) is offloaded to CPU (system) RAM, where it holds the model's N-gram embedding data. Because this offloaded portion resides in CPU RAM, it can use system virtual memory (swap pages), so the combined total — 131.78 to 135.06 GB — can exceed the 128 GB physical memory size listed in Section 1.
 8. **To be completed before release**: these records have not been reproduced through two independent clean QA installations, and several hardware details (BIOS, NPU driver, power profile, storage) have not been collected. Do not publish as is.
 
 ## 6. Related files

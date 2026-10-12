@@ -46,7 +46,7 @@ Three points follow from this table:
 - **Memory grows gently at low quantization levels**: 1-bit to 4-bit only moves from 75 GB to 96–114 GB (roughly +30% to +50%), yet that is already enough to hold this hundred-gigabyte-class flagship model.
 - **Memory expands sharply at high quantization levels**: BF16 (355 GB) is more than three times the 4-bit range, and 8-bit (200 GB) is likewise far beyond the memory capacity of a mainstream mini PC. Both place an order-of-magnitude higher demand on memory capacity and memory bandwidth.
 
-**What this means when choosing a device**: the model weights, draft model, runtime overhead, and context cache (KV cache) all need memory. The recorded GEEKOM setup uses a 2.8 GB draft model for MTP. The 111.4 GB 4-bit main model was recorded on a single A9 Mega 395 through 128K input tokens (Section 4.2), although its reported VRAM usage exceeds the listed 128 GB memory capacity and needs explanation. Memory capacity affects both the model size and context length a device can serve.
+**What this means when choosing a device**: the model weights, draft model, runtime overhead, and context cache (KV cache) all need memory. The recorded GEEKOM setup uses a 2.8 GB draft model for MTP. The 111.4 GB 4-bit main model was recorded on a single A9 Mega 395 through 128K input tokens (Section 4.2); part of its memory use is offloaded to CPU (system) RAM (the model's N-gram embedding data), and because that portion can use system virtual memory (swap pages), the combined footprint can exceed the listed 128 GB memory capacity. Memory capacity affects both the model size and context length a device can serve.
 
 ## 2. Quantization level vs. model fidelity
 
@@ -117,7 +117,7 @@ The points are spaced evenly by measured setting for readability; their horizont
 
 The single device decoded at **32.43 tokens/s at 128 input tokens**, **23.58 tokens/s at 32K**, and **15.45 tokens/s at 128K**. Time to first token rose from 0.97 s at 128 input tokens to 720.61 s at 128K.
 
-The reported VRAM values for this single-device run (131.68–134.06 GB) exceed the listed 128 GB memory size; the archive retains those readings without asserting their measurement basis.
+The reported memory usage for this single-device run is given as GPU VRAM plus a portion offloaded to CPU (system) RAM (for example, `101.61 (+30.17)` GB, where the offloaded part holds the model's N-gram embedding data). Because the offloaded portion can use system virtual memory (swap pages), the combined 131.78–135.06 GB can exceed the listed 128 GB memory size; the archive retains those readings as measured.
 
 ### 4.3 A9 Mega 388: Qwen3.6-35B-A3B and other 4-bit models
 
@@ -205,7 +205,7 @@ The 4-bit results in Section 4 reduce to a short, device-specific shortlist. The
 | --- | --- | --- | --- |
 | Strongest model | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` | 111.4 GB | Single device |
 
-The 395 was recorded running this hundred-gigabyte-class 4-bit flagship **on a single device** — no cascade required (Section 4.2). It decoded at 32.43 tokens/s at 128 input tokens and 15.45 tokens/s at 128K. The reported VRAM usage exceeds the listed 128 GB memory capacity; the measurement basis needs confirmation.
+The 395 was recorded running this hundred-gigabyte-class 4-bit flagship **on a single device** — no cascade required (Section 4.2). It decoded at 32.43 tokens/s at 128 input tokens and 15.45 tokens/s at 128K. Its reported memory usage (GPU VRAM plus a portion offloaded to CPU RAM, which can use system virtual memory) can exceed the listed 128 GB memory capacity.
 
 **DeepSeek-V4-Flash-0731 is another competitive model choice** for the 395. Its `UD-Q2_K_XL` version (96.8 GB, 2-bit) was tested on a single device through 256K input tokens; it decoded at 14.71 tokens/s at 128 tokens, 9.71 tokens/s at 128K, and 7.16 tokens/s at 256K ([395 test archive](./docs/A9-Mega-395/)). It sits outside the 4-bit recommendation table, and this repository does not provide a head-to-head intelligence benchmark between it and Qwen3.8-Flash-Next.
 
@@ -230,7 +230,7 @@ The table separates observed limits from details that still need verification.
 | Item | Limitation or open item |
 | --- | --- |
 | Maximum tested context | The featured **A9 Mega 395 single-device** run was measured through 128K input tokens (`-c 256000` configured); a 256K single-device result is not recorded. The **A9 Mega 388** single-device `Qwen3.6-35B-A3B-UD-Q4_K_M` run was measured through 256K. Other models and deployments have different measured limits; see the device archives. |
-| Memory capacity | The **388 (64 GB) cannot hold the 111.4 GB 4-bit flagship model on a single device**, so the 388 requires a **dual-node cascade**. The **395 (128 GB)** ran it on a single device as measured. Single-device models are otherwise limited to what 64 GB (388) or 128 GB (395) can hold. |
+| Memory capacity | The **388 (64 GB) cannot hold the 111.4 GB 4-bit flagship model on a single device**, so the 388 requires a **dual-node cascade**. The **395 (128 GB)** ran it on a single device as measured. Single-device models are otherwise limited to the physical memory (64 GB on the 388, 128 GB on the 395); the 395's flagship run exceeded 128 GB only by offloading part of the model to CPU RAM, which can use system virtual memory (swap pages). |
 | Long-context throughput | Decode rate falls and time to first token rises sharply as context grows on both devices. |
 | Test conditions not yet published | BIOS, NPU driver, power profile, and the exact llama.cpp build are still "To be confirmed". |
 | Reproduction | The results have not yet been reproduced by two independent clean QA installations. |

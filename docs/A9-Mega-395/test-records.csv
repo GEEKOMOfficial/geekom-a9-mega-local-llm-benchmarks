@@ -1,10 +1,10 @@
 Device SKU,Model,Acceleration,Input length (tokens),Output length (tokens),Time to first token TTFT (s),Prefill rate (tokens/s),Decode rate (tokens/s),End-to-end time (s),VRAM usage (GB)
-395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,5000,0.97,132.22,32.43,155.15,131.68
-395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,1604,26.96,303.83,28.48,83.28,132.58
-395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,2617,58.33,280.89,25.88,159.45,132.73
-395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,2695,112.14,292.21,23.58,226.43,132.74
-395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,64K,1965,283.41,231.24,18.06,392.22,133.68
-395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,5000,720.61,181.89,15.45,1044.24,134.06
+395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,5000,0.97,132.22,32.43,155.15,101.61 (+30.17)
+395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,1604,26.96,303.83,28.48,83.28,101.71 (+30.87)
+395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,2617,58.33,280.89,25.88,159.45,101.84 (+31.89)
+395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,2695,112.14,292.21,23.58,226.43,101.80 (+30.96)
+395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,64K,1965,283.41,231.24,18.06,392.22,102.14 (+31.54)
+395,Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,5000,720.61,181.89,15.45,1044.24,102.50 (+32.56)
 395,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,2876,0.84,151.58,34.27,84.77,101.41/64.86
 395,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,618,19.86,412.4,30.66,40.02,102.47/64.95
 395,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,5000,41.1,398.65,27.78,221.08,103.06/64.97
