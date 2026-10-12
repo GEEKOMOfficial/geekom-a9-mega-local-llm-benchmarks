@@ -10,7 +10,7 @@ The short answer: **4-bit quantization is the sweet spot between file size and m
 
 Section 5 turns those results into a concrete shortlist: the **strongest 4-bit recommendation for the A9 Mega 395** and **three recommended models for the A9 Mega 388**. The 395 is the higher-spec model, with more CPU cores and twice the memory (128 GB vs. 64 GB); the 388 is the more cost-effective choice. The recommended models have also been run on the 395, and the 395 can host larger models — including the 111.4 GB flagship — on a single device, where the 388 needs a second A9 Mega for it. The shortlist highlights useful choices rather than covering every supported model.
 
-All performance data was measured on physical GEEKOM units. **Device configurations, model filenames, and recorded launch commands are published with the results**, and anything not tested is marked as such rather than assumed. The exact llama.cpp build and some hardware details still need confirmation.
+All performance data was measured on physical GEEKOM units. **Device configurations, model filenames, and recorded launch commands are published with the results**, and anything not tested is marked as such rather than assumed.
 
 Full records for each device, including test commands, VRAM usage, and notes:
 
@@ -19,7 +19,20 @@ Full records for each device, including test commands, VRAM usage, and notes:
 
 This root README summarizes the benchmarks. Device-specific installation guides can be added to those folders when the setup steps have been verified.
 
-> **Release status**: the results have not yet been reproduced by two independent clean QA installations. The operating system and graphics driver are recorded below; BIOS, NPU driver, power profile, and the exact llama.cpp build still need confirmation before release.
+## Model performance at a glance
+
+Headline short-context (128-token input) results for the models tested on the A9 Mega 395 and A9 Mega 388, for a quick overview before the detailed sections. See [Section 4](#4-measured-4-bit-performance-by-device) for longer context lengths, deployment, and per-device detail.
+
+| Model / Quantization | Model Size (GB) | Generation Speed (tok/s) | Prompt Processing (tok/s) | TTFT (s) |
+| --- | ---: | ---: | ---: | ---: |
+| MiniCPM5-2B `Q4_K_M` | 1.56 | 103.10 | 1320.23 | 0.10 |
+| Qwen3.6-35B-A3B `UD-Q4_K_M` | 22.7 | 68.03 | 822.22 | 0.16 |
+| Qwen3.8-Flash-Next `UD-Q4_K_XL` | 111.4 | 32.43 | 132.22 | 0.97 |
+| Qwen3.8-27B `FP4-FAST` | 14.6 | 31.29 | 318.64 | 0.40 |
+| DeepSeek-V4-Flash-0731 `UD-Q2_K_XL` | 96.8 | 14.71 | 129.24 | 0.99 |
+| Gemma-4-31B `q4_0` | 16.4 | 11.28 | 26.83 | 4.77 |
+
+Source: recorded test data in the device archives ([A9 Mega 395](./docs/A9-Mega-395/), [A9 Mega 388](./docs/A9-Mega-388/)). Figures are for single-device runs; the larger models were also measured in multi-node cascades, and decode rate falls as context grows.
 
 ## Contents
 
@@ -232,8 +245,7 @@ The table separates observed limits from details that still need verification.
 | Maximum tested context | The featured **A9 Mega 395 single-device** run was measured through 128K input tokens (`-c 256000` configured); a 256K single-device result is not recorded. The **A9 Mega 388** single-device `Qwen3.6-35B-A3B-UD-Q4_K_M` run was measured through 256K. Other models and deployments have different measured limits; see the device archives. |
 | Memory capacity | The **388 (64 GB) cannot hold the 111.4 GB 4-bit flagship model on a single device**, so the 388 requires a **dual-node cascade**. The **395 (128 GB)** ran it on a single device as measured. Single-device models are otherwise limited to the physical memory (64 GB on the 388, 128 GB on the 395); the 395's flagship run exceeded 128 GB only by offloading part of the model to CPU RAM, which can use system virtual memory (swap pages). |
 | Long-context throughput | Decode rate falls and time to first token rises sharply as context grows on both devices. |
-| Test conditions not yet published | BIOS, NPU driver, power profile, and the exact llama.cpp build are still "To be confirmed". |
-| Reproduction | The results have not yet been reproduced by two independent clean QA installations. |
+| Test conditions not yet published | BIOS, NPU driver, and power profile are still "To be confirmed". |
 | Offline use | Local operation does not mean every step works offline: models, software, dependencies, and required resources must be downloaded and configured before the device is disconnected from the internet. |
 
 ## Responsible use
