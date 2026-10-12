@@ -1,36 +1,36 @@
-Device SKU,Model,Acceleration,Input length (tokens),Output length (tokens),Time to first token TTFT (s),Prefill rate (tokens/s),Decode rate (tokens/s),End-to-end time (s),VRAM usage (GB),Notes
-388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,7954,0.67,191.97,30.76,259.25,62.4/57.5,
-388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,4160,27.36,299.42,26.14,186.5,63.8/57.7,
-388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,11079,55.33,296.09,25.62,487.77,63.7/57.8,
-388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,2316,129.85,252.36,23.68,227.65,64.7/57.8,
-388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,4452,858.93,152.6,10.62,1278.14,65.7/58.05,
-388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,5774,0.68,187.52,28,206.89,56.5/50.8/49.4,
-388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,3790,27.57,297.14,26.9,168.46,58.3/51.1/49.6,
-388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,3581,59.16,276.94,23.94,208.74,59.5/51.2/49.5,
-388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,6925,136.32,240.37,22.85,439.38,60.1/51.6/49.56,
-388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,2354,910.03,144.03,12.28,1101.72,64.6/51.7/49.97,
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,128,3000,0.44,291.89,20.24,148.66,39.07,Draft acceptance rate 43.41%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,8K,727,24.54,333.83,21.3,58.67,39.12,Draft acceptance rate 51.58%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,16K,2131,52.44,312.45,19.53,161.55,39.19,Draft acceptance rate 54.12%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,32K,854,109.55,299.12,16.87,160.17,39.66,Draft acceptance rate 50.53%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,64K,3000,268.94,243.68,12.86,502.22,41.09,Draft acceptance rate 52.01%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,128K,2195,646.85,202.63,9.88,869.02,40.25,Draft acceptance rate 53.30%
-388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,256K,3000,1780.14,147.26,6.06,2275.19,41.14,Draft acceptance rate 51.67%
-388,Gemma-4-31B_q4_0-it-GGUF,No,128,1477,4.77,26.83,11.28,135.71,40.8,
-388,Gemma-4-31B_q4_0-it-GGUF,No,8K,1986,117.82,69.53,10.2,312.53,40.8,
-388,Gemma-4-31B_q4_0-it-GGUF,No,16K,2054,266.54,61.47,9.64,479.61,40.8,
-388,Gemma-4-31B_q4_0-it-GGUF,No,32K,1686,790.54,41.45,8.56,987.5,40.8,
-388,Gemma-4-31B_q4_0-it-GGUF,No,128K,2489,10312.51,12.71,5,10810.31,40.8,
-388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,128,3094,0.16,822.22,68.03,45.64,33.31,Draft acceptance rate 57.23%
-388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,8K,3000,6.61,1239.7,67.76,50.88,33.35,Draft acceptance rate 65.70%
-388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,16K,2039,14.79,1107.6,63.55,46.87,33.42,Draft acceptance rate 70.28%
-388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,32K,2408,32.51,1007.86,54.3,76.86,33.46,Draft acceptance rate 63.69%
-388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,64K,2832,103.58,632.7,50.3,159.88,33.57,
-388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,128K,1023,218.14,600.87,32.61,249.51,33.81,Draft acceptance rate 67.70%
-388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,256K,1575,645.04,406.4,21.66,717.75,34.28,Draft acceptance rate 66.42%
-388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,128,285,0.1,1320.23,103.1,2.86,14.81,
-388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,8K,557,3.09,2654.18,87.08,9.49,15.01,
-388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,16K,2110,7.52,2179.93,75.15,35.6,15.27,
-388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,32K,1218,21.14,1550.16,61.74,40.87,16.1,
-388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,64K,2567,70.63,927.87,44.76,127.98,17.41,
-388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,128K,661,255.42,513.16,29.03,278.19,17.65,
+Device SKU,Model,Acceleration,Input length (tokens),Output length (tokens),Time to first token TTFT (s),Prefill rate (tokens/s),Decode rate (tokens/s),End-to-end time (s),VRAM usage (GB)
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,7954,0.67,191.97,30.76,259.25,62.4/57.5
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,4160,27.36,299.42,26.14,186.5,63.8/57.7
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,11079,55.33,296.09,25.62,487.77,63.7/57.8
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,2316,129.85,252.36,23.68,227.65,64.7/57.8
+388,Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,4452,858.93,152.6,10.62,1278.13,65.7/58.05
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128,5774,0.68,187.52,28,206.9,56.5/50.8/49.4
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,8K,3790,27.57,297.14,26.9,168.46,58.3/51.1/49.6
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,16K,3581,59.16,276.94,23.94,208.74,59.5/51.2/49.5
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,32K,6925,136.32,240.37,22.85,439.39,60.1/51.6/49.56
+388,Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4GB) mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf (2.8GB),Yes(MTP) N=2,128K,2354,910.03,144.03,12.28,1101.73,64.6/51.7/49.97
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,128,3000,0.44,291.89,20.24,148.66,39.07
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,8K,727,24.54,333.83,21.3,58.67,39.12
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,16K,2131,52.44,312.45,19.53,161.55,39.19
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,32K,854,109.55,299.12,16.87,160.17,39.66
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,64K,3000,268.94,243.68,12.86,502.22,41.09
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,128K,2195,646.85,202.63,9.88,869.02,40.25
+388,Qwen3.8-27B-UD-Q4_K_XL-GGUF (17.6GB),Yes(MTP) N=4,256K,3000,1780.14,147.26,6.06,2275.19,41.14
+388,Gemma-4-31B_q4_0-it-GGUF,No,128,1477,4.77,26.83,11.28,135.71,40.8
+388,Gemma-4-31B_q4_0-it-GGUF,No,8K,1986,117.82,69.53,10.2,312.53,40.8
+388,Gemma-4-31B_q4_0-it-GGUF,No,16K,2054,266.54,61.47,9.64,479.61,40.8
+388,Gemma-4-31B_q4_0-it-GGUF,No,32K,1686,790.54,41.45,8.56,987.51,40.8
+388,Gemma-4-31B_q4_0-it-GGUF,No,128K,2489,10312.51,12.71,5,10810.31,40.8
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,128,3094,0.16,822.22,68.03,45.64,33.31
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,8K,3000,6.61,1239.7,67.76,50.88,33.35
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,16K,2039,14.79,1107.6,63.55,46.88,33.42
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,32K,2408,32.51,1007.86,54.3,76.86,33.46
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,64K,2832,103.58,632.7,50.3,159.88,33.57
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,128K,1023,218.14,600.87,32.61,249.51,33.81
+388,Qwen3.6-35B-A3B-UD-Q4_K_M-GGUF (22.7GB) llama-b11065,Yes(MTP) N=2,256K,1575,645.04,406.4,21.66,717.75,34.28
+388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,128,285,0.1,1320.23,103.1,2.86,14.81
+388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,8K,557,3.09,2654.18,87.08,9.48,15.01
+388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,16K,2110,7.52,2179.93,75.15,35.59,15.27
+388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,32K,1218,21.14,1550.16,61.74,40.87,16.1
+388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,64K,2567,70.63,927.87,44.76,127.98,17.41
+388,MiniCPM5-2B-Q4_K_M.GGUF (1.56GB),No,128K,661,255.42,513.16,29.03,278.19,17.65

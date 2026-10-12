@@ -50,8 +50,8 @@ This directory archives the local large language model inference performance tes
 | 8K | 1604 | 26.96 | 303.83 | 28.48 | 83.28 | 132.58 |
 | 16K | 2617 | 58.33 | 280.89 | 25.88 | 159.45 | 132.73 |
 | 32K | 2695 | 112.14 | 292.21 | 23.58 | 226.43 | 132.74 |
-| 64K | 1965 | 283.41 | 231.24 | 18.06 | 392.21 | 133.68 |
-| 128K | 5000 | 720.61 | 181.89 | 15.45 | 1044.23 | 134.06 |
+| 64K | 1965 | 283.41 | 231.24 | 18.06 | 392.22 | 133.68 |
+| 128K | 5000 | 720.61 | 181.89 | 15.45 | 1044.24 | 134.06 |
 
 <details>
 <summary>Test commands</summary>
@@ -69,10 +69,10 @@ This directory archives the local large language model inference performance tes
 
 | Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM (GB) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 128 | 2876 | 0.84 | 151.58 | 34.27 | 84.76 | 101.41/64.86 |
+| 128 | 2876 | 0.84 | 151.58 | 34.27 | 84.77 | 101.41/64.86 |
 | 8K | 618 | 19.86 | 412.4 | 30.66 | 40.02 | 102.47/64.95 |
-| 16K | 5000 | 41.1 | 398.65 | 27.78 | 221.09 | 103.06/64.97 |
-| 32K | 971 | 90.73 | 361.15 | 27.9 | 125.53 | 103.70/64.88 |
+| 16K | 5000 | 41.1 | 398.65 | 27.78 | 221.08 | 103.06/64.97 |
+| 32K | 971 | 90.73 | 361.15 | 27.9 | 125.54 | 103.70/64.88 |
 | 128K | 2150 | 566.14 | 231.52 | 15.16 | 707.96 | 107.35/64.77 |
 | 256K | 5000 | 1619.07 | 161.91 | 10.5 | 2095.26 | 114.83/64.95 |
 
@@ -97,7 +97,7 @@ Host start command: env -u HSA_OVERRIDE_GFX_VERSION /home/user/app-b10909-mix-be
 | 128 | 1641 | 0.99 | 129.24 | 14.71 | 112.55 | 112.96 |
 | 8K | 368 | 58.14 | 140.9 | 14.65 | 83.26 | 112.86 |
 | 32K | 242 | 302.15 | 108.45 | 12.87 | 320.95 | 112.99 |
-| 64K | 452 | 741.94 | 88.33 | 11.61 | 780.87 | 113.12 |
+| 64K | 452 | 741.94 | 88.33 | 11.61 | 780.88 | 113.12 |
 | 128K | 1735 | 2098.83 | 62.45 | 9.71 | 2277.51 | 113.14 |
 | 256K | 472 | 7237.55 | 36.22 | 7.16 | 7303.47 | 114.12 |
 
@@ -117,9 +117,9 @@ Host start command: env -u HSA_OVERRIDE_GFX_VERSION /home/user/app-b10909-mix-be
 
 | Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM (GB) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 128 | 1553 | 0.99 | 129.87 | 14.21 | 110.28 | 60.72/56.98 |
+| 128 | 1553 | 0.99 | 129.87 | 14.21 | 110.27 | 60.72/56.98 |
 | 8K | 233 | 45.59 | 179.68 | 13.74 | 62.55 | 60.52/56.97 |
-| 32K | 2135 | 242.24 | 135.27 | 12.48 | 413.31 | 60.71/56.97 |
+| 32K | 2135 | 242.24 | 135.27 | 12.48 | 413.32 | 60.71/56.97 |
 | 64K | 419 | 584.57 | 112.11 | 11.06 | 622.45 | 60.73/56.98 |
 | 128K | 478 | 1671.41 | 78.42 | 9.09 | 1724 | 61.06/56.98 |
 | 256K | 712 | 4940.52 | 53.06 | 7.21 | 5039.27 | 61.59/57.21 |
@@ -169,8 +169,8 @@ Worker start command: ./ggml-rpc-server -H 0.0.0.0 -p 50052
 | 8K | 2087 | 23.56 | 347.73 | 25.43 | 105.63 | 26.8 |
 | 16K | 3000 | 51.11 | 320.57 | 24.51 | 173.51 | 26.9 |
 | 32K | 3000 | 118.52 | 276.48 | 20.28 | 266.45 | 26.8 |
-| 64K | 3000 | 306.21 | 214.02 | 15.42 | 500.76 | 26.7 |
-| 128K | 3000 | 865.62 | 151.42 | 8.95 | 1200.82 | 26.7 |
+| 64K | 3000 | 306.21 | 214.02 | 15.42 | 500.77 | 26.7 |
+| 128K | 3000 | 865.62 | 151.42 | 8.95 | 1200.81 | 26.7 |
 | 256K | 392 | 2775.48 | 94.45 | 6.06 | 2840.17 | 26.8 |
 
 <details>
@@ -221,7 +221,7 @@ llama-server.exe  -m  D:\model\MiniCPM5-2B-bf16.gguf -c 131072 -ngl 99 -ngld 99 
 1. **VRAM format normalized**: in the original records the 395 data is written as "host: x / worker: y" with mixed full-width and half-width colons; this directory normalizes it to `x/y`, and to `host / worker 1 / worker 2` for triple-node cascades. Only the written format was adjusted; no value was changed.
 2. **Typo corrected**: the decode rate in the 32K row of MiniCPM5-2B-bf16 was previously recorded as "28，26" (full-width comma); the original record has since been corrected to `28.26` tokens/s, and this directory matches at `28.26`.
 3. **DeepSeek-V4-Flash is missing 16K in every deployment**: the single-device, dual-node cascade, and triple-node cascade tests only covered 128 / 8K / 32K / 64K / 128K / 256K, so 16K is missing. Keep this in mind for cross-deployment comparison.
-4. **Speedup metrics**: the "speedup xx%" values in the original records are the improvement of MTP acceleration over the unaccelerated baseline, and "draft acceptance" is the draft acceptance rate. Both are supporting indicators of the acceleration effect, not throughput metrics, so they are omitted from the result tables above and kept in [`test-records.csv`](./test-records.csv).
+4. **Speedup metrics**: the original records also carried "speedup xx%" values (the improvement of MTP acceleration over the unaccelerated baseline) and "draft acceptance" rates. Both are supporting indicators of the acceleration effect rather than throughput metrics, and because the source notes are not republished they are not included in this directory.
 5. **Model context limit**: the original note for MiniCPM5-2B-bf16 reads "context length set to 128k; the model supports up to 128k only", which is why 256K was not tested.
 6. **Device attribution resolved**: a data set was previously labelled "A9-Mega-388 inference performance data"; its six rows match Section 3.2 of this directory (395, dual-node cascade, Qwen3.8-Flash-Next). The root [`README.md`](../../README.md) now attributes that data set to the 395.
 7. **Single-device flagship VRAM reading**: the single-device Qwen3.8-Flash-Next rows report 131.68 to 134.06 GB of VRAM, above the 128 GB memory size listed in Section 1; the values are recorded as measured and the basis for that column has not been confirmed.

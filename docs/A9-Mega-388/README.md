@@ -49,7 +49,7 @@ This directory archives the local large language model inference performance tes
 | 8K | 4160 | 27.36 | 299.42 | 26.14 | 186.5 | 63.8/57.7 |
 | 16K | 11079 | 55.33 | 296.09 | 25.62 | 487.77 | 63.7/57.8 |
 | 32K | 2316 | 129.85 | 252.36 | 23.68 | 227.65 | 64.7/57.8 |
-| 128K | 4452 | 858.93 | 152.6 | 10.62 | 1278.14 | 65.7/58.05 |
+| 128K | 4452 | 858.93 | 152.6 | 10.62 | 1278.13 | 65.7/58.05 |
 
 <details>
 <summary>Test commands</summary>
@@ -68,11 +68,11 @@ Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash
 
 | Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM (GB) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 128 | 5774 | 0.68 | 187.52 | 28 | 206.89 | 56.5/50.8/49.4 |
+| 128 | 5774 | 0.68 | 187.52 | 28 | 206.9 | 56.5/50.8/49.4 |
 | 8K | 3790 | 27.57 | 297.14 | 26.9 | 168.46 | 58.3/51.1/49.6 |
 | 16K | 3581 | 59.16 | 276.94 | 23.94 | 208.74 | 59.5/51.2/49.5 |
-| 32K | 6925 | 136.32 | 240.37 | 22.85 | 439.38 | 60.1/51.6/49.56 |
-| 128K | 2354 | 910.03 | 144.03 | 12.28 | 1101.72 | 64.6/51.7/49.97 |
+| 32K | 6925 | 136.32 | 240.37 | 22.85 | 439.39 | 60.1/51.6/49.56 |
+| 128K | 2354 | 910.03 | 144.03 | 12.28 | 1101.73 | 64.6/51.7/49.97 |
 
 <details>
 <summary>Test commands</summary>
@@ -119,7 +119,7 @@ Host: env -u HSA_OVERRIDE_GFX_VERSION ./llama-server -m /home/user/Qwen3.8-Flash
 | 128 | 1477 | 4.77 | 26.83 | 11.28 | 135.71 | 40.8 |
 | 8K | 1986 | 117.82 | 69.53 | 10.2 | 312.53 | 40.8 |
 | 16K | 2054 | 266.54 | 61.47 | 9.64 | 479.61 | 40.8 |
-| 32K | 1686 | 790.54 | 41.45 | 8.56 | 987.5 | 40.8 |
+| 32K | 1686 | 790.54 | 41.45 | 8.56 | 987.51 | 40.8 |
 | 128K | 2489 | 10312.51 | 12.71 | 5 | 10810.31 | 40.8 |
 
 <details>
@@ -140,7 +140,7 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 | --- | --- | --- | --- | --- | --- | --- |
 | 128 | 3094 | 0.16 | 822.22 | 68.03 | 45.64 | 33.31 |
 | 8K | 3000 | 6.61 | 1239.7 | 67.76 | 50.88 | 33.35 |
-| 16K | 2039 | 14.79 | 1107.6 | 63.55 | 46.87 | 33.42 |
+| 16K | 2039 | 14.79 | 1107.6 | 63.55 | 46.88 | 33.42 |
 | 32K | 2408 | 32.51 | 1007.86 | 54.3 | 76.86 | 33.46 |
 | 64K | 2832 | 103.58 | 632.7 | 50.3 | 159.88 | 33.57 |
 | 128K | 1023 | 218.14 | 600.87 | 32.61 | 249.51 | 33.81 |
@@ -163,8 +163,8 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 | Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM (GB) |
 | --- | --- | --- | --- | --- | --- | --- |
 | 128 | 285 | 0.1 | 1320.23 | 103.1 | 2.86 | 14.81 |
-| 8K | 557 | 3.09 | 2654.18 | 87.08 | 9.49 | 15.01 |
-| 16K | 2110 | 7.52 | 2179.93 | 75.15 | 35.6 | 15.27 |
+| 8K | 557 | 3.09 | 2654.18 | 87.08 | 9.48 | 15.01 |
+| 16K | 2110 | 7.52 | 2179.93 | 75.15 | 35.59 | 15.27 |
 | 32K | 1218 | 21.14 | 1550.16 | 61.74 | 40.87 | 16.1 |
 | 64K | 2567 | 70.63 | 927.87 | 44.76 | 127.98 | 17.41 |
 | 128K | 661 | 255.42 | 513.16 | 29.03 | 278.19 | 17.65 |
@@ -194,7 +194,7 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 1. **Gemma-4-31B 256K test failed**: the `Gemma-4-31B_q4_0-it` 256K scenario failed with a test error and produced no usable performance metric, so it is not included in the results above.
 2. **Uneven context coverage**: the six test groups do not cover the same context lengths (see the table above); keep this in mind when comparing across models. The 64K scenario has since been added for `Qwen3.8-27B-UD-Q4_K_XL` and `Qwen3.6-35B-A3B-UD-Q4_K_M`.
 3. **VRAM recording format**: a single device records a plain value; a dual-node cascade records `host / worker`; a triple-node cascade records `host / worker 1 / worker 2`. The original 388 records already use `/` as the separator, and this directory matches their format and values exactly.
-4. **Draft acceptance rate**: the "draft acceptance rate" in the MTP records is taken from the original records and explains the speedup effect; it is not a throughput metric, so it is omitted from the result tables above and kept in [`test-records.csv`](./test-records.csv).
+4. **Draft acceptance rate**: the original records also carried a "draft acceptance rate" for the MTP configurations; because it is a supporting indicator of the acceleration effect rather than a throughput metric, and because the source notes are not republished, it is not included in this directory.
 5. **Device attribution resolved**: a data set was previously labelled "A9-Mega-388 inference performance data", but its six rows match the 395 records (128 length: TTFT 0.84, prefill 151.58, decode 34.27). The root [`README.md`](../../README.md) now attributes that data set to the 395.
 6. **To be completed before release**: these records have not been reproduced through two independent clean QA installations, and several hardware details (BIOS, NPU driver, power profile, storage) have not been collected. Do not publish as is.
 
