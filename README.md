@@ -23,14 +23,14 @@ This root README summarizes the benchmarks. Device-specific installation guides 
 
 Headline short-context (128-token input) results for the models tested on the A9 Mega 395 and A9 Mega 388, for a quick overview before the detailed sections. See [Section 4](#4-measured-4-bit-performance-by-device) for longer context lengths, deployment, and per-device detail.
 
-| Model / Quantization | Model Size (GB) | Generation Speed (tok/s) | Prompt Processing (tok/s) | TTFT (s) |
+| Model / Quantization | Model Size (GB) | Generation Speed (token/s) | Prompt Processing (token/s) | TTFT (s) |
 | --- | ---: | ---: | ---: | ---: |
-| MiniCPM5-2B `Q4_K_M` | 1.56 | 103.10 | 1320.23 | 0.10 |
-| Qwen3.6-35B-A3B `UD-Q4_K_M` | 22.7 | 68.03 | 822.22 | 0.16 |
-| Qwen3.8-Flash-Next `UD-Q4_K_XL` | 111.4 | 32.43 | 132.22 | 0.97 |
-| Qwen3.8-27B `FP4-FAST` | 14.6 | 31.29 | 318.64 | 0.40 |
-| DeepSeek-V4-Flash-0731 `UD-Q2_K_XL` | 96.8 | 14.71 | 129.24 | 0.99 |
 | Gemma-4-31B `q4_0` | 16.4 | 11.28 | 26.83 | 4.77 |
+| DeepSeek-V4-Flash-0731 `UD-Q2_K_XL` | 96.8 | 14.71 | 129.24 | 0.99 |
+| Qwen3.8-27B `FP4-FAST` | 14.6 | 31.29 | 318.64 | 0.40 |
+| Qwen3.8-Flash-Next `UD-Q4_K_XL` | 111.4 | 32.43 | 132.22 | 0.97 |
+| Qwen3.6-35B-A3B `UD-Q4_K_M` | 22.7 | 68.03 | 822.22 | 0.16 |
+| MiniCPM5-2B `Q4_K_M` | 1.56 | 103.10 | 1320.23 | 0.10 |
 
 Source: recorded test data in the device archives ([A9 Mega 395](./docs/A9-Mega-395/), [A9 Mega 388](./docs/A9-Mega-388/)). Figures are for single-device runs; the larger models were also measured in multi-node cascades, and decode rate falls as context grows.
 
