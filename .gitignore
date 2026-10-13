@@ -15,6 +15,7 @@ test-output/
 *.safetensors
 *.bin
 models/
+bin/ubuntu/*/
 
 # Internal test data — not for publication
 *.xlsx
