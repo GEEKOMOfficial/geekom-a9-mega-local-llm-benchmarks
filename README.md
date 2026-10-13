@@ -24,7 +24,7 @@ This root README summarizes the benchmarks. Device-specific installation guides 
 Headline short-context (128-token input) results for the models tested on the A9 Mega 395 and A9 Mega 388, for a quick overview before the detailed sections. See [Section 4](#4-measured-4-bit-performance-by-device) for longer context lengths, deployment, and per-device detail.
 
 | Model / Quantization | Model Size (GB) | Generation Speed (token/s) | Prompt Processing (token/s) | TTFT (s) |
-| --- | ---: | ---: | ---: | ---: |
+| :---: | :---: | :---: | :---: | :---: |
 | Qwen3.8-Flash-Next `UD-Q4_K_XL` | 111.4 | 32.43 | 132.22 | 0.97 |
 | DeepSeek-V4-Flash-0731 `UD-Q2_K_XL` | 96.8 | 14.71 | 129.24 | 0.99 |
 | Qwen3.6-35B-A3B `UD-Q4_K_M` | 22.7 | 68.03 | 822.22 | 0.16 |
