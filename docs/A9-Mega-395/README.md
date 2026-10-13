@@ -3,10 +3,10 @@
 This directory archives the local large language model inference performance tests measured on the **GEEKOM A9 Mega 395** configuration.
 
 - Source: tests measured on physical GEEKOM A9 Mega 395 hardware
-- Records: **42**, covering **7** model / deployment combinations
+- Records: **37**, covering **6** model / deployment combinations
 - Raw details are also available as [`test-records.csv`](./test-records.csv) in this directory (UTF-8, opens directly in Excel)
 
-> **Recommended model**: this directory is a full test archive. Only `Qwen3.8-Flash-Next-UD-Q4_K_XL` is promoted as a recommendation in Section 5.1 of the root [`README.md`](../../README.md); all other combinations here — the DeepSeek-V4-Flash deployments, `Qwen3.8-27B-FP4-FAST`, and `MiniCPM5-2B-bf16` — are recorded as test data only.
+> **Recommended model**: this directory is a full test archive. Only `Qwen3.8-Flash-Next-UD-Q4_K_XL` is promoted as a recommendation in Section 5.1 of the root [`README.md`](../../README.md); all other combinations here — the DeepSeek-V4-Flash deployments and `Qwen3.8-27B-FP4-FAST` — are recorded as test data only.
 
 ## 1. Device and hardware configuration
 
@@ -197,28 +197,6 @@ Worker start command: ./ggml-rpc-server -H 0.0.0.0 -p 50052
 - Build: not recorded
 - Source: https://github.com/julianmb/q38rocm
 
-### 3.7 MiniCPM5-2B-bf16-GGUF
-
-- Acceleration: `No`
-- Records: 5
-
-| Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM (GB) |
-| --- | --- | --- | --- | --- | --- | --- |
-| 128 | 923 | 0.17 | 731.97 | 33.05 | 28.1 | 8.7 |
-| 8K | 1258 | 10.89 | 752.38 | 31.52 | 50.8 | 8.7 |
-| 16K | 966 | 25.59 | 640.34 | 30.48 | 57.28 | 8.7 |
-| 32K | 779 | 68.53 | 478.15 | 28.26 | 96.1 | 8.7 |
-| 128K | 1163 | 878.03 | 149.28 | 20.49 | 934.79 | 8.7 |
-
-<details>
-<summary>Test commands</summary>
-
-```bash
-llama-server.exe  -m  D:\model\MiniCPM5-2B-bf16.gguf -c 131072 -ngl 99 -ngld 99 -t 12 -np 1 --cont-batching --flash-attn on --host 0.0.0.0 --port 8082 --metrics -lv  3 --cache-type-k q8_0 --cache-type-v q8_0 --fit off
-```
-
-</details>
-
 ## 4. Coverage overview
 
 | Model / deployment | Acceleration | Context lengths tested | Missing context lengths |
@@ -229,24 +207,16 @@ llama-server.exe  -m  D:\model\MiniCPM5-2B-bf16.gguf -c 131072 -ngl 99 -ngld 99 
 | Dual-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL | No | 128 / 8K / 32K / 64K / 128K / 256K | 16K |
 | Triple-node cascade DeepSeek-V4-Flash-0731-UD-Q2_K_XL | No | 128 / 8K / 32K / 64K / 128K / 256K | 16K |
 | Qwen3.8-27B-FP4-FAST | MTP N=4 | 128 / 8K / 16K / 32K / 64K / 128K / 256K | None |
-| MiniCPM5-2B-bf16 | No | 128 / 8K / 16K / 32K / 128K | 64K, 256K |
 
 ## 5. Data notes and known issues
 
-1. **VRAM format normalized**: in the original records the 395 data is written as "host: x / worker: y" with mixed full-width and half-width colons; this directory normalizes it to `x/y`, and to `host / worker 1 / worker 2` for triple-node cascades. Only the written format was adjusted; no value was changed.
-2. **Typo corrected**: the decode rate in the 32K row of MiniCPM5-2B-bf16 was previously recorded as "28，26" (full-width comma); the original record has since been corrected to `28.26` tokens/s, and this directory matches at `28.26`.
-3. **DeepSeek-V4-Flash is missing 16K in every deployment**: the single-device, dual-node cascade, and triple-node cascade tests only covered 128 / 8K / 32K / 64K / 128K / 256K, so 16K is missing. Keep this in mind for cross-deployment comparison.
-4. **Speedup metrics**: the original records also carried "speedup xx%" values (the improvement of MTP acceleration over the unaccelerated baseline) and "draft acceptance" rates. Both are supporting indicators of the acceleration effect rather than throughput metrics, and because the source notes are not republished they are not included in this directory.
-5. **Model context limit**: the original note for MiniCPM5-2B-bf16 reads "context length set to 128k; the model supports up to 128k only", which is why 256K was not tested.
-6. **Device attribution resolved**: a data set was previously labelled "A9-Mega-388 inference performance data"; its six rows match Section 3.2 of this directory (395, dual-node cascade, Qwen3.8-Flash-Next). The root [`README.md`](../../README.md) now attributes that data set to the 395.
-7. **Single-device flagship VRAM reading**: the single-device Qwen3.8-Flash-Next rows report a two-part reading in the form `base (+additional)`, from `101.61 (+30.17)` to `102.50 (+32.56)` GB. `base` is the GPU VRAM usage, and the `additional` part (about 30–33 GB) is offloaded to CPU (system) RAM, where it holds the model's N-gram embedding data. Because this offloaded portion resides in CPU RAM, it can use system virtual memory (swap pages), so the combined total — 131.78 to 135.06 GB — can exceed the 128 GB physical memory size listed in Section 1.
-8. **To be completed before release**: these records have not been reproduced through two independent clean QA installations, and several hardware details (BIOS, NPU driver, power profile, storage) have not been collected. Do not publish as is.
+1. **DeepSeek-V4-Flash is missing 16K in every deployment**: the single-device, dual-node cascade, and triple-node cascade tests only covered 128 / 8K / 32K / 64K / 128K / 256K, so 16K is missing. Keep this in mind for cross-deployment comparison.
+2. **Single-device flagship VRAM reading**: the single-device Qwen3.8-Flash-Next rows report a two-part reading in the form `base (+additional)`, from `101.61 (+30.17)` to `102.50 (+32.56)` GB. `base` is the GPU VRAM usage, and the `additional` part (about 30–33 GB) is offloaded to CPU (system) RAM, where it holds the model's N-gram embedding data. Because this offloaded portion resides in CPU RAM, it can use system virtual memory (swap pages), so the combined total — 131.78 to 135.06 GB — can exceed the 128 GB physical memory size listed in Section 1.
 
 ## 6. Related files
 
 | File | Description |
 | --- | --- |
-| [`test-records.csv`](./test-records.csv) | Flat data table of all 42 records for the 395 |
+| [`test-records.csv`](./test-records.csv) | Flat data table of all 37 records for the 395 |
 | `../A9-Mega-388/README.md` | Test records for the 388 configuration (same structure, for comparison) |
 | `../../README.md` | Quantization level selection (bits vs. size / accuracy) and the 4-bit measurements per device |
-| `../qa-handoff-template.md` | QA handoff template for installation and functional verification records |

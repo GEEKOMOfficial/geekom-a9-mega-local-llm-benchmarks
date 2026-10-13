@@ -213,11 +213,7 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 ## 5. Data notes and known issues
 
 1. **Gemma-4-31B 256K test failed**: the `Gemma-4-31B_q4_0-it` 256K scenario failed with a test error and produced no usable performance metric, so it is not included in the results above.
-2. **Uneven context coverage**: the six test groups do not cover the same context lengths (see the table above); keep this in mind when comparing across models. The 64K scenario has since been added for `Qwen3.8-27B-UD-Q4_K_XL` and `Qwen3.6-35B-A3B-UD-Q4_K_M`.
-3. **VRAM recording format**: a single device records a plain value; a dual-node cascade records `host / worker`; a triple-node cascade records `host / worker 1 / worker 2`. The original 388 records already use `/` as the separator, and this directory matches their format and values exactly.
-4. **Draft acceptance rate**: the original records also carried a "draft acceptance rate" for the MTP configurations; because it is a supporting indicator of the acceleration effect rather than a throughput metric, and because the source notes are not republished, it is not included in this directory.
-5. **Device attribution resolved**: a data set was previously labelled "A9-Mega-388 inference performance data", but its six rows match the 395 records (128 length: TTFT 0.84, prefill 151.58, decode 34.27). The root [`README.md`](../../README.md) now attributes that data set to the 395.
-6. **To be completed before release**: these records have not been reproduced through two independent clean QA installations, and several hardware details (BIOS, NPU driver, power profile, storage) have not been collected. Do not publish as is.
+2. **Uneven context coverage**: the six test groups do not cover the same context lengths (see the table above); keep this in mind when comparing across models.
 
 ## 6. Related files
 
@@ -226,4 +222,3 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 | [`test-records.csv`](./test-records.csv) | Flat data table of all 35 records for the 388 |
 | `../A9-Mega-395/README.md` | Test records for the 395 configuration (same structure, for comparison) |
 | `../../README.md` | Quantization level selection (bits vs. size / accuracy) and the 4-bit measurements per device |
-| `../qa-handoff-template.md` | QA handoff template for installation and functional verification records |

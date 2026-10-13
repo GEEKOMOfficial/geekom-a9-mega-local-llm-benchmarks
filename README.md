@@ -14,7 +14,7 @@ All performance data was measured on physical GEEKOM units. **Device configurati
 
 Full records for each device, including test commands, VRAM usage, and notes:
 
-- A9 Mega 395 — all 42 test records: [`docs/A9-Mega-395/`](./docs/A9-Mega-395/)
+- A9 Mega 395 — all 37 test records: [`docs/A9-Mega-395/`](./docs/A9-Mega-395/)
 - A9 Mega 388 — all 35 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
 
 This root README summarizes the benchmarks. Device-specific installation guides can be added to those folders when the setup steps have been verified.
@@ -176,7 +176,7 @@ Corresponding time to first token (s):
 | --- | --- | --- | --- | --- | --- | --- |
 | Qwen3.8-27B-FP4-FAST | 0.40 | 23.56 | 51.11 | 118.52 | 306.21 | 865.62 |
 
-> **Scope note**: the 395 was also tested with the **2-bit** `DeepSeek-V4-Flash-0731-UD-Q2_K_XL` (96.8 GB, in single-device, dual-node cascade, and triple-node cascade deployments) and with `MiniCPM5-2B-bf16`; neither is 4-bit, so they are not listed in this section. Within the 4-bit results, `Qwen3.8-Flash-Next-UD-Q4_K_XL` remains the primary recommendation in **Section 5.1**, while `Qwen3.8-27B-FP4-FAST` is kept as a measured record. Full records are in [`docs/A9-Mega-395/`](./docs/A9-Mega-395/).
+> **Scope note**: the 395 was also tested with the **2-bit** `DeepSeek-V4-Flash-0731-UD-Q2_K_XL` (96.8 GB, in single-device, dual-node cascade, and triple-node cascade deployments), which is not 4-bit, so it is not listed in this section. Within the 4-bit results, `Qwen3.8-Flash-Next-UD-Q4_K_XL` remains the primary recommendation in **Section 5.1**, while `Qwen3.8-27B-FP4-FAST` is kept as a measured record. Full records are in [`docs/A9-Mega-395/`](./docs/A9-Mega-395/).
 
 ### 4.5 Reproduction commands
 
