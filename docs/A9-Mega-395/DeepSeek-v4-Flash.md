@@ -36,13 +36,68 @@ The engine is an alternative to the `llama.cpp` / `ggml-rpc-server` stack docume
 
 Values are reproduced exactly as recorded; this page is the published record for these measurements.
 
-| Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | Memory host / worker (GB) |
-| --- | --- | --- | --- | --- | --- | --- |
-| 8K | 78 | 21.55 | 380.14 | 13.44 | 28.37 | 62.87 / 60.90 |
-| 16K | 85 | 40.89 | 400.23 | 13.25 | 49.34 | 62.93 / 60.96 |
-| 32K | 78 | 73.60 | 442.40 | 12.72 | 81.75 | 63.24 / 61.31 |
-| 64K | 135 | 153.53 | 422.75 | 11.62 | 166.97 | 63.44 / 61.74 |
-| 128K | 87 | 351.66 | 368.44 | 10.10 | 363.16 | 63.48 / 61.53 |
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Input length</th>
+      <th>Output length</th>
+      <th>TTFT (s)</th>
+      <th>Prefill (tokens/s)</th>
+      <th>Decode (tokens/s)</th>
+      <th>End-to-end (s)</th>
+      <th>Memory host / worker (GB)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="5">DeepSeek-V4-Flash-0731-UD-Q2_K_XL</td>
+      <td>8K</td>
+      <td>78</td>
+      <td>21.55</td>
+      <td>380.14</td>
+      <td>13.44</td>
+      <td>28.37</td>
+      <td>62.87 / 60.90</td>
+    </tr>
+    <tr>
+      <td>16K</td>
+      <td>85</td>
+      <td>40.89</td>
+      <td>400.23</td>
+      <td>13.25</td>
+      <td>49.34</td>
+      <td>62.93 / 60.96</td>
+    </tr>
+    <tr>
+      <td>32K</td>
+      <td>78</td>
+      <td>73.60</td>
+      <td>442.40</td>
+      <td>12.72</td>
+      <td>81.75</td>
+      <td>63.24 / 61.31</td>
+    </tr>
+    <tr>
+      <td>64K</td>
+      <td>135</td>
+      <td>153.53</td>
+      <td>422.75</td>
+      <td>11.62</td>
+      <td>166.97</td>
+      <td>63.44 / 61.74</td>
+    </tr>
+    <tr>
+      <td>128K</td>
+      <td>87</td>
+      <td>351.66</td>
+      <td>368.44</td>
+      <td>10.10</td>
+      <td>363.16</td>
+      <td>63.48 / 61.53</td>
+    </tr>
+  </tbody>
+</table>
 
 <details>
 <summary>Test commands (as recorded)</summary>
