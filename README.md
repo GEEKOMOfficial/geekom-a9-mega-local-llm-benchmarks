@@ -254,10 +254,15 @@ This is an experimental reference project, not a guarantee that every model or t
 
 The performance data here was measured on specific, disclosed configurations. Background applications, software versions, model settings, ambient conditions, and power profiles can affect performance, so results from one device should not be read as guaranteed performance for every GEEKOM configuration.
 
-Support scope and issue-response expectations will be added before public release.
+Support: questions and reproduction reports are welcome via GitHub Issues. This is a community reference project maintained by the GEEKOM team; we review new issues on business days and prioritise reports that include the model file, launch command, and device (395 or 388) used.
 
 ## Related resources
 
 - [GEEKOM Resource Center](https://github.com/GEEKOMOfficial/geekom-resource-center)
 - [GEEKOM Official Website](https://www.geekompc.com/)
 - [GEEKOM Support](https://www.geekompc.com/support/)
+
+## License
+
+- Benchmark data and documentation in this repository are licensed under CC BY 4.0 — the same terms as the dataset release: https://huggingface.co/datasets/geekom-ai/a9-mega-local-llm-benchmarks
+- Code (scripts and tooling) is licensed under the MIT License (see LICENSE).
