@@ -19,6 +19,8 @@ Full records for each device, including test commands, VRAM usage, and notes:
 
 This root README summarizes the benchmarks. Device-specific installation guides can be added to those folders when the setup steps have been verified.
 
+**Community:** Questions or results to share? Join the [GEEKOM AI Discord](https://discord.gg/8WxyT7yvhw) or open a thread in this repository's Discussions tab.
+
 ## Model performance at a glance
 
 Headline short-context (128-token input) results for the models tested on the A9 Mega 395 and A9 Mega 388, for a quick overview before the detailed sections. See [Section 4](#4-measured-4-bit-performance-by-device) for longer context lengths, deployment, and per-device detail.
