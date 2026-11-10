@@ -31,7 +31,8 @@ Thumbs.db
 Desktop.ini
 
 tmp/
+output/
 *.pptx
 *.pdf
-
+*.xlsx
 
