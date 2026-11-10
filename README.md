@@ -15,7 +15,7 @@ All performance data was measured on physical GEEKOM units. **Device configurati
 Full records for each device, including test commands, VRAM usage, and notes:
 
 - A9 Mega 395 — all 37 test records: [`docs/A9-Mega-395/`](./docs/A9-Mega-395/)
-- A9 Mega 388 — all 35 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
+- A9 Mega 388 — all 63 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
 
 This root README summarizes the benchmarks. Device-specific installation guides can be added to those folders when the setup steps have been verified.
 

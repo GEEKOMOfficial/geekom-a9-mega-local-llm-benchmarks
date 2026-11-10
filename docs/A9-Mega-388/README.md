@@ -3,10 +3,24 @@
 This directory archives the local large language model inference performance tests measured on the **GEEKOM A9 Mega 388** configuration.
 
 - Source: tests measured on physical GEEKOM A9 Mega 388 hardware
-- Records: **35**, covering **6** model / deployment combinations
+- Records: **63**, covering **10** model / deployment / acceleration combinations
 - Raw details are also available as [`test-records.csv`](./test-records.csv) in this directory (UTF-8, opens directly in Excel)
 
-> **Recommended models**: this directory is a full test archive. Only three combinations are promoted as recommendations in Section 5.2 of the root [`README.md`](../../README.md) — the dual-node cascade `Qwen3.8-Flash-Next-UD-Q4_K_XL`, `Qwen3.6-35B-A3B-UD-Q4_K_M`, and `MiniCPM5-2B-Q4_K_M`. Everything else (the triple-node cascade, `Qwen3.8-27B-UD-Q4_K_XL`, and `Gemma-4-31B_q4_0-it`) is recorded as test data only.
+## Strata on a single A9 Mega 388
+
+Strata 0.2.2 ran the **83.6 GB Qwen3.8-Flash-Next GSQ-RCO-IQ3_S** model on one **64 GB A9 Mega 388** using SSD-resident weights. With multi-token prediction (MTP N=4), it decoded at **24.7–31.3 tokens/s** across all seven tested input lengths, from 128 tokens to 128K. [Strata project](https://github.com/niko1221/strata)
+
+| Input length | Decode with MTP N=4 (tokens/s) | Decode with MTP and suffix off (tokens/s) | Time to first token with MTP N=4 (s) |
+| --- | ---: | ---: | ---: |
+| 128 | 31.3 | 23.6 | 1.69 |
+| 32K | 30.6 | 23.8 | 50.60 |
+| 128K | 24.9 | 22.5 | 208.42 |
+
+At 128K, this single-device Strata configuration decoded **2.34× as fast** and had **76% lower time to first token** than the archived dual-node `llama.cpp` run with the 111.4 GB UD-Q4_K_XL model. The two runs used different quantizations, deployments, and MTP settings. [Dual-node benchmark](#31-dual-node-cascade-qwen38-flash-next-ud-q4_k_xlgguf-1114gb-mtp-qwen38-flash-next-q4_k_mgguf-28gb)
+
+The full IQ3_S results and launch commands are in the [MTP N=4 run](#39-strata-ssd-resident-qwen38-flash-next-gsq-rco-iq3_sgguf-836-gb-mtp-n4) and the [run with MTP and suffix off](#310-strata-ssd-resident-qwen38-flash-next-gsq-rco-iq3_sgguf-836-gb-mtp-and-suffix-off).
+
+For the repository-wide model shortlist, see [Section 5.2 of the root README](../../README.md#52-a9-mega-388--three-recommended-models).
 
 ## 1. Device and hardware configuration
 
@@ -25,13 +39,13 @@ This directory archives the local large language model inference performance tes
 
 | Field | Meaning |
 | --- | --- |
-| Input length (tokens) | Context input length used for the test (128 / 8K / 16K / 32K / 64K / 128K / 256K) |
+| Input length (tokens) | Context input length used for the test (128 / 4K / 8K / 16K / 32K / 64K / 128K / 256K) |
 | Output length (tokens) | Number of tokens actually generated |
 | Time to first token, TTFT (s) | Time from sending the request to receiving the first token |
 | Prefill rate (tokens/s) | Prompt processing (prefill) throughput |
 | Decode rate (tokens/s) | Generation (decode) throughput |
 | End-to-end time (s) | Total time for a single request |
-| VRAM (GB) | Video memory usage; for multi-node cascades listed as "host / worker" or "host / worker 1 / worker 2" |
+| VRAM (GB) | Video memory usage; for multi-node cascades listed as "host / worker" or "host / worker 1 / worker 2". Strata rows retain both values from the source VRAM / memory column in `value (+value)` format. |
 
 ## 3. Test results
 
@@ -199,26 +213,136 @@ llama-server.exe  -m ..\gemma-4-31b\gemma-4-31B_q4_0-it.gguf --mmproj ..\gemma-4
 
 </details>
 
+### 3.7 Strata SSD-resident Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4 GB) (MTP N=4)
+
+Sections 3.7 to 3.10 use Strata 0.2.2 with SSD-resident model weights. The measurements and test commands come from rows 67 to 98 of the `Strata性能测试` sheet. [Source workbook](../大模型推理性能测试记录表.xlsx)
+
+- Acceleration: `Yes(MTP) N=4`
+- Records: 7
+
+| Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM / memory (GB) |
+| --- | --- | --- | --- | --- | --- | --- |
+| 128 | 501 | 3.33 | 39 | 18.9 | 29.79 | 52.63 (+11.06) |
+| 4K | 710 | 11.25 | 366 | 17 | 52.96 | 52.23 (+11.26) |
+| 8K | 633 | 22.19 | 370 | 19.5 | 54.6 | 52.35 (+11.86) |
+| 16K | 901 | 38.97 | 421 | 19.7 | 84.65 | 51.91 (+11.60) |
+| 32K | 602 | 74.36 | 441 | 18.1 | 107.56 | 52.00 (+11.42) |
+| 64K | 900 | 144.4 | 454 | 20.2 | 189.1 | 52.30 (+11.61) |
+| 128K | 2874 | 309.91 | 423 | 19.9 | 454.28 | 51.95 (+11.85) |
+
+<details>
+<summary>Test commands</summary>
+
+```bash
+.venv/bin/python -m serve.server --engine strata --port 8082 --config /dev/stdin <<'EOF'
+{"exe":"engine/strata","args":["--pack","/home/u2604/Strata-data/packs/unsloth-ud-q4_k_xl","--native","/home/u2604/model/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf","--expert-profile","data/expert-profile.bin","--expert-cache","auto","--prefill","auto","--spec","4","--spec-min-p","0.5","--mtp","/home/u2604/Strata-data/mtp/rt","--resident-budget-gib", "71","--max-context","256000","--kv","int8","--vision","--vram-reserve-mib","700"],"cwd":".","tokenizer":"/home/u2604/Strata-data/packs/unsloth-ud-q4_k_xl/tokenizer","model_name":"qwen3.8-flash-next-unsloth-ud-q4_k_xl","log":"strata-unsloth-ud-q4_k_xl.log","host":"127.0.0.1","lib_dirs":["/home/u2604/Strata-0.2.2/.venv/lib/python3.14/site-packages/_rocm_sdk_devel/lib","/home/u2604/Strata-0.2.2/.venv/lib/python3.14/site-packages/_rocm_sdk_libraries_gfx1151/lib"],"env":{"STRATA_HIPBLASLT_TUNING":"/home/u2604/Strata-0.2.2/tools/hip/gfx1151-hipblaslt-100400.txt"},"vision":{"exe":"engine/strata-vision-hip","mmproj":"/home/u2604/Strata-data/models/mmproj-Qwen3.8-Flash-Next-BF16.gguf","model":"/home/u2604/model/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf","gpu":true,"max_tokens":1024,"cpu_exe":"engine/strata-vision"}}
+EOF
+```
+
+</details>
+
+### 3.8 Strata SSD-resident Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf (111.4 GB) (MTP and suffix off)
+
+- Acceleration: `No (MTP and suffix off)`
+- Records: 7
+
+| Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM / memory (GB) |
+| --- | --- | --- | --- | --- | --- | --- |
+| 128 | 249 | 3.19 | 41 | 15.7 | 18.98 | 51.54 (+10.47) |
+| 4K | 631 | 11.26 | 366 | 14.9 | 53.54 | 51.54 (+10.48) |
+| 8K | 626 | 20.75 | 396 | 17.2 | 57.08 | 51.64 (+11.85) |
+| 16K | 676 | 38.52 | 426 | 17.3 | 77.54 | 51.37 (+11.70) |
+| 32K | 1255 | 75.39 | 435 | 17.3 | 147.87 | 52.48 (+11.13) |
+| 64K | 425 | 144.41 | 454 | 16.7 | 169.8 | 52.46 (+11.44) |
+| 128K | 602 | 307.75 | 426 | 15.5 | 346.52 | 52.41 (+11.15) |
+
+<details>
+<summary>Test commands</summary>
+
+```bash
+.venv/bin/python -m serve.server --engine strata --port 8082 --config /dev/stdin <<'EOF'
+{"exe":"engine/strata","args":["--pack","/home/u2604/Strata-data/packs/unsloth-ud-q4_k_xl","--native","/home/u2604/model/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf","--expert-profile","data/expert-profile.bin","--expert-cache","auto","--prefill","auto","--spec","4","--spec-min-p","0.5","--suffix-draft","0","--resident-budget-gib", "71","--max-context","256000","--kv","int8","--vision","--vram-reserve-mib","700"],"cwd":".","tokenizer":"/home/u2604/Strata-data/packs/unsloth-ud-q4_k_xl/tokenizer","model_name":"qwen3.8-flash-next-unsloth-ud-q4_k_xl","log":"strata-unsloth-ud-q4_k_xl.log","host":"127.0.0.1","lib_dirs":["/home/u2604/Strata-0.2.2/.venv/lib/python3.14/site-packages/_rocm_sdk_devel/lib","/home/u2604/Strata-0.2.2/.venv/lib/python3.14/site-packages/_rocm_sdk_libraries_gfx1151/lib"],"env":{"STRATA_HIPBLASLT_TUNING":"/home/u2604/Strata-0.2.2/tools/hip/gfx1151-hipblaslt-100400.txt"},"vision":{"exe":"engine/strata-vision-hip","mmproj":"/home/u2604/Strata-data/models/mmproj-Qwen3.8-Flash-Next-BF16.gguf","model":"/home/u2604/model/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf","gpu":true,"max_tokens":1024,"cpu_exe":"engine/strata-vision"}}
+EOF
+```
+
+</details>
+
+### 3.9 Strata SSD-resident Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S.gguf (83.6 GB) (MTP N=4)
+
+- Acceleration: `Yes(MTP) N=4`
+- Records: 7
+
+| Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM / memory (GB) |
+| --- | --- | --- | --- | --- | --- | --- |
+| 128 | 615 | 1.69 | 77 | 31.3 | 21.31 | 52.92 (+5.03) |
+| 4K | 780 | 7.97 | 516 | 28.4 | 35.4 | 52.93 (+5.04) |
+| 8K | 680 | 15.67 | 524 | 28.4 | 39.58 | 52.57 (+4.87) |
+| 16K | 990 | 26.85 | 611 | 30 | 59.82 | 52.96 (+4.92) |
+| 32K | 1673 | 50.6 | 648 | 30.6 | 105.24 | 52.18 (+4.92) |
+| 64K | 644 | 101.8 | 644 | 24.7 | 127.84 | 53.12 (+5.16) |
+| 128K | 551 | 208.42 | 629 | 24.9 | 230.51 | 53.10 (+4.61) |
+
+<details>
+<summary>Test commands</summary>
+
+```bash
+.venv/bin/python -m serve.server --engine strata --port 8082 --config /dev/stdin <<'EOF'
+{"exe":"engine/strata","args":["--pack","/home/u2604/Strata-data/packs/iq3_s","--native","/home/u2604/model/iq3/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf","--ple-gguf","/home/u2604/model/iq3/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00002-of-00002.gguf","--mmap-experts","--expert-profile","data/expert-profile.bin","--expert-cache","auto","--prefill","auto","--spec","4","--spec-min-p","0.5","--mtp","/home/u2604/Strata-data/mtp/rt","--max-context","256000","--kv","int8","--vision","--vram-reserve-mib","700"],"cwd":".","tokenizer":"/home/u2604/Strata-data/packs/iq3_s/tokenizer","model_name":"qwen3.8-flash-next-iq3_s","log":"strata-iq3_s.log","host":"127.0.0.1","lib_dirs":["/home/u2604/Strata-0.2.2/.venv/lib/python3.14/site-packages/_rocm_sdk_devel/lib","/home/u2604/Strata-0.2.2/.venv/lib/python3.14/site-packages/_rocm_sdk_libraries_gfx1151/lib"],"env":{"STRATA_HIPBLASLT_TUNING":"/home/u2604/Strata-0.2.2/tools/hip/gfx1151-hipblaslt-100400.txt"},"vision":{"exe":"engine/strata-vision-hip","mmproj":"/home/u2604/Strata-data/models/mmproj-Qwen3.8-Flash-Next-BF16.gguf","model":"/home/u2604/model/iq3/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf","gpu":true,"max_tokens":1024,"cpu_exe":"engine/strata-vision"}}
+EOF
+```
+
+</details>
+
+### 3.10 Strata SSD-resident Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S.gguf (83.6 GB) (MTP and suffix off)
+
+- Acceleration: `No (MTP and suffix off)`
+- Records: 7
+
+| Input length | Output length | TTFT (s) | Prefill (tokens/s) | Decode (tokens/s) | End-to-end (s) | VRAM / memory (GB) |
+| --- | --- | --- | --- | --- | --- | --- |
+| 128 | 328 | 1.7 | 77 | 23.6 | 15.56 | 52.73 (+4.76) |
+| 4K | 762 | 8.54 | 482 | 22.4 | 42.52 | 52.88 (+5.04) |
+| 8K | 550 | 14.96 | 549 | 23.4 | 38.43 | 52.26 (+5.15) |
+| 16K | 560 | 26.34 | 623 | 24.1 | 49.54 | 52.24 (+5.17) |
+| 32K | 654 | 50.15 | 654 | 23.8 | 77.58 | 52.04 (+4.81) |
+| 64K | 511 | 100.87 | 650 | 23.2 | 122.85 | 52.13 (+5.55) |
+| 128K | 549 | 214.21 | 612 | 22.5 | 238.57 | 52.41 (+4.72) |
+
+<details>
+<summary>Test commands</summary>
+
+```bash
+.venv/bin/python -m serve.server --engine strata --port 8082 --config /dev/stdin <<'EOF'
+{"exe":"engine/strata","args":["--pack","/home/u2604/Strata-data/packs/iq3_s","--native","/home/u2604/model/iq3/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf","--ple-gguf","/home/u2604/model/iq3/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00002-of-00002.gguf","--mmap-experts","--expert-profile","data/expert-profile.bin","--expert-cache","auto","--prefill","auto","--spec","4","--spec-min-p","0.5","--suffix-draft","0","--max-context","256000","--kv","int8","--vision","--vram-reserve-mib","700"],"cwd":".","tokenizer":"/home/u2604/Strata-data/packs/iq3_s/tokenizer","model_name":"qwen3.8-flash-next-iq3_s","log":"strata-iq3_s.log","host":"127.0.0.1","lib_dirs":["/home/u2604/Strata-0.2.2/.venv/lib/python3.14/site-packages/_rocm_sdk_devel/lib","/home/u2604/Strata-0.2.2/.venv/lib/python3.14/site-packages/_rocm_sdk_libraries_gfx1151/lib"],"env":{"STRATA_HIPBLASLT_TUNING":"/home/u2604/Strata-0.2.2/tools/hip/gfx1151-hipblaslt-100400.txt"},"vision":{"exe":"engine/strata-vision-hip","mmproj":"/home/u2604/Strata-data/models/mmproj-Qwen3.8-Flash-Next-BF16.gguf","model":"/home/u2604/model/iq3/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-00001-of-00002.gguf","gpu":true,"max_tokens":1024,"cpu_exe":"engine/strata-vision"}}
+EOF
+```
+
+</details>
+
 ## 4. Coverage overview
 
 | Model / deployment | Acceleration | Context lengths tested | Missing context lengths |
 | --- | --- | --- | --- |
-| Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL | MTP N=2 | 128 / 8K / 16K / 32K / 128K | 64K, 256K |
-| Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL | MTP N=2 | 128 / 8K / 16K / 32K / 128K | 64K, 256K |
-| Qwen3.8-27B-UD-Q4_K_XL | MTP N=4 | 128 / 8K / 16K / 32K / 64K / 128K / 256K | None |
-| Gemma-4-31B_q4_0-it | No | 128 / 8K / 16K / 32K / 128K | 64K, 256K |
-| Qwen3.6-35B-A3B-UD-Q4_K_M | MTP N=2 | 128 / 8K / 16K / 32K / 64K / 128K / 256K | None |
-| MiniCPM5-2B-Q4_K_M | No | 128 / 8K / 16K / 32K / 64K / 128K | 256K |
+| Dual-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL | MTP N=2 | 128 / 8K / 16K / 32K / 128K | 4K, 64K, 256K |
+| Triple-node cascade Qwen3.8-Flash-Next-UD-Q4_K_XL | MTP N=2 | 128 / 8K / 16K / 32K / 128K | 4K, 64K, 256K |
+| Qwen3.8-27B-UD-Q4_K_XL | MTP N=4 | 128 / 8K / 16K / 32K / 64K / 128K / 256K | 4K |
+| Gemma-4-31B_q4_0-it | No | 128 / 8K / 16K / 32K / 128K | 4K, 64K, 256K |
+| Qwen3.6-35B-A3B-UD-Q4_K_M | MTP N=2 | 128 / 8K / 16K / 32K / 64K / 128K / 256K | 4K |
+| MiniCPM5-2B-Q4_K_M | No | 128 / 8K / 16K / 32K / 64K / 128K | 4K, 256K |
+| Strata SSD-resident Qwen3.8-Flash-Next-UD-Q4_K_XL | MTP N=4 | 128 / 4K / 8K / 16K / 32K / 64K / 128K | 256K |
+| Strata SSD-resident Qwen3.8-Flash-Next-UD-Q4_K_XL | MTP and suffix off | 128 / 4K / 8K / 16K / 32K / 64K / 128K | 256K |
+| Strata SSD-resident Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S | MTP N=4 | 128 / 4K / 8K / 16K / 32K / 64K / 128K | 256K |
+| Strata SSD-resident Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S | MTP and suffix off | 128 / 4K / 8K / 16K / 32K / 64K / 128K | 256K |
 
 ## 5. Data notes and known issues
 
 1. **Gemma-4-31B 256K test failed**: the `Gemma-4-31B_q4_0-it` 256K scenario failed with a test error and produced no usable performance metric, so it is not included in the results above.
-2. **Uneven context coverage**: the six test groups do not cover the same context lengths (see the table above); keep this in mind when comparing across models.
+2. **Uneven context coverage**: test groups cover different context lengths (see the table above). Compare results at the same input length.
 
 ## 6. Related files
 
 | File | Description |
 | --- | --- |
-| [`test-records.csv`](./test-records.csv) | Flat data table of all 35 records for the 388 |
+| [`test-records.csv`](./test-records.csv) | Flat data table of all 63 records for the 388 |
 | `../A9-Mega-395/README.md` | Test records for the 395 configuration (same structure, for comparison) |
 | `../../README.md` | Quantization level selection (bits vs. size / accuracy) and the 4-bit measurements per device |
