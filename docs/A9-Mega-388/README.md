@@ -8,6 +8,8 @@ This directory archives the local large language model inference performance tes
 
 ## Strata on a single A9 Mega 388
 
+The [dedicated Qwen3.8-Flash-Next benchmark](./Qwen3.8-Flash-Next-Strata.md) covers IQ3_S on the 64 GB 388 and compares it with the single-device Q4 `llama.cpp` run on the 128 GB 395.
+
 Strata 0.2.2 ran the **83.6 GB Qwen3.8-Flash-Next GSQ-RCO-IQ3_S** model on one **64 GB A9 Mega 388** using SSD-resident weights. With multi-token prediction (MTP N=4), it decoded at **24.7–31.3 tokens/s** across all seven tested input lengths, from 128 tokens to 128K. [Strata project](https://github.com/niko1221/strata)
 
 | Input length | Decode with MTP N=4 (tokens/s) | Decode with MTP and suffix off (tokens/s) | Time to first token with MTP N=4 (s) |
