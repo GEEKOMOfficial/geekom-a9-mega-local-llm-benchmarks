@@ -8,14 +8,14 @@ This repository answers three questions for end customers, using data measured o
 
 The short answer: **4-bit quantization is the sweet spot between file size and model fidelity**, and it is the level used for the recommended configurations in this repository.
 
-Section 5 turns those results into a concrete shortlist: the **strongest 4-bit recommendation for the A9 Mega 395** and **three recommended models for the A9 Mega 388**. The 395 is the higher-spec model, with more CPU cores and twice the memory (128 GB vs. 64 GB); the 388 is the more cost-effective choice. The recommended models have also been run on the 395, and the 395 can host larger models — including the 111.4 GB flagship — on a single device, where the 388 needs a second A9 Mega for it. The shortlist highlights useful choices rather than covering every supported model.
+Section 5 turns those results into a concrete shortlist: the **strongest 4-bit recommendation for the A9 Mega 395** and **three recommended models for the A9 Mega 388**. The 395 is the higher-spec model, with more CPU cores and twice the memory (128 GB vs. 64 GB); the 388 is the more cost-effective choice. With **Strata**, both devices ran the 111.4 GB Qwen3.8-Flash-Next flagship on a single device: the 395 used memory-resident experts, while the 388 used SSD-backed weights. The shortlist highlights useful choices rather than covering every supported model.
 
-All performance data was measured on physical GEEKOM units. **Device configurations, model filenames, and recorded launch commands are published with the results**, and anything not tested is marked as such rather than assumed.
+All performance data was measured on physical GEEKOM units. **Device configurations, model filenames, and runtime settings are published with the results**; full launch commands are included where available, and anything not tested is marked as such rather than assumed.
 
 Full records for each device, including test commands, VRAM usage, and notes:
 
-- A9 Mega 395 — all 37 test records: [`docs/A9-Mega-395/`](./docs/A9-Mega-395/)
-- A9 Mega 388 — all 63 test records: [`docs/A9-Mega-388/`](./docs/A9-Mega-388/)
+- A9 Mega 395 — [earlier llama.cpp archive](./docs/A9-Mega-395/) and [56 Strata measurements](./docs/A9-Mega-395/Qwen3.8-Flash-Next-Strata.md)
+- A9 Mega 388 — [test archive, including Strata Q4 and IQ3_S runs](./docs/A9-Mega-388/), and [IQ3_S performance summary](./docs/A9-Mega-388/Qwen3.8-Flash-Next-Strata.md)
 
 This root README summarizes the benchmarks. Device-specific installation guides can be added to those folders when the setup steps have been verified.
 
@@ -23,18 +23,19 @@ This root README summarizes the benchmarks. Device-specific installation guides 
 
 ## Model performance at a glance
 
-Headline short-context (128-token input) results for the models tested on the A9 Mega 395 and A9 Mega 388, for a quick overview before the detailed sections. See [Section 4](#4-measured-4-bit-performance-by-device) for longer context lengths, deployment, and per-device detail.
+Headline results for the models tested on the A9 Mega 395 and A9 Mega 388: **generation speed and TTFT use 128-token input; prompt-processing speed uses 32K-token input for every model**. See [Section 4](#4-measured-4-bit-performance-by-device) for longer context lengths, deployment, and per-device detail.
 
-| Model / Quantization | Model Size (GB) | Generation Speed (token/s) | Prompt Processing (token/s) | TTFT (s) |
+| Model / Quantization | Model Size (GB) | Generation Speed, 128-token input (token/s) | Prompt Processing, 32K input (token/s) | TTFT, 128-token input (s) |
 | :---: | :---: | :---: | :---: | :---: |
-| Qwen3.8-Flash-Next `UD-Q4_K_XL` | 111.4 | 32.43 | 132.22 | 0.97 |
-| DeepSeek-V4-Flash-0731 `UD-Q2_K_XL` | 96.8 | 14.71 | 129.24 | 0.99 |
-| Qwen3.6-35B-A3B `UD-Q4_K_M` | 22.7 | 68.03 | 822.22 | 0.16 |
-| Gemma-4-31B `q4_0` | 16.4 | 11.28 | 26.83 | 4.77 |
-| Qwen3.8-27B `FP4-FAST` | 14.6 | 31.29 | 318.64 | 0.40 |
-| MiniCPM5-2B `Q4_K_M` | 1.56 | 103.10 | 1320.23 | 0.10 |
+| Qwen3.8-Flash-Next `UD-Q4_K_XL` — 395, Strata memory-resident | 111.4 | 37.7 | 1212 | 0.46 |
+| Qwen3.8-Flash-Next `UD-Q4_K_XL` — 388, Strata SSD-backed | 111.4 | 18.9 | 441 | 3.33 |
+| DeepSeek-V4-Flash-0731 `UD-Q2_K_XL` | 96.8 | 14.71 | 108.45 | 0.99 |
+| Qwen3.6-35B-A3B `UD-Q4_K_M` | 22.7 | 68.03 | 1007.86 | 0.16 |
+| Gemma-4-31B `q4_0` | 16.4 | 11.28 | 41.45 | 4.77 |
+| Qwen3.8-27B `FP4-FAST` | 14.6 | 31.29 | 276.48 | 0.40 |
+| MiniCPM5-2B `Q4_K_M` | 1.56 | 103.10 | 1550.16 | 0.10 |
 
-Source: recorded test data in the device archives ([A9 Mega 395](./docs/A9-Mega-395/), [A9 Mega 388](./docs/A9-Mega-388/)). Figures are for single-device runs; the larger models were also measured in multi-node cascades, and decode rate falls as context grows.
+Source: recorded test data in the device archives ([A9 Mega 395 Strata](./docs/A9-Mega-395/Qwen3.8-Flash-Next-Strata.md), [earlier A9 Mega 395 results](./docs/A9-Mega-395/), [A9 Mega 388](./docs/A9-Mega-388/)). The Qwen3.8-Flash-Next rows use Strata with MTP N=4; the other rows retain their earlier engine configurations. Figures are for single-device runs. Longer-context results are reported below.
 
 ## Contents
 
@@ -61,7 +62,7 @@ Three points follow from this table:
 - **Memory grows gently at low quantization levels**: 1-bit to 4-bit only moves from 75 GB to 96–114 GB (roughly +30% to +50%), yet that is already enough to hold this hundred-gigabyte-class flagship model.
 - **Memory expands sharply at high quantization levels**: BF16 (355 GB) is more than three times the 4-bit range, and 8-bit (200 GB) is likewise far beyond the memory capacity of a mainstream mini PC. Both place an order-of-magnitude higher demand on memory capacity and memory bandwidth.
 
-**What this means when choosing a device**: the model weights, draft model, runtime overhead, and context cache (KV cache) all need memory. The recorded GEEKOM setup uses a 2.8 GB draft model for MTP. The 111.4 GB 4-bit main model was recorded on a single A9 Mega 395 through 128K input tokens (Section 4.2); part of its memory use is offloaded to CPU (system) RAM (the model's N-gram embedding data), and because that portion can use system virtual memory (swap pages), the combined footprint can exceed the listed 128 GB memory capacity. Memory capacity affects both the model size and context length a device can serve.
+**What this means when choosing a device**: model weights, draft weights, runtime overhead, and the context cache (KV cache) all need memory. The table above describes memory requirements for the cited configurations; SSD offload changes how much must remain resident. Strata ran the 111.4 GB 4-bit model through 128K input tokens on both a single 128 GB 395 with memory-resident experts and a single 64 GB 388 with SSD-backed weights (Sections 4.2–4.3). The earlier llama.cpp setup used a separate 2.8 GB MTP draft model and different memory handling. Memory capacity, engine, residency mode, and storage all affect which configurations a device can serve.
 
 ## 2. Quantization level vs. model fidelity
 
@@ -112,7 +113,7 @@ The Unsloth memory requirements in Section 1 and its GGUF fidelity measurements 
 | Graphics driver | 31.50.0.0 | 31.50.0.0 |
 
 
-> Both devices use the same listed graphics processor and memory bandwidth. The **395 has twice the CPU cores and threads (16/32 vs. 8/16) and twice the memory (128 GB vs. 64 GB)**, making it the higher-spec model; the **388 is the more cost-effective option**. Memory capacity determines the model sizes a single device can hold and the context lengths it can serve. In the recorded tests the 395's additional memory allowed the featured 111.4 GB model to run on one device, while the 388 used a two-device cascade for that model.
+> Both devices use the same listed graphics processor and memory bandwidth. The **395 has twice the CPU cores and threads (16/32 vs. 8/16) and twice the memory (128 GB vs. 64 GB)**, making it the higher-spec model; the **388 is the more cost-effective option**. Memory capacity affects how much of a model can remain resident. Strata's SSD-backed mode also allowed the 388 to run the 111.4 GB model on one device; the earlier llama.cpp configuration used a two-device cascade.
 
 ### 4.2 Primary model on A9 Mega 395: Qwen3.8-Flash-Next UD-Q4_K_XL
 
@@ -120,21 +121,48 @@ A9 Mega 395 single-device test conditions:
 
 | Item | Configuration |
 | --- | --- |
-| Model | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` (111.4 GB, the upper end of the 4-bit range in Section 1) + draft model `mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf` (2.8 GB) |
-| Acceleration | `Yes(MTP)`, `--spec-type draft-mtp --spec-draft-n-max 2` |
-| Context length | `-c 256000`, `-fa on`; measured through 128K input tokens |
-| Batch settings | `-b 4096 -ub 2048 -np 1` |
-| Deployment | Single device (`llama-server`, without `--rpc`) |
+| Model | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` (111.4 GB, the upper end of the 4-bit range in Section 1) |
+| Engine | Strata `0.2.2-100400` |
+| Acceleration | MTP N=4 (`--spec 4`, `--mtp`, `--mtp-q4 all`, `--mtp-window 8192`) |
+| Context length | `--max-context 256000`, `--kv int8`; measured through 128K input tokens |
+| Expert settings | `--resident-experts --expert-cache auto --prefill auto` |
+| Deployment | Single device, memory-resident experts |
 
-![Line plot of A9 Mega 395 single-device decode rate: 32.43 tokens/s at 128 input tokens, 28.48 at 8K, 25.88 at 16K, 23.58 at 32K, 18.06 at 64K, and 15.45 at 128K.](docs/images/a9-mega-395-decode-rate.svg)
+![Line plot of A9 Mega 395 Strata single-device decode rate: 37.7 tokens/s at 128 input tokens, 42.4 at 4K, 38.3 at 8K, 35.8 at 16K, 35.1 at 32K, 31.9 at 64K, and 33.2 at 128K.](docs/images/a9-mega-395-decode-rate.svg)
 
-The points are spaced evenly by measured setting for readability; their horizontal distances are not proportional to token count. The [A9 Mega 395 test archive](./docs/A9-Mega-395/) has the corresponding TTFT, prefill, output length, and VRAM measurements.
+The points are spaced evenly by measured setting for readability; their horizontal distances are not proportional to token count.
 
-The single device decoded at **32.43 tokens/s at 128 input tokens**, **23.58 tokens/s at 32K**, and **15.45 tokens/s at 128K**. Time to first token rose from 0.97 s at 128 input tokens to 720.61 s at 128K.
+| Input tokens | Decode (tokens/s) | Prefill (tokens/s) | TTFT (s) |
+| --- | ---: | ---: | ---: |
+| 128 | 37.7 | 294 | 0.46 |
+| 4K | 42.4 | 963 | 4.28 |
+| 8K | 38.3 | 1043 | 7.88 |
+| 16K | 35.8 | 1146 | 14.32 |
+| 32K | 35.1 | 1212 | 27.06 |
+| 64K | 31.9 | 1219 | 53.79 |
+| 128K | 33.2 | 1175 | 111.58 |
 
-The reported memory usage for this single-device run is given as GPU VRAM plus a portion offloaded to CPU (system) RAM (for example, `101.61 (+30.17)` GB, where the offloaded part holds the model's N-gram embedding data). Because the offloaded portion can use system virtual memory (swap pages), the combined 131.78–135.06 GB can exceed the listed 128 GB memory size; the archive retains those readings as measured.
+At 128K, this Strata configuration delivers **2.15× the decode throughput** and **85% lower TTFT** than the earlier single-device llama.cpp Q4 run (15.45 tokens/s, 720.61 s TTFT). Engine, MTP implementation and depth, and memory handling differ, so this compares complete configurations. The [395 Strata report](./docs/A9-Mega-395/Qwen3.8-Flash-Next-Strata.md) also covers MTP-off baselines, SSD-backed Q4 (29.1 tokens/s at 128K), and the 83.6 GB IQ3_S model (37.2 tokens/s at 128K with memory-resident experts). IQ3_S is a separate quantization without a fidelity evaluation in this repository.
 
-### 4.3 A9 Mega 388: Qwen3.6-35B-A3B and other 4-bit models
+### 4.3 A9 Mega 388: Qwen3.8-Flash-Next and other 4-bit models
+
+**Strata 0.2.2 runs the 111.4 GB Qwen3.8-Flash-Next UD-Q4_K_XL on a single 64 GB 388 using SSD-backed weights**, with MTP N=4 and an INT8 KV cache. The configured context limit is 256000; measurements cover 128 through 128K input tokens.
+
+| Input tokens | Decode (tokens/s) | Prefill (tokens/s) | TTFT (s) |
+| --- | ---: | ---: | ---: |
+| 128 | 18.9 | 39 | 3.33 |
+| 4K | 17.0 | 366 | 11.25 |
+| 8K | 19.5 | 370 | 22.19 |
+| 16K | 19.7 | 421 | 38.97 |
+| 32K | 18.1 | 441 | 74.36 |
+| 64K | 20.2 | 454 | 144.40 |
+| 128K | 19.9 | 423 | 309.91 |
+
+This configuration sustains **17.0–20.2 tokens/s** across the measured inputs without a second device. [Q4 measurements and launch command](./docs/A9-Mega-388/README.md#37-strata-ssd-resident-qwen38-flash-next-ud-q4_k_xlgguf-1114-gb-mtp-n4)
+
+The separate **83.6 GB GSQ-RCO-IQ3_S** Strata configuration reaches **24.7–31.3 tokens/s**, including **24.9 tokens/s at 128K** with **208.42 s TTFT**. It offers higher measured throughput with a different quantization; output quality has not been compared here. [388 IQ3_S report](./docs/A9-Mega-388/Qwen3.8-Flash-Next-Strata.md)
+
+#### Smaller 4-bit models
 
 The recommended single-device `Qwen3.6-35B-A3B-UD-Q4_K_M` (22.7 GB, MTP N=2) was measured at seven input lengths:
 
@@ -183,7 +211,17 @@ Corresponding time to first token (s):
 ### 4.5 Reproduction commands
 
 <details>
-<summary>395 — single device, Qwen3.8-Flash-Next UD-Q4_K_XL</summary>
+<summary>Strata: 395 — single device, memory-resident Qwen3.8-Flash-Next UD-Q4_K_XL, MTP N=4</summary>
+
+```bash
+cd /home/user/Strata-0.2.2-100400 && source /home/user/strata-rocm100400/scripts/env-100400.sh && printf '%s\n' '{"exe":"/home/user/Strata-0.2.2-100400/build-halo-100400/strata","args":["--pack","/home/user/.local/share/strata/Strata-data/packs/unsloth-ud-q4_k_xl","--native","/home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf","--resident-experts","--expert-profile","/home/user/Strata-0.2.2-100400/data/expert-profile.bin","--expert-cache","auto","--prefill","auto","--spec","4","--spec-min-p","0.5","--suffix-draft","0","--mtp","/home/user/.local/share/strata/Strata-data/mtp/rt-official","--mtp-q4","all","--mtp-window","8192","--max-context","256000","--kv","int8","--ple-io","direct","--vram-reserve-mib","700"],"cwd":"/home/user/Strata-0.2.2-100400","tokenizer":"/home/user/.local/share/strata/Strata-data/packs/unsloth-ud-q4_k_xl/tokenizer","model_name":"qwen3.8-q4-resident-official-mtp","log":"strata-q4-resident-official-mtp.log","host":"127.0.0.1","lib_dirs":["/home/user/strata-rocm100400/lib/python3.12/site-packages/_rocm_sdk_devel/lib","/home/user/strata-rocm100400/lib/python3.12/site-packages/_rocm_sdk_libraries_gfx1151/lib"],"sampling":{"temperature":1.0,"top_p":0.95,"top_k":20},"env":{"STRATA_HIPBLASLT_TUNING":"/home/user/Strata-0.2.2-100400/tools/hip/gfx1151-hipblaslt-100400.txt","STRATA_IGPU_PROMPT_SET":"1","STRATA_PF_FUSED":"1","STRATA_HC_Q8":"1","STRATA_PF_SWITCH_MIN_T":"4096","STRATA_PREFILL_STREAM_MIN":"128","STRATA_PF_FUSED_KQ":"1","STRATA_PF_F16":"1","STRATA_REFILL_PARTS":"1","STRATA_SPEC_COUPLED":"1","STRATA_SPEC_GUMBEL":"1","STRATA_SPEC_DEPTH":"1"}}' | /home/user/strata-rocm100400/bin/python -m serve.server --engine strata --port 8082 --config /dev/stdin
+```
+
+</details>
+
+
+<details>
+<summary>Earlier llama.cpp configuration: 395 — single device, Qwen3.8-Flash-Next UD-Q4_K_XL</summary>
 
 ```bash
 ./llama-server -m /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf -ngl 99 -c 256000 -b 4096 -ub 2048 -fa on -np 1 --host 127.0.0.1 --port 8080 --metrics -lv 4 -md /home/user/mode/Qwen3.8-Flash-Next-UD-Q4_K_XL/mtp-Qwen3.8-Flash-Next-Q4_K_M.gguf -ngld 99 --spec-type draft-mtp --spec-draft-n-max 2
@@ -192,7 +230,7 @@ Corresponding time to first token (s):
 </details>
 
 <details>
-<summary>388 — dual-node cascade, Qwen3.8-Flash-Next UD-Q4_K_XL</summary>
+<summary>Earlier llama.cpp configuration: 388 — dual-node cascade, Qwen3.8-Flash-Next UD-Q4_K_XL</summary>
 
 ```bash
 # On the worker
@@ -204,23 +242,23 @@ LD_LIBRARY_PATH="$PWD:$PWD/lib:$PWD/bin:$LD_LIBRARY_PATH" && ./ggml-rpc-server -
 
 </details>
 
-The complete test command for every model is in the corresponding device archive.
+For additional Strata settings, see the [395 runtime settings](./docs/A9-Mega-395/Qwen3.8-Flash-Next-Strata.md#runtime-settings-and-data-limits) and the [388 Q4 launch command](./docs/A9-Mega-388/README.md#37-strata-ssd-resident-qwen38-flash-next-ud-q4_k_xlgguf-1114-gb-mtp-n4). The llama.cpp commands above reproduce the earlier archived configurations.
 
-These are recorded test commands with machine-specific file paths and network addresses. Reproduction requires the corresponding model files, a compatible llama.cpp build, and paths and addresses appropriate to the test environment.
+These are recorded test commands with machine-specific file paths and network addresses. Reproduction requires the corresponding model files, the matching Strata or llama.cpp build and dependencies, and paths and addresses appropriate to the test environment.
 
 ---
 
 ## 5. Recommended models by device
 
-The 4-bit results in Section 4 reduce to a short, device-specific shortlist. The 395's larger memory allows the featured model to run on one device, while the 388 requires a second A9 Mega for it. The two smaller models recommended for the 388 were also tested on the 395, but those results are not included in this repository, so no 395 performance figures are quoted for them here. These recommendations do not exhaust either device's possible configurations.
+The 4-bit results in Section 4 reduce to a short, device-specific shortlist. Strata runs the featured Qwen3.8-Flash-Next model on either device, with memory-resident experts on the 395 and SSD-backed weights on the 388. The two smaller models recommended for the 388 were also tested on the 395, but those results are not included in this repository, so no 395 performance figures are quoted for them here. These recommendations do not exhaust either device's possible configurations.
 
 ### 5.1 A9 Mega 395 — primary recommendation and another capable option
 
 | Role | Model | File size | Deployment |
 | --- | --- | --- | --- |
-| Strongest model | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` | 111.4 GB | Single device |
+| Strongest model | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` | 111.4 GB | Single device, Strata memory-resident |
 
-The 395 was recorded running this hundred-gigabyte-class 4-bit flagship **on a single device** — no cascade required (Section 4.2). It decoded at 32.43 tokens/s at 128 input tokens and 15.45 tokens/s at 128K. Its reported memory usage (GPU VRAM plus a portion offloaded to CPU RAM, which can use system virtual memory) can exceed the listed 128 GB memory capacity.
+With Strata and MTP N=4, the 395 runs this hundred-gigabyte-class 4-bit flagship **on a single device** (Section 4.2). It decodes at **37.7 tokens/s at 128 input tokens**, peaks at **42.4 tokens/s at 4K**, and reaches **33.2 tokens/s at 128K**. TTFT is **0.46 s at 128 tokens** and **111.58 s at 128K**. Memory readings and the separate SSD-backed configuration are detailed in the [395 Strata report](./docs/A9-Mega-395/Qwen3.8-Flash-Next-Strata.md).
 
 **DeepSeek-V4-Flash-0731 is another competitive model choice** for the 395. Its `UD-Q2_K_XL` version (96.8 GB, 2-bit) was tested on a single device through 256K input tokens; it decoded at 14.71 tokens/s at 128 tokens, 9.71 tokens/s at 128K, and 7.16 tokens/s at 256K ([395 test archive](./docs/A9-Mega-395/)). It sits outside the 4-bit recommendation table, and this repository does not provide a head-to-head intelligence benchmark between it and Qwen3.8-Flash-Next.
 
@@ -228,13 +266,13 @@ The 395 was recorded running this hundred-gigabyte-class 4-bit flagship **on a s
 
 | # | Role | Model | File size | Deployment | Why |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Flagship (needs a second device) | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` | 111.4 GB | Dual-node cascade with a second A9 Mega | The 64 GB 388 cannot hold this model alone; in a two-node cascade it decoded at 30.76 tokens/s at 128 tokens (see the [388 test archive](./docs/A9-Mega-388/)). |
+| 1 | Flagship with SSD offload | `Qwen3.8-Flash-Next-UD-Q4_K_XL.gguf` | 111.4 GB | Single device, Strata SSD-backed | 18.9 tokens/s at 128 input tokens and 19.9 at 128K; no second device required (Section 4.3). |
 | 2 | Balanced everyday default | `Qwen3.6-35B-A3B-UD-Q4_K_M.gguf` | 22.7 GB | Single device | MoE 35B-A3B; 54.30 tokens/s at 32K, 32.61 at 128K, and 21.66 at 256K (Section 4.3). |
 | 3 | Lightweight, high-throughput | `MiniCPM5-2B-Q4_K_M.gguf` | 1.56 GB | Single device | High throughput at short context: 103.10 tokens/s at 128 input tokens, falling to 29.03 tokens/s at 128K (Section 4.3). |
 
 > **Compatibility note**: the flagship has published test records for both devices. The two smaller models were also tested on the 395, but those records have not been added to this repository; their 395 performance is not reported here.
 
-**In short**: pick the higher-spec **A9 Mega 395** (128 GB) for larger single-device models, including the 111.4 GB Qwen flagship or the tested DeepSeek alternative. Pick the more cost-effective **A9 Mega 388** (64 GB) for an everyday high-throughput assistant — its 35B-A3B model still decodes at 54.30 tokens/s at 32K — and add a second A9 Mega to reach the same flagship through a dual-node cascade.
+Pick the higher-spec **A9 Mega 395** (128 GB) for the faster recorded Qwen3.8-Flash-Next Q4 configuration: **33.2 tokens/s at 128K** with Strata. The more cost-effective **A9 Mega 388** (64 GB) runs the same Q4 model with SSD offload at **19.9 tokens/s at 128K**, or its smaller 35B-A3B everyday model at **54.30 tokens/s at 32K**. The earlier dual-node llama.cpp deployment remains an archived option.
 
 > These conclusions apply only to the configurations recorded in this repository. Changing software versions, models, context length, or power profile may change the results, and data from a single device should not be generalized into guaranteed performance across all GEEKOM configurations.
 
@@ -244,9 +282,10 @@ The table separates observed limits from details that still need verification.
 
 | Item | Limitation or open item |
 | --- | --- |
-| Maximum tested context | The featured **A9 Mega 395 single-device** run was measured through 128K input tokens (`-c 256000` configured); a 256K single-device result is not recorded. The **A9 Mega 388** single-device `Qwen3.6-35B-A3B-UD-Q4_K_M` run was measured through 256K. Other models and deployments have different measured limits; see the device archives. |
-| Memory capacity | The **388 (64 GB) cannot hold the 111.4 GB 4-bit flagship model on a single device**, so the 388 requires a **dual-node cascade**. The **395 (128 GB)** ran it on a single device as measured. Single-device models are otherwise limited to the physical memory (64 GB on the 388, 128 GB on the 395); the 395's flagship run exceeded 128 GB only by offloading part of the model to CPU RAM, which can use system virtual memory (swap pages). |
-| Long-context throughput | Decode rate falls and time to first token rises sharply as context grows on both devices. |
+| Maximum tested context | The featured **Qwen3.8-Flash-Next Strata runs on both devices** were measured through 128K input tokens (`--max-context 256000` configured); no 256K Strata result is recorded. The **A9 Mega 388** single-device `Qwen3.6-35B-A3B-UD-Q4_K_M` run was measured through 256K. Other models and deployments have different measured limits; see the device archives. |
+| Memory and storage | The 111.4 GB Q4 model exceeds the 388's 64 GB physical memory, but Strata's SSD-backed mode runs it on one device. The 395 was measured with both memory-resident and SSD-backed experts. Model file size is not a total physical memory requirement; storage performance and residency settings affect SSD-backed runs. The Strata memory readings retain two-part notation whose accounting has not been fully documented. |
+| Long-context throughput | TTFT grows with input length. Decode behavior depends on the configuration: the 395 Strata Q4 run records 31.9–42.4 tokens/s and the 388 Strata Q4 run 17.0–20.2 tokens/s across the measured inputs; the smaller models and earlier engines have different context scaling. |
+| Strata test coverage | Each model / residency / acceleration setting has one measurement per input length. Repeated-run variability, SSD specifications, and output-quality comparisons are not recorded. IQ3_S performance does not establish fidelity equivalent to Q4. |
 | Test conditions not yet published | BIOS, NPU driver, and power profile are still "To be confirmed". |
 | Offline use | Local operation does not mean every step works offline: models, software, dependencies, and required resources must be downloaded and configured before the device is disconnected from the internet. |
 
